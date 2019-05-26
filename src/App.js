@@ -1,18 +1,20 @@
-import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { observer } from "mobx-react"
+import React, { Component } from 'react';
+import CreateAccountScreen from './components/CreateAccountScreen';
 
-@observer
-class App extends Component {
-  render() {
+
+var App = React.createClass({
+  render: function() {
     return (
-      <div id="app">
+      <div className="application_wrapper">
+
+        <div className="application_routeHandler">
+            <CreateAccountScreen/>
+        </div>
         
       </div>
     );
   }
-}
-
-
-export default App;
+  
+});
+  
+module.exports = App;

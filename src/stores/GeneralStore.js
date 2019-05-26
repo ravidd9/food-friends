@@ -1,4 +1,4 @@
-import { observable, action } from  'mobx'
+import { observable, action, computed } from  'mobx'
 
 export class GeneralStore {
     @observable name
@@ -6,4 +6,7 @@ export class GeneralStore {
     @action handleInput = (name, value) => {
         this[name] = value
     } 
+    @computed get something(){
+
+    }
 }
