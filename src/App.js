@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
-import CreateAccountScreen from './components/CreateAccountScreen';
+import { observer, inject } from 'mobx-react';
 
 
-var App = React.createClass({
-  render: function() {
+@inject("generalStore")
+@observer
+class App extends Component {
+  render() {
     return (
-      <div className="application_wrapper">
-
-        <div className="application_routeHandler">
-            <CreateAccountScreen/>
-        </div>
+      <div id="app">
         
       </div>
     );
   }
-  
-});
-  
-module.exports = App;
+}
+
+export default App;
+
