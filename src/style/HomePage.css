@@ -1,3 +1,7 @@
 #homePage{
-    
+    display: grid ; 
+    height: 50vh;
+    grid-template-rows: 1fr 1fr; 
+    align-content: center;
+    justify-content: center;
 }
