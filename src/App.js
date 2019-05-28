@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import './App.css';
+import HomePage from './components/HomePage';
 
 
 
@@ -10,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <div id="app">
-        
+        <HomePage />
       </div>
     );
   }
