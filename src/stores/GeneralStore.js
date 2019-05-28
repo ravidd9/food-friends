@@ -18,10 +18,12 @@ export class GeneralStore {
     }
     @action getUsers = async () => {
         let users = await axios.get(`${API_URL}/users`)
+        this.users = users.data
         return users.data
     }
     @action getFoods = async () => {
         let foods = await axios.get(`${API_URL}/foods`)
+        this.foods = foods.data
         return foods.data
     }
 
