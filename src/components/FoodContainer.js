@@ -21,7 +21,7 @@ class FoodContainer extends Component {
             <div id="foodContainer">
                 
                 {foods.map((f,i) => <FoodBubble key={i} food={f} />)}
-                {/* <Link to="/foodroom"><div id="searchSelected" >Search</div></Link> */}
+                {<Link to="/food-room"><div id="searchSelected" >Search</div></Link>}
             </div>
         );
     }
