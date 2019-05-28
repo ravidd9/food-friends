@@ -6,6 +6,7 @@ import axios from 'axios'
 export class GeneralStore {
     @observable users = []
     @observable foods = []
+
     @action saveUser = async (user) => {
         let newUser = await axios.post(`/user`, user)
         this.users.push(newUser)
@@ -20,6 +21,12 @@ export class GeneralStore {
     }
     @action getFoods = async () =>{
         let foods = await axios.get('/foods')
+        return foods.data
+    }
+
+    @action getFoodsByName = async (selectedFoods) =>{
+        let foods = this.getFoods()
+        
         return foods.data
     }
 }

@@ -1,3 +1,9 @@
-.FoodRoom{
+.foodRoom{
+display: grid ;
+grid-template-rows: 2fr 8fr ;
+}
 
+.chosenFoods {
+display: grid ;
+grid-template-columns: repeat(3, 1fr)
 }
