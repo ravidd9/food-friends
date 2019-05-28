@@ -24,8 +24,16 @@ export class GeneralStore {
         let foods = await axios.get(`${API_URL}/foods`)
         return foods.data
     }
-    @action addFoodByName = async (selectedFood) => {
-        let foodItem = this.foods.find(f => f.name === selectedFood)
-        filteredFood.push(foodItem)
+    @action filterFoodByName = async (selectedFood) => {
+
+        if (this.doesExistInFilteredFood(selectedFood)) {
+            let indexOfSelected = this.filteredFood.findIndex(f => f.name === selectedFood)
+            this.filteredFood.splice(indexOfSelected, 1)
+        } else {
+            let foodItem = this.foods.find(f => f.name === selectedFood)
+            filteredFood.push(foodItem)
+        }
     }
+
+    doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
 }
