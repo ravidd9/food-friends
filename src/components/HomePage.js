@@ -5,6 +5,7 @@ import Filters from './Filters';
 
 
 class HomePage extends Component {
+
     render() {
         return (
             <div id="homePage">

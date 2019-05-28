@@ -10,10 +10,6 @@ import {Link} from 'react-router-dom'
 @observer
 class FoodContainer extends Component {
 
-    componentDidMount = async () =>{
-        await this.props.generalStore.getFoods()
-    }
-
     addInterestedUser = () => this.props.generalStore.addInterestedUser()
     
     render() {

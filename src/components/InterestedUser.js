@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import '../style/InterestedUser.css';
 
+import { inject, observer } from 'mobx-react';
 
+@inject("generalStore")
+@observer
 class InterestedUser extends Component {
     render() {
-        let user = this.props.user
+        let user = this.props.generalStore.findUserById(this.props.user)
+
         return (
             <div className="interestedUser">
                 <div className="profilePic"><img src={user.profilePic} alt=""/></div>

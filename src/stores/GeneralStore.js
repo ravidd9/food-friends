@@ -8,7 +8,7 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable interestedUsers = []
-    @observable currentUserId = "5ceceaa37fbd2820dccc85ee"
+    @observable currentUserId = "5ced3829a12a472c08d9f056"
 
 
 
@@ -48,5 +48,14 @@ export class GeneralStore {
             let food = this.foods.find(f => f.name === foodItem.name)
             food.interestedUsers.push(this.currentUserId)
         }
-    } 
+        console.log(this.filteredFood)
+        console.log(this.foods)
+    }
+    
+    @action findUserById = id => {
+        console.log(this.users)
+        let user = this.users.find(u => u._id.toString() == id)
+        console.log(user)
+        return user
+    }
 }
