@@ -28,7 +28,6 @@ export class GeneralStore {
     }
 
     @action filterFoodByName = async (selectedFood) => {
-        console.log(selectedFood)
         if (this.doesExistInFilteredFood(selectedFood)) {
             let indexOfSelected = this.filteredFood.findIndex(f => f.name === selectedFood)
             this.filteredFood.splice(indexOfSelected, 1)
@@ -37,8 +36,8 @@ export class GeneralStore {
             let foodItem = this.foods.find(f => f.name === selectedFood)
             this.filteredFood.push(foodItem)
         }
-        console.log(this.filteredFood)
     }
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
+    
 }
