@@ -1,25 +1,31 @@
-import { observable, action, computed } from  'mobx'
-import axios from 'axios'
+import { observable, action, computed } from 'mobx'
+import axios from '../../node_modules/axios/dist/axios'
 
-
+const API_URL = 'http://localhost:8000'
 
 export class GeneralStore {
     @observable users = []
     @observable foods = []
+    @observable filteredFood = []
+
     @action saveUser = async (user) => {
-        let newUser = await axios.post(`/user`, user)
+        let newUser = await axios.post(`${API_URL}/user`, user)
         this.users.push(newUser)
-    } 
+    }
     @action saveFood = async (food) => {
-        let newFood = await axios.post(`/food`, food)
+        let newFood = await axios.post(`${API_URL}/food`, food)
         this.foods.push(newFood)
-    } 
-    @action getUsers = async () =>{
-        let users = await axios.get('/users')
+    }
+    @action getUsers = async () => {
+        let users = await axios.get(`${API_URL}/users`)
         return users.data
     }
-    @action getFoods = async () =>{
-        let foods = await axios.get('/foods')
+    @action getFoods = async () => {
+        let foods = await axios.get(`${API_URL}/foods`)
         return foods.data
+    }
+    @action addFoodByName = async (selectedFood) => {
+        let foodItem = this.foods.find(f => f.name === selectedFood)
+        filteredFood.push(foodItem)
     }
 }
