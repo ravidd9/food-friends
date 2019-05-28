@@ -3,6 +3,7 @@ import '../style/FoodRoom.css';
 import ChosenFood from './ChosenFood';
 import { inject } from 'mobx-react';
 import { observable } from 'mobx';
+import InterestedUser from './InterestedUser';
 
 
 @inject("generalStore")
@@ -10,6 +11,7 @@ import { observable } from 'mobx';
 @observable
 
 let selectedFoods = this.props.generalStore.filteredFoods
+let interestedUsers = this.props.generalStore.interestedUsers
 
 class FoodRoom extends Component {
     render() {
@@ -21,7 +23,10 @@ class FoodRoom extends Component {
                     {selectedFoods.map(s => <ChosenFood selectedFood={s} />)}
                 </div>
 
-                <div className="whosInterested">Who's interested?</div>
+                Who's interested?
+                <div className="whosInterested">
+                    {interestedUsers.map(i => <InterestedUser user={i} />)}
+                </div>
             </div>
         );
     }
