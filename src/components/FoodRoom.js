@@ -21,7 +21,10 @@ class FoodRoom extends Component {
                     {selectedFoods.map(s => <ChosenFood selectedFood={s} />)}
                 </div>
 
-                <div className="whosInterested">Who's interested?</div>
+                Who's interested?
+                <div className="whosInterested">
+                    {interestedUsers.map(i => <InterestedUser user={i} />)}
+                </div>
             </div>
         );
     }
