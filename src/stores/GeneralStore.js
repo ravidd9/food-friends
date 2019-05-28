@@ -8,10 +8,7 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable interestedUsers = []
-    @observable currentUser = {
-        firstName : "Aaron", 
-        lastName : "Ramsey"
-    }
+    @observable currentUserId = "5ceceaa37fbd2820dccc85ee"
 
 
 
@@ -38,7 +35,6 @@ export class GeneralStore {
         if (this.doesExistInFilteredFood(selectedFood)) {
             let indexOfSelected = this.filteredFood.findIndex(f => f.name === selectedFood)
             this.filteredFood.splice(indexOfSelected, 1)
-
         } else {
             let foodItem = this.foods.find(f => f.name === selectedFood)
             this.filteredFood.push(foodItem)
@@ -47,5 +43,10 @@ export class GeneralStore {
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
    
-
+    @action addInterestedUser = () => {
+        for(let foodItem of this.filteredFood) {
+            let food = this.foods.find(f => f.name === foodItem.name)
+            food.interestedUsers.push(this.currentUserId)
+        }
+    } 
 }

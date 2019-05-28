@@ -13,6 +13,8 @@ class FoodContainer extends Component {
     componentDidMount = async () =>{
         await this.props.generalStore.getFoods()
     }
+
+    addInterestedUser = () => this.props.generalStore.addInterestedUser()
     
     render() {
         let foods = this.props.generalStore.foods
@@ -21,7 +23,7 @@ class FoodContainer extends Component {
             <div id="foodContainer">
                 
                 {foods.map((f,i) => <FoodBubble key={i} food={f} />)}
-                {<Link to="/food-room"><div id="searchSelected" >Search</div></Link>}
+                {<Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedUser}>Search</div></Link>}
             </div>
         );
     }
