@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/User')
-const users = require('../data')
 const Food = require('../models/Food')
+// const foods = require('../data')
+// const users = require('../data')
 
 
 
@@ -60,5 +61,7 @@ const saveFood = function() {
     }
 }
 
+
 // saveUser()
 //saveFood()
+
