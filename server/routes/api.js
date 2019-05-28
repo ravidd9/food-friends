@@ -19,10 +19,10 @@ router.get('/users', async function (req, res) {
     res.send(users)
 })
 
-router.post(`/user`, async function(req, res){
+router.post(`/user`, async function (req, res) {
     const newUser = new User(req.body)
     let save = newUser.save()
-    save.then(function(user){
+    save.then(function (user) {
         res.send(user)
     })
 })
@@ -32,10 +32,10 @@ router.get('/foods', async function (req, res) {
     res.send(foods)
 })
 
-router.post(`/food`, async function(req, res){
+router.post(`/food`, async function (req, res) {
     const newFood = new Food(req.body)
     let save = newFood.save()
-    save.then(function(food){
+    save.then(function (food) {
         res.send(food)
     })
 })
@@ -44,8 +44,21 @@ router.post(`/food`, async function(req, res){
 
 module.exports = router
 
-const saveUser = function() {
-    for(let user of users) {
-        
+const saveUser = function () {
+    for (let user of users) {
+        const newUser = new User(user)
+        let save = newUser.save()
+        save.then(console.log("saved"))
     }
 }
+
+const saveFood = function() {
+    for(let food of foods) {
+        const newFood = new Food(food)
+        let save = newFood.save()
+        save.then(console.log("saved"))
+    }
+}
+
+//saveUser()
+//saveFood()
