@@ -7,6 +7,7 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
+    
 
     @action saveUser = async (user) => {
         let newUser = await axios.post(`${API_URL}/user`, user)

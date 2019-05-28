@@ -1,3 +1,12 @@
 .interestedUser{
-    
+    border: 2px solid black;
+    grid-template-columns: 1fr, 1fr, 5fr;
+}
+.interestedUser>.interests{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+.interests>.inter{
+    border: 1px solid black;
+    border-radius: 10px;
 }

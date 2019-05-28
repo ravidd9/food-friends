@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../style/FoodRoom.css';
 import ChosenFood from './ChosenFood';
 import { inject, observer } from 'mobx-react';
+import InterestedUsers from './InterestedUsers';
 
 @inject("generalStore")
 @observer
@@ -22,6 +23,7 @@ class FoodRoom extends Component {
                 </div>
 
                 <div className="whosInterested">Who's interested?</div>
+                <InterestedUsers />
             </div>
         );
     }
