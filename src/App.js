@@ -9,6 +9,7 @@ import FoodRoom from './components/FoodRoom';
 
 @inject("generalStore")
 @observer
+
 class App extends Component {
   render() {
     return (

@@ -7,6 +7,13 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
+    @observable interestedUsers = []
+    @observable currentUser = {
+        firstName : "Aaron", 
+        lastName : "Ramsey"
+    }
+
+
 
     @action saveUser = async (user) => {
         let newUser = await axios.post(`${API_URL}/user`, user)
@@ -31,7 +38,7 @@ export class GeneralStore {
         if (this.doesExistInFilteredFood(selectedFood)) {
             let indexOfSelected = this.filteredFood.findIndex(f => f.name === selectedFood)
             this.filteredFood.splice(indexOfSelected, 1)
-            
+
         } else {
             let foodItem = this.foods.find(f => f.name === selectedFood)
             this.filteredFood.push(foodItem)
@@ -39,5 +46,6 @@ export class GeneralStore {
     }
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
-    
+   
+
 }
