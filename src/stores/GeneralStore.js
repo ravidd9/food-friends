@@ -1,8 +1,7 @@
 import { observable, action, computed } from  'mobx'
 
 export class GeneralStore {
-    @observable name
-    @observable numPeople
+    @observable users
     @action handleInput = (name, value) => {
         this[name] = value
     } 
