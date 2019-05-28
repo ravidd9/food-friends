@@ -8,8 +8,16 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable interestedUsers = []
-    @observable currentUserId = "5ced3829a12a472c08d9f056"
-
+    @observable currentUser = {
+        _id: "5ced5e135363954068f4c264",
+        firstName: "danny",
+        lastName: "brudner",
+        interests: [ "raptors", "kite surfing", "entreprenuership", "programming" ],
+        interestedFood: [],
+        email: "dannybrudner@gmail.com",
+        password : "dannyb",
+        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg"
+    }
 
 
     @action saveUser = async (user) => {
@@ -43,19 +51,23 @@ export class GeneralStore {
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
    
-    @action addInterestedUser = () => {
-        for(let foodItem of this.filteredFood) {
-            let food = this.foods.find(f => f.name === foodItem.name)
-            food.interestedUsers.push(this.currentUserId)
-        }
-        console.log(this.filteredFood)
-        console.log(this.foods)
+    @action addInterestedFood = () => {
+        this.users.find(u => u._id === this.currentUser._id).interestedFood.push()
+        this.filteredFood.forEach(f => {
+            this.currentUser.interestedFood.push(f.name)
+            this.users.find(u => u._id === this.currentUser._id).interestedFood.push(f.name)
+        })
     }
     
-    @action findUserById = id => {
-        console.log(this.users)
-        let user = this.users.find(u => u._id.toString() == id)
-        console.log(user)
-        return user
+    @action findUsersByFoodName = () => {
+
+        let users = []
+        
+        for(let foodItem of this.filteredFood) {
+            let usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
+            usersWithFood.forEach(u => users.push(u))
+        }
+
+        return users
     }
 }
