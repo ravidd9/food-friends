@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/User')
+const users = require('../data')
 
 const getUsers = async () => User.find({})
 
@@ -38,4 +39,12 @@ router.get('/users', async function (req, res) {
 //     })
 // })
 
+
+
 module.exports = router
+
+const saveUser = function() {
+    for(let user of users) {
+        
+    }
+}
