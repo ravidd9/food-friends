@@ -24,6 +24,7 @@ export class GeneralStore {
         let foods = await axios.get(`${API_URL}/foods`)
         return foods.data
     }
+
     @action filterFoodByName = async (selectedFood) => {
 
         if (this.doesExistInFilteredFood(selectedFood)) {
