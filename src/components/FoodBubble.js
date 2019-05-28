@@ -7,7 +7,7 @@ import { observer, inject } from 'mobx-react';
 @observer
 class FoodBubble extends Component {
 
-    addFoodByName = () =>{
+    filterFoodByName = () =>{
         this.props.generalStore.filterFoodByName(this.props.food.name)
     }
 
