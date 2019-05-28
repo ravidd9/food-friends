@@ -7,7 +7,13 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
-    
+    @observable interestedUsers = []
+    @observable currentUser = {
+        firstName : "Aaron", 
+        lastName : "Ramsey"
+    }
+
+
 
     @action saveUser = async (user) => {
         let newUser = await axios.post(`${API_URL}/user`, user)
@@ -40,5 +46,6 @@ export class GeneralStore {
     }
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
-    
+
+
 }
