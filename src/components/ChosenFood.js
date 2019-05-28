@@ -4,10 +4,11 @@ import { inject } from 'mobx-react';
 
 @inject("generalStore")
 
-let food = this.props.filteredFood
-
 class ChosenFood extends Component {
     render() {
+        
+        let food = this.props.selectedFood
+
         return (
             <div id="food">
 

@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import '../style/FoodRoom.css';
 import ChosenFood from './ChosenFood';
-import { inject } from 'mobx-react';
-import { observable } from 'mobx';
-import InterestedUser from './InterestedUser';
-
+import { inject, observer } from 'mobx-react';
 
 @inject("generalStore")
-
-@observable
-
-let selectedFoods = this.props.generalStore.filteredFoods
-let interestedUsers = this.props.generalStore.interestedUsers
+@observer
 
 class FoodRoom extends Component {
+
     render() {
+
+        let selectedFoods = this.props.generalStore.filteredFood
+        console.log(selectedFoods)
+
         return (
             <div className="foodRoom">
                 Your'e chosen foods are :
