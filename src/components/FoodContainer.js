@@ -6,7 +6,7 @@ class FoodContainer extends Component {
     render() {
         return (
             <div id="foodContainer">
-                
+                Hi
             </div>
         );
     }
