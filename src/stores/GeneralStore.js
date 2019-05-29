@@ -11,19 +11,20 @@ export class GeneralStore {
     @observable filteredFood = []
     @observable filteredFoodArray = []
     @observable interestedUsers = []
-    @observable currentUser = {
+    @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
+    // {
 
-        _id: "5cee3ef7c5a16519f8094d69",
-        firstName: "danny",
-        lastName: "brudner",
-        interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
-        interestedFood: [],
-        email: "dannybrudner@gmail.com",
-        password: "dannyb",
-        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
-        matchedWith: ""
+    //     _id: "5cee3ef7c5a16519f8094d69",
+    //     firstName: "danny",
+    //     lastName: "brudner",
+    //     interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
+    //     interestedFood: [],
+    //     email: "dannybrudner@gmail.com",
+    //     password: "dannyb",
+    //     profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
+    //     matchedWith: ""
 
-    }
+    // }
     @observable matchedUser = "yossi"
     @observable socket = io('localhost:8000');
 
@@ -126,7 +127,18 @@ export class GeneralStore {
     @action changeCurrentUser = user => {
         console.log(user)
         this.currentUser = user
+        
+        sessionStorage.setItem('login', JSON.stringify(user));
+
     }
 
     @action filterFoodByBudget = budget => this.filteredFoodArray = this.foods.filter(f => f.budget <= budget)
+
+    @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
+
+    @action addUser = async (firstName, lastName, email, password) =>{
+        let user = {firstName,lastName,email,password}
+        let newUser = await axios.post(`${API_URL}/user`, user)
+    }
+
 }
