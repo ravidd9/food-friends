@@ -1,7 +1,7 @@
 #homePage{
     display: grid ; 
     margin: 2%;
-    grid-template-rows: 1fr 1fr; 
+    grid-template-rows: 1fr 5fr 5fr; 
     align-content: center;
     justify-content: center;
 }

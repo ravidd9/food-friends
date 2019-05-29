@@ -17,6 +17,7 @@ class App extends Component {
   componentDidMount = async () => {
     await this.props.generalStore.getFoods()
     await this.props.generalStore.getUsers()
+    await this.props.generalStore.filterFoodByBudget(150)
   }
 
   render() {
