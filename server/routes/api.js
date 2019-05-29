@@ -28,6 +28,19 @@ router.post(`/user`, async function (req, res) {
     })
 })
 
+router.put(`/user/:key`, async function (req, res) {
+    const user = req.body
+    let key = req.params.key
+    let id = user._id
+    let value = user[key]
+
+
+    let update = User.findByIdAndUpdate(id,{[key]: value}, {new : true})
+    update.then(function(user){
+        res.send(user)
+    })
+})
+
 router.get('/foods', async function (req, res) {
     let foods = await getFoods()
     res.send(foods)
