@@ -127,7 +127,6 @@ let users = [
     }
 ]
 
-module.exports = users
 
 let food = [
     {
@@ -167,4 +166,5 @@ let food = [
     }
 ]
 
+// module.exports = users
 // module.exports = food
