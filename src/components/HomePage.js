@@ -21,6 +21,7 @@ class HomePage extends Component {
     render() {
         return (
             <div id="homePage">
+                <h2>Welcome, {this.props.generalStore.currentUser.firstName}</h2>
                 <FoodContainer/>
                 <Filters/>
             </div>

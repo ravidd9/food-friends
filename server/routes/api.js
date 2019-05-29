@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const User = require('../models/User')
 const Food = require('../models/Food')
 // const foods = require('../data')
-// const users = require('../data')
+const users = require('../data')
 
 
 
@@ -33,6 +33,8 @@ router.put(`/user/:key`, async function (req, res) {
     let key = req.params.key
     let id = user._id
     let value = user[key]
+
+    // console.log(user)
 
 
     let update = User.findByIdAndUpdate(id,{[key]: value}, {new : true})

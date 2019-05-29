@@ -9,15 +9,19 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
+    @observable interestedUsers = []
     @observable currentUser = {
-        _id: "5ced5e135363954068f4c264",
+
+        _id: "5cee3ef7c5a16519f8094d69",
         firstName: "danny",
         lastName: "brudner",
         interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
         interestedFood: [],
         email: "dannybrudner@gmail.com",
         password: "dannyb",
-        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg"
+        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
+        matchedWith: ""
+
     }
     @observable matchedUser = "yossi"
 
@@ -63,7 +67,7 @@ export class GeneralStore {
             this.users.find(u => u._id === this.currentUser._id).interestedFood.push(f.name)
         })
         let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
-        console.log(updatedUser)
+        // console.log(updatedUser)
     }
 
     @action findUsersByFoodName = () => {
@@ -97,4 +101,23 @@ export class GeneralStore {
         // console.log(this.state.messages);
     }
 
+    @action matchUsers = (email) => {
+        let matchedUser = this.users.find(u => u.email === email)
+        this.currentUser.matchedWith = matchedUser.firstName
+        // console.log(matchedUser)
+        console.log(this.currentUser)
+        matchedUser.matchedWith = this.currentUser.firstName
+        console.log(matchedUser)
+    }
+
+
+    @action checkLogin = (email, password) =>{
+        let user = this.users.find(u => (u.email === email) && (u.password === password))
+        return user? user: null
+    }
+
+    @action changeCurrentUser = user => {
+        console.log(user)
+        this.currentUser = user
+    }
 }
