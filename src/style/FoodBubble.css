@@ -1,33 +1,26 @@
 .foodBubble{
     display: grid;
-    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
     /* margin: 30px auto; */
-    width: 30vw;
+    width: 40vw;
     height: 12vh;
-    border-radius: 20vh;    
+    border-radius: 35px;   
+    margin-top: 5%; 
+    margin-bottom: 10%; 
     font-size: 70%;
     justify-items: center;
     align-items: center;
-    grid-template-areas:
-    "p n c"
-    "p . c";
+    grid-template: 1fr 3fr 1fr;
+    background-color: #f5f1e0;
 }
 
-.foodBubble:hover {
-    transform: scale(1.1, 1.1);
-    box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
-      -5px -5px 30px 15px rgba(0,0,0,0.22);
-  }
-
-.foodBubble > .foodName{
-    grid-area: n;
-}
-.foodBubble > .foodPic{
-    grid-area: p;
+.checked{
+    background-color: #fceda5;
 }
 
 .foodPic > img{
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 50px;
+    border: 1px solid black;
     border-radius: 50%;
 }
