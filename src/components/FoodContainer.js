@@ -10,16 +10,16 @@ import {Link} from 'react-router-dom'
 @observer
 class FoodContainer extends Component {
 
-    addInterestedUser = () => this.props.generalStore.addInterestedUser()
+    addInterestedFood = () => this.props.generalStore.addInterestedFood()
     
     render() {
         let foods = this.props.generalStore.foods
-        console.log(foods)
+        
         return (
             <div id="foodContainer">
                 
                 {foods.map((f,i) => <FoodBubble key={i} food={f} />)}
-                {<Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedUser}>Search</div></Link>}
+                {<Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>Search</div></Link>}
             </div>
         );
     }

@@ -1,5 +1,6 @@
 import { observable, action, computed } from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
+import { async } from 'q';
 
 const API_URL = 'http://localhost:8000'
 
@@ -43,19 +44,25 @@ export class GeneralStore {
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
    
-    @action addInterestedUser = () => {
-        for(let foodItem of this.filteredFood) {
-            let food = this.foods.find(f => f.name === foodItem.name)
-            food.interestedUsers.push(this.currentUserId)
-        }
-        console.log(this.filteredFood)
-        console.log(this.foods)
+    @action addInterestedFood = async () => {
+        this.users.find(u => u._id === this.currentUser._id).interestedFood.push()
+        this.filteredFood.forEach(f => {
+            this.currentUser.interestedFood.push(f.name)
+            this.users.find(u => u._id === this.currentUser._id).interestedFood.push(f.name)
+        })
+        let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
+        console.log(updatedUser)
     }
     
-    @action findUserById = id => {
-        console.log(this.users)
-        let user = this.users.find(u => u._id.toString() == id)
-        console.log(user)
-        return user
+    @action findUsersByFoodName = () => {
+
+        let users = []
+        
+        for(let foodItem of this.filteredFood) {
+            let usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
+            usersWithFood.forEach(u => users.push(u))
+        }
+
+        return users
     }
 }

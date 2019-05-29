@@ -7,7 +7,8 @@ import { inject, observer } from 'mobx-react';
 @observer
 class InterestedUser extends Component {
     render() {
-        let user = this.props.generalStore.findUserById(this.props.user)
+        
+        let user = this.props.user
 
         return (
             <div className="interestedUser">

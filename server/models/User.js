@@ -9,7 +9,8 @@ const userSchema = new Schema({
     email : String,
     password : String, 
     interests : [String], 
-    profilePic : String
+    profilePic : String,
+    interestedFood: [String]
 })
 
 const User = mongoose.model('User', userSchema, "Users")

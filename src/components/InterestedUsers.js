@@ -21,10 +21,12 @@ class InterestedUsers extends Component {
 
     render() {
 
-        let users = this.getInterestedUsers()
+        let users = this.props.generalStore.findUsersByFoodName()
+    
+        // let users = this.getInterestedUsers()
         return (
             <div id="interestedUsers">
-                {users.map((u,i) => <InterestedUser key={i} user={u} />)}
+                {users.map((u, i) => <InterestedUser key={i} user={u} />)}
             </div>
         );
     }
