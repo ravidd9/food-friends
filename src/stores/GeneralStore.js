@@ -9,20 +9,22 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
+    @observable filteredFoodArray = []
     @observable interestedUsers = []
-    @observable currentUser = {
+    @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
+    // {
 
-        _id: "5cee3ef7c5a16519f8094d69",
-        firstName: "danny",
-        lastName: "brudner",
-        interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
-        interestedFood: [],
-        email: "dannybrudner@gmail.com",
-        password: "dannyb",
-        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
-        matchedWith: ""
+    //     _id: "5cee3ef7c5a16519f8094d69",
+    //     firstName: "danny",
+    //     lastName: "brudner",
+    //     interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
+    //     interestedFood: [],
+    //     email: "dannybrudner@gmail.com",
+    //     password: "dannyb",
+    //     profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
+    //     matchedWith: ""
 
-    }
+    // }
     @observable matchedUser = "yossi"
     @observable socket = io('localhost:8000');
 
@@ -35,8 +37,20 @@ export class GeneralStore {
         this.users.push(newUser)
     }
     @action saveFood = async (food) => {
-        let newFood = await axios.post(`${API_URL}/food`, food)
-        this.foods.push(newFood)
+
+
+        let doesExist = this.foods.some(u => u.name == food)
+        console.log(doesExist)
+
+        let foodToAdd = {name : food.toLowerCase()}
+
+        if (doesExist) {
+            return  
+        }
+        else {
+            let newFood = await axios.post(`${API_URL}/food`, foodToAdd)
+            this.foods.push(foodToAdd)
+        }
     }
     @action getUsers = async () => {
         let users = await axios.get(`${API_URL}/users`)
@@ -117,13 +131,37 @@ export class GeneralStore {
     }
 
 
-    @action checkLogin = (email, password) =>{
+    @action checkLogin = (email, password) => {
         let user = this.users.find(u => (u.email === email) && (u.password === password))
-        return user? user: null
+        return user ? user : null
     }
 
     @action changeCurrentUser = user => {
         console.log(user)
         this.currentUser = user
     }
+
+
+    @action checkLogin = (email, password) =>{
+        let user = this.users.find(u => (u.email === email) && (u.password === password))
+        return user ? user : null
+    }
+
+    @action changeCurrentUser = user => {
+        console.log(user)
+        this.currentUser = user
+        
+        sessionStorage.setItem('login', JSON.stringify(user));
+
+    }
+
+    @action filterFoodByBudget = budget => this.filteredFoodArray = this.foods.filter(f => f.budget <= budget)
+
+    @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
+
+    @action addUser = async (firstName, lastName, email, password, interests) =>{
+        let user = {firstName,lastName,email,password, interests}
+        let newUser = await axios.post(`${API_URL}/user`, user)
+    }
+
 }

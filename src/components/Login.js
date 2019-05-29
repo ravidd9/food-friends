@@ -29,7 +29,7 @@ class Login extends Component {
         console.log(user)
         if(user){
             generalStore.changeCurrentUser(user)
-            // window.location = "http://localhost:3000/home" 
+            window.location = "http://localhost:3000/home" 
         }else{
             this.setState({ invalidLogin: true })
         }

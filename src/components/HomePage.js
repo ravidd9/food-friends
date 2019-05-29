@@ -4,6 +4,7 @@ import FoodContainer from './FoodContainer';
 import Filters from './Filters';
 import io from 'socket.io-client'
 import { observer, inject } from 'mobx-react';
+import { Redirect } from 'react-router-dom'
 
 @inject("generalStore")
 @observer
@@ -23,15 +24,33 @@ class HomePage extends Component {
         })
     }
 
+    logout = () =>{
+        sessionStorage.removeItem("login")
+        window.location = "http://localhost:3000/" 
+    }
+
+    handleChange = e => {
+        if (e.key === "Enter") {
+            this.props.generalStore.saveFood(e.target.value)
+        }
+    }
+
     render() {
+        let generalStore = this.props.generalStore
         return (
             <div id="homePage">
-                <h2>Welcome, {this.props.generalStore.currentUser.firstName}</h2>
-                <FoodContainer/>
-                <Filters/>
+                {generalStore.currentUser.firstName ?
+                    <div>
+                        <h2>Welcome, {generalStore.currentUser.firstName}</h2>
+                        New Food : <input onKeyDown={this.handleChange} />      
+                        <button onClick={this.logout}>Log Out</button>
+                        <FoodContainer />
+                        <Filters />
+                    </div> :
+                    <Redirect to="/" />}
             </div>
         );
     }
 }
-    
+
 export default HomePage;
