@@ -10,6 +10,7 @@ export class GeneralStore {
     @observable filteredFood = []
     @observable interestedUsers = []
     @observable currentUser = {
+
         _id: "5cee3ef7c5a16519f8094d69",
         firstName: "danny",
         lastName: "brudner",
@@ -19,6 +20,7 @@ export class GeneralStore {
         password: "dannyb",
         profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
         matchedWith: ""
+
     }
 
 
@@ -74,6 +76,7 @@ export class GeneralStore {
 
         return users
     }
+
     @action matchUsers = (email) => {
         let matchedUser = this.users.find(u => u.email === email)
         this.currentUser.matchedWith = matchedUser.firstName
@@ -81,7 +84,16 @@ export class GeneralStore {
         console.log(this.currentUser)
         matchedUser.matchedWith = this.currentUser.firstName
         console.log(matchedUser)
-        
+    }
 
+
+    @action checkLogin = (email, password) =>{
+        let user = this.users.find(u => (u.email === email) && (u.password === password))
+        return user? user: null
+    }
+
+    @action changeCurrentUser = user => {
+        console.log(user)
+        this.currentUser = user
     }
 }
