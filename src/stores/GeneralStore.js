@@ -9,8 +9,16 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable interestedUsers = []
-    @observable currentUserId = "5ced1ac68246e63300e82914"
-
+    @observable currentUser = {
+        _id: "5cee3ef7c5a16519f8094d69",
+        firstName: "danny",
+        lastName: "brudner",
+        interests: [ "raptors", "kite surfing", "entreprenuership", "programming" ],
+        interestedFood: [],
+        email: "dannybrudner@gmail.com",
+        password : "dannyb",
+        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg"
+    }
 
     
     @action saveUser = async (user) => {
