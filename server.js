@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const api = require('./server/routes/api')
 const mongoose = require('mongoose')
 const socket = require('socket.io');
+const rp = require('request-promise')
+const SocketCom = require('./server/socket-com')
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", { useNewUrlParser: true })
 
@@ -12,6 +14,8 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", {
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.static(path.join(__dirname, 'server/socket-com')))
+
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
@@ -21,19 +25,29 @@ app.use(function (req, res, next) {
 })
 app.use('/', api)
 
+const socketCom = new SocketCom()
 
 const port = 8000
 let server = app.listen(process.env.PORT || port, function () {
     console.log(`Server running on ${port}`)
+    socketCom.getUsers()
 })
 
 io = socket(server)
 
 io.on('connection', (socket) => {
-    console.log(socket.id)
 
-    socket.on('MATCH', function(data){
-        console.log(data)
-        io.emit('RECEIVE_MATCH', data)
+    socket.on('USER_IN', function(data) {
+        socketCom.saveIdToUser(socket.id, data.currentUser)
+        console.log(socket.id)
+        console.log(socketCom.users)
     })
+    
+    
+    socket.on('MATCH', function(data){
+
+        io.emit('RECEIVE_MATCH', data)
+
+    })
+
 })
