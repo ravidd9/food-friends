@@ -24,6 +24,7 @@ class FoodBubble extends Component {
                 </div>
                 <div className="foodPic">
                     <img src={food.pic} alt=""/>
+                    price : {food.budget}
                 </div>
             </div>
             </div>

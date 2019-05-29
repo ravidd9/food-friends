@@ -26,6 +26,7 @@ class InterestedUsers extends Component {
         // let users = this.getInterestedUsers()
         return (
             <div id="interestedUsers">
+                <span className="who">Who's interested?</span>
                 {users.map((u, i) => <InterestedUser key={i} user={u} />)}
             </div>
         );
