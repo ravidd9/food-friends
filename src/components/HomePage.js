@@ -10,13 +10,14 @@ import { Redirect } from 'react-router-dom'
 @observer
 class HomePage extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.socket = io('localhost:8000');
 
-        this.socket.on('SEND_MATCH', function (data) {
-            this.props.generalStore.addMatch(data);
-        });
+        this.socket.on('RECEIVE_MATCH', function(data){
+            console.log(props)
+            props.generalStore.addMatch(data);
+        })
     }
 
     logout = () =>{

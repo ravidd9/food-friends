@@ -26,6 +26,7 @@ export class GeneralStore {
 
     // }
     @observable matchedUser = "yossi"
+    @observable socket = io('localhost:8000');
 
 
 
@@ -63,10 +64,10 @@ export class GeneralStore {
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
 
     @action addInterestedFood = async () => {
-        this.users.find(u => u._id === this.currentUser._id).interestedFood.push()
+        this.users.find(u => u.email === this.currentUser.email).interestedFood.push()
         this.filteredFood.forEach(f => {
             this.currentUser.interestedFood.push(f.name)
-            this.users.find(u => u._id === this.currentUser._id).interestedFood.push(f.name)
+            this.users.find(u => u.email === this.currentUser.email).interestedFood.push(f.name)
         })
         let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
         // console.log(updatedUser)
@@ -84,15 +85,15 @@ export class GeneralStore {
         return users
     }
 
-    @action match = userToMatch => {
-        // ev.preventDefault();
-        this.socket.emit('MATCH', {
-            email: this.currentUser.email,
-            password: this.currentUser.password,
-            matchedUser: userToMatch
-        })
-        // this.setState({ message: '' });
-    }
+    // @action match = userToMatch => {
+    //     // ev.preventDefault();
+    //     this.socket.emit('MATCH', {
+    //         email: this.currentUser.email,
+    //         password: this.currentUser.password,
+    //         matchedUser: userToMatch
+    //     })
+    //     // this.setState({ message: '' });
+    // }
 
 
     @action addMatch = data => {
@@ -110,6 +111,11 @@ export class GeneralStore {
         console.log(this.currentUser)
         matchedUser.matchedWith = this.currentUser.firstName
         console.log(matchedUser)
+
+        this.socket.emit('MATCH', {
+            currentUser: this.currentUser.firstName,
+            matchedUser: matchedUser.firstName
+        })
     }
 
 
