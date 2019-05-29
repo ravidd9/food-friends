@@ -57,7 +57,8 @@ export class GeneralStore {
             this.currentUser.interestedFood.push(f.name)
             this.users.find(u => u._id === this.currentUser._id).interestedFood.push(f.name)
         })
-        await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
+        let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
+        console.log(updatedUser)
     }
     
     @action findUsersByFoodName = () => {
