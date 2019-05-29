@@ -110,7 +110,8 @@ export class GeneralStore {
 
     @action addMatch = data => {
         console.log(data);
-        this.matchedUser = data
+        alert(data)
+        // this.matchedUser = data
         // this.setState({ messages: [...this.state.messages, data] });
 
         // console.log(this.state.messages);
