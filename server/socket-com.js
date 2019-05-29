@@ -11,8 +11,17 @@ class SocketCom {
     }
 
     saveIdToUser(id, firstName) {
-        let user = this.users.find(u => u.firstName === firstName)
+        let user = this.findUserByName(firstName)
         user.socketId = id
+    }
+
+    findUserByName(firstName) {
+        return this.users.find(u => u.firstName === firstName)
+    }
+
+    findUsersSocketId(firstName) {
+        let user = this.findUserByName(firstName)
+        return user.socketId
     }
 }
 

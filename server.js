@@ -39,15 +39,15 @@ io.on('connection', (socket) => {
 
     socket.on('USER_IN', function(data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
-        console.log(socket.id)
-        console.log(socketCom.users)
     })
     
     
     socket.on('MATCH', function(data){
-
-        io.emit('RECEIVE_MATCH', data)
-
+        let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
+        // console.log(userSocketId)
+        let matchMsg = `You matched with ${data.currentUser}` 
+        socket.broadcast.to(userSocketId).emit('RECEIVE_MATCH', matchMsg);
+        // io.emit('RECEIVE_MATCH', data)
     })
 
 })
