@@ -14,6 +14,7 @@ class FoodBubble extends Component {
     render() {
         let food = this.props.food
         return (
+            <div>
             <div className="foodBubble">
                 <div className="foodName">{food.name}</div>
                 <div className="checkBox">
@@ -24,7 +25,7 @@ class FoodBubble extends Component {
                 <div className="foodPic">
                     <img src={food.pic} alt=""/>
                 </div>
-                <div className="foodDesc">{food.description}</div>
+            </div>
             </div>
         );
     }
