@@ -18,6 +18,10 @@ class HomePage extends Component {
             console.log(props)
             props.generalStore.addMatch(data);
         })
+
+        this.socket.emit('USER_IN', {
+            currentUser: props.generalStore.currentUser.firstName
+        })
     }
 
     logout = () =>{
