@@ -1,9 +1,39 @@
 import React, { Component } from 'react';
 import '../style/Login.css';
+import { observer, inject } from 'mobx-react';
 
 
+@inject("generalStore")
+@observer
 class Login extends Component {
+    constructor() {
+        super()
+        this.state = {
+            email: "",
+            password: "",
+            invalidLogin: false
+        }
+    }
 
+    handleInput = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    changeLogin = () => {
+        this.props.changeLogin()
+    }
+
+    checkLogin = () => {
+        let generalStore = this.props.generalStore
+        let user = generalStore.checkLogin(this.state.email, this.state.password)
+        console.log(user)
+        if(user){
+            generalStore.changeCurrentUser(user)
+            // window.location = "http://localhost:3000/home" 
+        }else{
+            this.setState({ invalidLogin: true })
+        }
+    }
 
     render() {
         return (
@@ -11,13 +41,17 @@ class Login extends Component {
                 <div>Already a member?</div>
                 <div id="loginForm">
                     <div>Email</div>
-                    <input type="text" placeholder="Enter Email" name="email" />
+                    <input type="text" placeholder="Enter Email" name="email" onChange={this.handleInput} />
                     <div>Password</div>
-                    <input type="text" placeholder="Enter Password" name="password" />
+                    <input type="text" placeholder="Enter Password" name="password" onChange={this.handleInput} />
                 </div>
-                <div>Login</div>
-                <div>Not a member?, 
-                    
+                <button id="loginButton" onClick={this.checkLogin} >Login</button>
+                {this.state.invalidLogin ?
+                    <div id="invalidLogin">Wrong Email or Password</div> :
+                    null}
+                <div id="navigateToRegister">
+                    <span> Not a member?, </span>
+                    <span id="registerLink" onClick={this.changeLogin}>Sign Up</span>
                 </div>
             </div>
         );

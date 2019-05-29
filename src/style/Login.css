@@ -1,6 +1,45 @@
 #login{
     border: 2px solid black;
     border-radius: 15px;
-    
+    width: 90vw;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
 
+#loginForm{
+    display: grid;
+    grid-template-columns: 1fr, 1fr;
+
+}
+
+#loginButton{
+    border: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 2%;
+    padding: 2%;
+    width: 20%;
+    text-align: center;
+}
+
+#registerLink{
+    background-color: grey;
+    cursor: pointer;
+    padding: 2%;
+    border-radius: 5px;
+}
+
+#navigateToRegister{
+    width: 70vw;
+    text-align: center;
+}
+
+#invalidLogin{
+    color: red;
+    font-weight: bold;
+    margin-bottom: 2%;
 }
