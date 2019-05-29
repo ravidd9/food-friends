@@ -81,7 +81,8 @@ export class GeneralStore {
             this.currentUser.interestedFood.push(f.name)
             this.users.find(u => u.email === this.currentUser.email).interestedFood.push(f.name)
         })
-        let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
+
+        let updatedUser = await axios.put(`${API_URL}/user/interestedFood`, this.currentUser)
         // console.log(updatedUser)
     }
 
