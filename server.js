@@ -33,6 +33,7 @@ io.on('connection', (socket) => {
     console.log(socket.id)
 
     socket.on('MATCH', function(data){
-        io.emit('SEND_MATCH', data)
+        console.log(data)
+        io.emit('RECEIVE_MATCH', data)
     })
 })
