@@ -8,10 +8,10 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable interestedUsers = []
-    @observable currentUserId = "5ced3829a12a472c08d9f056"
+    @observable currentUserId = "5ced1ac68246e63300e82914"
 
 
-
+    
     @action saveUser = async (user) => {
         let newUser = await axios.post(`${API_URL}/user`, user)
         this.users.push(newUser)
