@@ -25,6 +25,12 @@ class HomePage extends Component {
         window.location = "http://localhost:3000/" 
     }
 
+    handleChange = e => {
+        if (e.key === "Enter") {
+            this.props.generalStore.saveFood(e.target.value)
+        }
+    }
+
     render() {
         let generalStore = this.props.generalStore
         return (
@@ -32,6 +38,7 @@ class HomePage extends Component {
                 {generalStore.currentUser.firstName ?
                     <div>
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
+                        New Food : <input onKeyDown={this.handleChange} />      
                         <button onClick={this.logout}>Log Out</button>
                         <FoodContainer />
                         <Filters />
