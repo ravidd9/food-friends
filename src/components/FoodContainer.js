@@ -13,8 +13,8 @@ class FoodContainer extends Component {
     addInterestedFood = () => this.props.generalStore.addInterestedFood()
     
     render() {
-        let foods = this.props.generalStore.foods
-        
+        // let foods = this.props.generalStore.foods
+        let foods = this.props.generalStore.filteredFoodArray
         return (
             <div id="foodContainer">
                 {foods.map((f,i) => <FoodBubble key={i} food={f} />)}

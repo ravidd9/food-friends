@@ -9,6 +9,7 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
+    @observable filteredFoodArray = []
     @observable interestedUsers = []
     @observable currentUser = {
 
@@ -126,4 +127,6 @@ export class GeneralStore {
         console.log(user)
         this.currentUser = user
     }
+
+    @action filterFoodByBudget = budget => this.filteredFoodArray = this.foods.filter(f => f.budget <= budget)
 }
