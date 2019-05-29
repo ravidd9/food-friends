@@ -159,8 +159,8 @@ export class GeneralStore {
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
-    @action addUser = async (firstName, lastName, email, password) =>{
-        let user = {firstName,lastName,email,password}
+    @action addUser = async (firstName, lastName, email, password, interests) =>{
+        let user = {firstName,lastName,email,password, interests}
         let newUser = await axios.post(`${API_URL}/user`, user)
     }
 
