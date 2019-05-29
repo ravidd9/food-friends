@@ -144,7 +144,7 @@ export class GeneralStore {
 
     @action checkLogin = (email, password) =>{
         let user = this.users.find(u => (u.email === email) && (u.password === password))
-        return user? user: null
+        return user ? user : null
     }
 
     @action changeCurrentUser = user => {

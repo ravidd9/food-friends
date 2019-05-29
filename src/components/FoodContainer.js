@@ -12,13 +12,16 @@ class FoodContainer extends Component {
 
     addInterestedFood = () => this.props.generalStore.addInterestedFood()
     
+    
     render() {
         // let foods = this.props.generalStore.foods
         let foods = this.props.generalStore.filteredFoodArray
         return (
+            <div>
             <div id="foodContainer">
                 {foods.map((f,i) => <FoodBubble key={i} food={f} />)}
-                {<Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>Search</div></Link>}
+            </div>
+            <Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>Search</div></Link>
             </div>
         );
     }
