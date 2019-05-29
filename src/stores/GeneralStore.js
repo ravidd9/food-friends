@@ -8,15 +8,19 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
+    @observable interestedUsers = []
     @observable currentUser = {
-        // _id: "5cee25a061de981698b05c08",
-        // firstName: "danny",
-        // lastName: "brudner",
-        // interests: [ "raptors", "kite surfing", "entreprenuership", "programming" ],
-        // interestedFood: [],
-        // email: "dannybrudner@gmail.com",
-        // password : "dannyb",
-        // profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg"
+
+        _id: "5cee3ef7c5a16519f8094d69",
+        firstName: "danny",
+        lastName: "brudner",
+        interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
+        interestedFood: [],
+        email: "dannybrudner@gmail.com",
+        password: "dannyb",
+        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
+        matchedWith: ""
+
     }
 
 
@@ -50,7 +54,7 @@ export class GeneralStore {
     }
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
-   
+
     @action addInterestedFood = async () => {
         this.users.find(u => u._id === this.currentUser._id).interestedFood.push()
         this.filteredFood.forEach(f => {
@@ -58,20 +62,30 @@ export class GeneralStore {
             this.users.find(u => u._id === this.currentUser._id).interestedFood.push(f.name)
         })
         let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
-        console.log(updatedUser)
+        // console.log(updatedUser)
     }
-    
+
     @action findUsersByFoodName = () => {
 
         let users = []
-        
-        for(let foodItem of this.filteredFood) {
+
+        for (let foodItem of this.filteredFood) {
             let usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
             usersWithFood.forEach(u => users.push(u))
         }
 
         return users
     }
+
+    @action matchUsers = (email) => {
+        let matchedUser = this.users.find(u => u.email === email)
+        this.currentUser.matchedWith = matchedUser.firstName
+        // console.log(matchedUser)
+        console.log(this.currentUser)
+        matchedUser.matchedWith = this.currentUser.firstName
+        console.log(matchedUser)
+    }
+
 
     @action checkLogin = (email, password) =>{
         let user = this.users.find(u => (u.email === email) && (u.password === password))

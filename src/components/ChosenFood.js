@@ -12,9 +12,9 @@ class ChosenFood extends Component {
         return (
             <div id="food">
 
-                    <span>{food.name}</span>
-                    <span>{food.pic}</span>
-                    <span>{food.description}</span>
+                    <div>You've chosen :{food.name}</div>
+                    <div><img src={food.pic}></img></div>
+                    <div>{food.description}</div>
 
             </div>
         );

@@ -6,7 +6,8 @@ let users = [
         email: "dannybrudner@gmail.com",
         password: "dannyb",
         profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
-        interests: ["raptors", "kite surfing", "entreprenuership", "programming"]
+        interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
+        interestedFood : ["hamburger", "shawarma"]
     },
     {
         firstName: "yossi",
@@ -15,7 +16,9 @@ let users = [
         email: "yossidagan@gmail.com",
         password: "yossid",
         profilePic: "https://images.pexels.com/photos/462680/pexels-photo-462680.jpeg",
-        interests: ["nba", "beach", "css"]
+        interests: ["nba", "beach", "css"],
+        interestedFood : ["hamburger", "pancakes"]
+
     },
     {
         firstName: "ravid",
@@ -24,7 +27,9 @@ let users = [
         email: "ravidcohen@gmail.com",
         password: "ravidc",
         profilePic: "https://images.pexels.com/photos/842548/pexels-photo-842548.jpeg",
-        interests: ["coding", "soccer", "business"]
+        interests: ["coding", "soccer", "business"],
+        interestedFood :  ["pancakes", "falafel"]
+
     },
     {
         firstName: "srul",
@@ -33,7 +38,9 @@ let users = [
         email: "srulda@gmail.com",
         password: "sruld",
         profilePic: "https://images.pexels.com/photos/839586/pexels-photo-839586.jpeg",
-        interests: ["nba", "game of thrones", "plants"]
+        interests: ["nba", "game of thrones", "plants"],
+        interestedFood :  ["philly cheessteak", "falafel"]
+
     },
     {
         firstName: "paul",
@@ -42,7 +49,9 @@ let users = [
         email: "paulgreenham@gmail.com",
         password: "paulg",
         profilePic: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg",
-        interests: ["dungeons and dragons", "history"]
+        interests: ["dungeons and dragons", "history"],
+        interestedFood :  ["philly cheessteak", "shawarma"]
+
     },
     {
         firstName: "avishai",
@@ -51,7 +60,9 @@ let users = [
         email: "avishaiperes@gmail.com",
         password: "avishaip",
         profilePic: "https://images.pexels.com/photos/834863/pexels-photo-834863.jpeg",
-        interests: ["game of thrones", "aepi"]
+        interests: ["game of thrones", "aepi"],
+        interestedFood :  ["fried wings", "pizza"]
+
     },
     {
         firstName: "nadav",
@@ -60,7 +71,9 @@ let users = [
         email: "nadavspitzer@gmail.com",
         password: "nadavs",
         profilePic: "https://images.pexels.com/photos/1138903/pexels-photo-1138903.jpeg",
-        interests: ["programming", "entrepreneurship", "game of thrones"]
+        interests: ["programming", "entrepreneurship", "game of thrones"],
+        interestedFood :  ["pancakes", "pizza"]
+
     },
     {
         firstName: "jona",
@@ -69,7 +82,9 @@ let users = [
         email: "jonafarache@gmail.com",
         password: "jonaf",
         profilePic: "https://images.pexels.com/photos/1139743/pexels-photo-1139743.jpeg",
-        interests: ["literature", "algorithms", "biking"]
+        interests: ["literature", "algorithms", "biking"],
+        interestedFood :  ["fried wings", "falafel"]
+
     },
     {
         firstName: "hunter",
@@ -78,7 +93,9 @@ let users = [
         email: "hunterspydiek@gmail.com",
         password: "hunters",
         profilePic: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg",
-        interests: ["literature", "theatre", "puns"]
+        interests: ["literature", "theatre", "puns"],
+        interestedFood :  ["shawarma", "falafel"]
+
     },
     {
         firstName: "corinne",
@@ -87,7 +104,9 @@ let users = [
         email: "corinnegotlieb@gmail.com",
         password: "corinneg",
         profilePic: "https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg",
-        interests: ["pets", "coding", "education"]
+        interests: ["pets", "coding", "education"],
+        interestedFood :  ["hamburger", "pizza"]
+
     },
     {
         firstName: "chen",
@@ -96,16 +115,20 @@ let users = [
         email: "chenchenkin@gmail.com",
         password: "chenc",
         profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-        interests: ["soccer", "coding", "economics"]
+        interests: ["soccer", "coding", "economics"],
+        interestedFood :  ["hamburger", "falafel"]
     },
     {
+
         firstName: "reut",
         lastName: "ker",
         birthday: new Date(1993, 1, 7),
         email: "reutker@gmail.com",
         password: "reutk",
         profilePic: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg",
-        interests: ["travel", "baking", "web"]
+        interests: ["travel", "baking", "web"],
+        interestedFood :  ["philly cheessteak", "fried wings"]
+
     },
     {
         firstName: "mor",
@@ -114,7 +137,9 @@ let users = [
         email: "morzluf@gmail",
         password: "morz",
         profilePic: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-        interests: ["board games", "gaming", "sports"]
+        interests: ["board games", "gaming", "sports"],
+        interestedFood :  ["pizza", "shawarma"]
+
     },
     {
         firstName: "reuben",
@@ -123,7 +148,9 @@ let users = [
         email: "reubencolb@gmail.com",
         password: "reubenc",
         profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
-        interests: ["blogging", "digital marketing"]
+        interests: ["blogging", "digital marketing"],
+        interestedFood :  ["falafel", "shawarma"]
+
     }
 ]
 
@@ -166,5 +193,5 @@ let food = [
     }
 ]
 
-// module.exports = users
+module.exports = users
 // module.exports = food
