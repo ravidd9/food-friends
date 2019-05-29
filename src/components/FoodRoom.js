@@ -14,7 +14,6 @@ class FoodRoom extends Component {
         let selectedFoods = this.props.generalStore.filteredFood
         let interestedUsers = this.props.generalStore.interestedUsers
 
-        
         return (
             <div className="foodRoom">
                 Your'e chosen foods are :

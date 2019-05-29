@@ -5,7 +5,10 @@ import App from './App';
 import { Provider } from 'mobx-react'
 import { GeneralStore } from './stores/GeneralStore'
 
+
+
 const generalStore = new GeneralStore()
+
 
 const stores = { generalStore }
 

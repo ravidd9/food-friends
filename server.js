@@ -4,6 +4,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const api = require('./server/routes/api')
 const mongoose = require('mongoose')
+const socket = require('socket.io');
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", { useNewUrlParser: true })
 
@@ -21,9 +22,17 @@ app.use(function (req, res, next) {
 app.use('/', api)
 
 
-
-
 const port = 8000
-app.listen(process.env.PORT || port, function () {
+let server = app.listen(process.env.PORT || port, function () {
     console.log(`Server running on ${port}`)
+})
+
+io = socket(server)
+
+io.on('connection', (socket) => {
+    console.log(socket.id)
+
+    socket.on('MATCH', function(data){
+        io.emit('SEND_MATCH', data)
+    })
 })

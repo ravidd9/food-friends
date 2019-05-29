@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
 import { async } from 'q';
+import io from 'socket.io-client'
 
 const API_URL = 'http://localhost:8000'
 
@@ -22,6 +23,10 @@ export class GeneralStore {
         matchedWith: ""
 
     }
+    @observable matchedUser = "yossi"
+
+
+
 
 
     @action saveUser = async (user) => {
@@ -75,6 +80,25 @@ export class GeneralStore {
         }
 
         return users
+    }
+
+    @action match = userToMatch => {
+        // ev.preventDefault();
+        this.socket.emit('MATCH', {
+            email: this.currentUser.email,
+            password: this.currentUser.password,
+            matchedUser: userToMatch
+        })
+        // this.setState({ message: '' });
+    }
+
+
+    @action addMatch = data => {
+        console.log(data);
+        this.matchedUser = data
+        // this.setState({ messages: [...this.state.messages, data] });
+
+        // console.log(this.state.messages);
     }
 
     @action matchUsers = (email) => {
