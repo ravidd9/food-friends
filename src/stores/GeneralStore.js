@@ -51,12 +51,13 @@ export class GeneralStore {
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
    
-    @action addInterestedFood = () => {
+    @action addInterestedFood = async () => {
         this.users.find(u => u._id === this.currentUser._id).interestedFood.push()
         this.filteredFood.forEach(f => {
             this.currentUser.interestedFood.push(f.name)
             this.users.find(u => u._id === this.currentUser._id).interestedFood.push(f.name)
         })
+        await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
     }
     
     @action findUsersByFoodName = () => {
