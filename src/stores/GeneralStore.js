@@ -37,8 +37,20 @@ export class GeneralStore {
         this.users.push(newUser)
     }
     @action saveFood = async (food) => {
-        let newFood = await axios.post(`${API_URL}/food`, food)
-        this.foods.push(newFood)
+
+
+        let doesExist = this.foods.some(u => u.name == food)
+        console.log(doesExist)
+
+        let foodToAdd = {name : food.toLowerCase()}
+
+        if (doesExist) {
+            return  
+        }
+        else {
+            let newFood = await axios.post(`${API_URL}/food`, foodToAdd)
+            this.foods.push(foodToAdd)
+        }
     }
     @action getUsers = async () => {
         let users = await axios.get(`${API_URL}/users`)
@@ -119,9 +131,20 @@ export class GeneralStore {
     }
 
 
+    @action checkLogin = (email, password) => {
+        let user = this.users.find(u => (u.email === email) && (u.password === password))
+        return user ? user : null
+    }
+
+    @action changeCurrentUser = user => {
+        console.log(user)
+        this.currentUser = user
+    }
+
+
     @action checkLogin = (email, password) =>{
         let user = this.users.find(u => (u.email === email) && (u.password === password))
-        return user? user: null
+        return user ? user : null
     }
 
     @action changeCurrentUser = user => {

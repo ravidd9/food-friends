@@ -1,13 +1,23 @@
 .foodBubble{
-    border: 1px solid black;
-    border-radius: 10px;
     display: grid;
+    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    /* margin: 30px auto; */
+    width: 30vw;
+    height: 12vh;
+    border-radius: 20vh;    
+    font-size: 70%;
     justify-items: center;
     align-items: center;
     grid-template-areas:
-    "n n c"
-    "p d d";
+    "p n c"
+    "p . c";
 }
+
+.foodBubble:hover {
+    transform: scale(1.1, 1.1);
+    box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
+      -5px -5px 30px 15px rgba(0,0,0,0.22);
+  }
 
 .foodBubble > .foodName{
     grid-area: n;
@@ -15,11 +25,9 @@
 .foodBubble > .foodPic{
     grid-area: p;
 }
-.foodBubble > .foodDesc{
-    grid-area: d;
-    font-size: 10%;
-}
+
 .foodPic > img{
-    height: 30px;;
+    height: 30px;
     width: 30px;
+    border-radius: 50%;
 }
