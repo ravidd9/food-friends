@@ -5,6 +5,7 @@ import HomePage from './components/HomePage';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import FoodRoom from './components/FoodRoom';
 import Landing from './components/Landing';
+import ShowMatch from './components/ShowMatch';
 
 
 
@@ -24,6 +25,8 @@ class App extends Component {
         <Route exact path='/' render={() => <Landing />} />
         <Route exact path='/home' render={() => <HomePage />} />
         <Route exact path='/food-room' render={() => <FoodRoom />} />
+        <Route exact path='/show-match' render={() => <ShowMatch/>} />
+
       </Router>
     )
   }

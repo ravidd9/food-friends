@@ -17,7 +17,6 @@ class FoodContainer extends Component {
         
         return (
             <div id="foodContainer">
-                
                 {foods.map((f,i) => <FoodBubble key={i} food={f} />)}
                 {<Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>Search</div></Link>}
             </div>
