@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../style/Register.css';
 import { observer, inject } from 'mobx-react';
+import TagsInput from 'react-tagsinput'
+import 'react-tagsinput/react-tagsinput.css'
 
 
 @inject("generalStore")
@@ -14,7 +16,8 @@ class Register extends Component {
             email: "",
             password: "",
             invalidInput: false,
-            userExist: false
+            userExist: false,
+            interests: []
         }
     }
 
@@ -31,12 +34,16 @@ class Register extends Component {
                 this.setState({ userExist: true })
             }
             else {
-                await generalStore.addUser(s.firstName, s.lastName, s.email, s.password)
+                await generalStore.addUser(s.firstName, s.lastName, s.email, s.password, s.interests)
                 this.changeLogin()
             }
         } else {
             this.setState({ invalidInput: true })
         }
+    }
+
+    handleChange = interests => {
+        this.setState({ interests })
     }
 
     render() {
@@ -52,6 +59,8 @@ class Register extends Component {
                     <input type="text" placeholder="Enter Email" name="email" onChange={this.handleInput} />
                     <div>Password</div>
                     <input type="text" placeholder="Enter Password" name="password" onChange={this.handleInput} />
+                    <div>Interests</div>
+                    <TagsInput value={this.state.interests} onChange={this.handleChange} />
                 </div>
                 <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
                 {this.state.invalidInput ?

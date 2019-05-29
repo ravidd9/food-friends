@@ -7,7 +7,7 @@ import { observer, inject } from 'mobx-react';
 @observer
 class FoodBubble extends Component {
 
-    filterFoodByName = () =>{
+    filterFoodByName = () => {
         this.props.generalStore.filterFoodByName(this.props.food.name)
     }
 
@@ -15,18 +15,12 @@ class FoodBubble extends Component {
         let food = this.props.food
         return (
             <div>
-            <div className="foodBubble">
-                <div className="foodName">{food.name}</div>
-                <div className="checkBox">
-                    {this.props.generalStore.doesExistInFilteredFood(food.name) 
-                            ? <input type="checkbox" name={food.name} id="" onClick={this.filterFoodByName} checked/>
-                            : <input type="checkbox" name={food.name} id="" onClick={this.filterFoodByName} />}
+                <div className={`foodBubble ${this.props.generalStore.doesExistInFilteredFood(food.name) ? "checked" : null}`}
+                    onClick={this.filterFoodByName}>
+                    <div className="foodName">{food.name}</div>
+                    <div className="foodPic"><img src={food.pic} alt="" /></div>
+                    <div>{food.budget}₪</div>
                 </div>
-                <div className="foodPic">
-                    <img src={food.pic} alt=""/>
-                    price : {food.budget}
-                </div>
-            </div>
             </div>
         );
     }

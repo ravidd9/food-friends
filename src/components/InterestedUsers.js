@@ -20,10 +20,10 @@ class InterestedUsers extends Component {
 
 
     render() {
-
-        let users = this.props.generalStore.findUsersByFoodName()
+        let generalStore = this.props.generalStore
+        let users = generalStore.findUsersByFoodName()
+        generalStore.sortUsersByInterests(users)
     
-        // let users = this.getInterestedUsers()
         return (
             <div id="interestedUsers">
                 <span className="who">Who's interested?</span>

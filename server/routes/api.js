@@ -33,10 +33,6 @@ router.put(`/user/:key`, async function (req, res) {
     let key = req.params.key
     let id = user._id
     let value = user[key]
-
-    // console.log(user)
-
-
     let update = User.findByIdAndUpdate(id,{[key]: value}, {new : true})
     update.then(function(user){
         res.send(user)

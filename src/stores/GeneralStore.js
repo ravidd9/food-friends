@@ -2,6 +2,7 @@ import { observable, action, computed } from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
 import { async } from 'q';
 import io from 'socket.io-client'
+import { object } from 'prop-types';
 
 const API_URL = 'http://localhost:8000'
 
@@ -42,10 +43,10 @@ export class GeneralStore {
         let doesExist = this.foods.some(u => u.name == food)
         console.log(doesExist)
 
-        let foodToAdd = {name : food.toLowerCase()}
+        let foodToAdd = { name: food.toLowerCase() }
 
         if (doesExist) {
-            return  
+            return
         }
         else {
             let newFood = await axios.post(`${API_URL}/food`, foodToAdd)
@@ -81,7 +82,8 @@ export class GeneralStore {
             this.currentUser.interestedFood.push(f.name)
             this.users.find(u => u.email === this.currentUser.email).interestedFood.push(f.name)
         })
-        let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
+
+        let updatedUser = await axios.put(`${API_URL}/user/interestedFood`, this.currentUser)
         // console.log(updatedUser)
     }
 
@@ -110,7 +112,8 @@ export class GeneralStore {
 
     @action addMatch = data => {
         console.log(data);
-        this.matchedUser = data
+        alert(data)
+        // this.matchedUser = data
         // this.setState({ messages: [...this.state.messages, data] });
 
         // console.log(this.state.messages);
@@ -142,7 +145,7 @@ export class GeneralStore {
     }
 
 
-    @action checkLogin = (email, password) =>{
+    @action checkLogin = (email, password) => {
         let user = this.users.find(u => (u.email === email) && (u.password === password))
         return user ? user : null
     }
@@ -150,7 +153,7 @@ export class GeneralStore {
     @action changeCurrentUser = user => {
         console.log(user)
         this.currentUser = user
-        
+
         sessionStorage.setItem('login', JSON.stringify(user));
 
     }
@@ -159,9 +162,45 @@ export class GeneralStore {
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
-    @action addUser = async (firstName, lastName, email, password) =>{
-        let user = {firstName,lastName,email,password}
+    @action addUser = async (firstName, lastName, email, password, interests) => {
+        let user = { firstName, lastName, email, password, interests }
         let newUser = await axios.post(`${API_URL}/user`, user)
+    }
+
+    @action sortUsersByInterests = users => {
+        let rating = {}
+        users.forEach(u => rating[u.email] = 0)
+        for (let user of users) {
+            for (let inter of user.interests) {
+                for (let inter2 of this.currentUser.interests) {
+                    if (inter2 === inter) {
+                        rating[user.email]++
+                    }
+                }
+            }
+        }
+
+
+        console.log(rating)
+        let emails = Object.keys(rating)
+        let sortedEmails = []
+        let maxInterests = 0
+        let maxEmail = ""
+        for (let i = 0; i < emails.length; i++) {
+
+            for (let j = i; j < emails.length; j++) {
+                if (rating[emails[j]] > maxInterests) {
+                    maxInterests = rating[emails[j]]
+                    maxEmail = emails[j]
+                }
+            }
+
+            
+            sortedEmails.push(maxEmail)
+            maxInterests = 0
+        }
+
+        console.log(sortedEmails)
     }
 
 }

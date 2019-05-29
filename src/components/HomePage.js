@@ -14,20 +14,31 @@ class HomePage extends Component {
         super(props)
         this.socket = io('localhost:8000');
 
-        this.socket.on('RECEIVE_MATCH', function(data){
+        this.socket.on('RECEIVE_MATCH', function (data) {
             console.log(props)
             props.generalStore.addMatch(data);
         })
+
+
     }
 
-    logout = () =>{
+    logout = () => {
         sessionStorage.removeItem("login")
-        window.location = "http://localhost:3000/" 
+        window.location = "http://localhost:3000/"
     }
 
     handleChange = e => {
         if (e.key === "Enter") {
             this.props.generalStore.saveFood(e.target.value)
+        }
+    }
+
+    componentDidMount = () => {
+
+        if (this.props.generalStore.currentUser.firstName) {
+            this.socket.emit('USER_IN', {
+                currentUser: this.props.generalStore.currentUser.firstName
+            })
         }
     }
 
@@ -38,10 +49,10 @@ class HomePage extends Component {
                 {generalStore.currentUser.firstName ?
                     <div>
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
-                        New Food : <input onKeyDown={this.handleChange} />      
+                        New Food : <input onKeyDown={this.handleChange} />
                         <button onClick={this.logout}>Log Out</button>
-                        <FoodContainer />
                         <Filters />
+                        <FoodContainer />
                     </div> :
                     <Redirect to="/" />}
             </div>
