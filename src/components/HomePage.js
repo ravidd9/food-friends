@@ -40,8 +40,8 @@ class HomePage extends Component {
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
                         New Food : <input onKeyDown={this.handleChange} />      
                         <button onClick={this.logout}>Log Out</button>
-                        <FoodContainer />
                         <Filters />
+                        <FoodContainer />
                     </div> :
                     <Redirect to="/" />}
             </div>
