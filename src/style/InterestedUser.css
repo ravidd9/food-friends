@@ -1,12 +1,67 @@
-.interestedUser{
-    border: 2px solid black;
-    grid-template-columns: 1fr, 1fr, 5fr;
-}
-.interestedUser>.interests{
+.interestedUser {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 20%;
+    width: 100%;
+    height: 31vh;
+    background-color: #ff6b81;
+    grid-template-columns: 1fr, 1fr, 5fr;
+    grid-auto-rows: 2fr repeat(4, 1fr);
+    font-size: 100%;
+    margin: 2%;
+    font-weight: bold;
+    grid-template-rows: repeat(5, 1fr);
 }
-.interests>.inter{
-    border: 1px solid black;
-    border-radius: 10px;
+.interestedUser:hover {
+background-color: rgb(231, 67, 67);
+}
+
+img {
+    margin-top: 7%;
+    margin-left: 3%;
+    border: 3px solid rgb(151, 143, 143);
+    border-radius: 50%;
+}
+
+.profilePic {
+    display: grid;
+    margin-left: 1%;
+    margin-top: 2%;
+    grid-template-columns: 1fr 2fr;
+}
+
+.nameContainer {
+    display: grid;
+    grid-template-areas: 
+    "n"
+    "i" ;
+}
+.name {
+    grid-area: n;
+    margin-top: 10%;
+}
+
+.interests {
+    grid-area: i ;
+    font-size: 85%;
+}
+
+.wouldLove {
+    display: grid ;
+    justify-self: center ;
+    margin-left: 4%;
+    font-size: 85%;    
+}
+
+.match {
+    display: grid;
+    background-color: rgb(253, 234, 62);
+    width : 32% ;
+    height: 155%;
+    border-radius: 50%;
+    justify-self: center;
+    justify-items: center ;
+    align-items: center;
+    font-size: 80%;
+    margin-top: 4%;
 }

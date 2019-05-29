@@ -4,3 +4,8 @@
     justify-items: center;
     align-items: center;
 }
+
+.who {
+    font-weight: bold;
+    margin: 4%;
+}
