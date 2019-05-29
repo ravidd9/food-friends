@@ -3,7 +3,7 @@
     font-family: 'Montserrat', sans-serif;
     border-radius: 20%;
     width: 100%;
-    height: 29vh;
+    height: 31vh;
     background-color: #ff6b81;
     grid-template-columns: 1fr, 1fr, 5fr;
     grid-auto-rows: 2fr repeat(4, 1fr);
@@ -56,8 +56,8 @@ img {
 .match {
     display: grid;
     background-color: rgb(253, 234, 62);
-    width : 30% ;
-    height: 135%;
+    width : 32% ;
+    height: 155%;
     border-radius: 50%;
     justify-self: center;
     justify-items: center ;
