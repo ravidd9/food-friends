@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
 import { async } from 'q';
+import io from 'socket.io-client'
 
 const API_URL = 'http://localhost:8000'
 
@@ -9,15 +10,19 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable currentUser = {
-        _id: "5cee25a061de981698b05c08",
+        _id: "5ced5e135363954068f4c264",
         firstName: "danny",
         lastName: "brudner",
-        interests: [ "raptors", "kite surfing", "entreprenuership", "programming" ],
+        interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
         interestedFood: [],
         email: "dannybrudner@gmail.com",
-        password : "dannyb",
+        password: "dannyb",
         profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg"
     }
+    @observable matchedUser = "yossi"
+
+
+
 
 
     @action saveUser = async (user) => {
@@ -50,7 +55,7 @@ export class GeneralStore {
     }
 
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
-   
+
     @action addInterestedFood = async () => {
         this.users.find(u => u._id === this.currentUser._id).interestedFood.push()
         this.filteredFood.forEach(f => {
@@ -60,16 +65,36 @@ export class GeneralStore {
         let updatedUser = await axios.put(`${API_URL}/user/fiteredFood`, this.currentUser)
         console.log(updatedUser)
     }
-    
+
     @action findUsersByFoodName = () => {
 
         let users = []
-        
-        for(let foodItem of this.filteredFood) {
+
+        for (let foodItem of this.filteredFood) {
             let usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
             usersWithFood.forEach(u => users.push(u))
         }
 
         return users
     }
+
+    @action match = userToMatch => {
+        // ev.preventDefault();
+        this.socket.emit('MATCH', {
+            email: this.currentUser.email,
+            password: this.currentUser.password,
+            matchedUser: userToMatch
+        })
+        // this.setState({ message: '' });
+    }
+
+
+    @action addMatch = data => {
+        console.log(data);
+        this.matchedUser = data
+        // this.setState({ messages: [...this.state.messages, data] });
+
+        // console.log(this.state.messages);
+    }
+
 }
