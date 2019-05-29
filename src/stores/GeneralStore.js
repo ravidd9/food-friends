@@ -9,14 +9,14 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable currentUser = {
-        _id: "5cee25a061de981698b05c08",
-        firstName: "danny",
-        lastName: "brudner",
-        interests: [ "raptors", "kite surfing", "entreprenuership", "programming" ],
-        interestedFood: [],
-        email: "dannybrudner@gmail.com",
-        password : "dannyb",
-        profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg"
+        // _id: "5cee25a061de981698b05c08",
+        // firstName: "danny",
+        // lastName: "brudner",
+        // interests: [ "raptors", "kite surfing", "entreprenuership", "programming" ],
+        // interestedFood: [],
+        // email: "dannybrudner@gmail.com",
+        // password : "dannyb",
+        // profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg"
     }
 
 
@@ -71,5 +71,15 @@ export class GeneralStore {
         }
 
         return users
+    }
+
+    @action checkLogin = (email, password) =>{
+        let user = this.users.find(u => (u.email === email) && (u.password === password))
+        return user? user: null
+    }
+
+    @action changeCurrentUser = user => {
+        console.log(user)
+        this.currentUser = user
     }
 }
