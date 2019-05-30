@@ -9,11 +9,18 @@ import InterestedUsers from './InterestedUsers';
 
 class FoodRoom extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectedFood: props.generalStore.filteredFood[0]
+        }
+    }
+
     render() {
 
         let selectedFoods = this.props.generalStore.filteredFood
         let interestedUsers = this.props.generalStore.interestedUsers
-
+        
         return (
             <div className="foodRoom">
                 Your'e chosen foods are :
@@ -24,7 +31,7 @@ class FoodRoom extends Component {
 
                 Who's interested?
                 <div className="whosInterested">
-                    <InterestedUsers />
+                    <InterestedUsers selectedFood={this.state.selectedFood} />
                 </div>
             </div>
         );
