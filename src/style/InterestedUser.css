@@ -1,16 +1,19 @@
 .interestedUser {
     display: grid;
     font-family: 'Montserrat', sans-serif;
-    border-radius: 20%;
+    border-radius: 7%;
     width: 100%;
-    height: 31vh;
+    height: 25vh;
     background-color: #ff6b81;
     grid-template-columns: 1fr, 1fr, 5fr;
     grid-auto-rows: 2fr repeat(4, 1fr);
     font-size: 100%;
     margin: 2%;
+    margin-bottom: 10px;
     font-weight: bold;
     grid-template-rows: repeat(5, 1fr);
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.75);
+    padding: 5px;
 }
 .interestedUser:hover {
 background-color: rgb(231, 67, 67);
@@ -54,6 +57,33 @@ img {
 }
 
 .match {
+    display: grid;
+    background-color: rgb(253, 234, 62);
+    width : 32% ;
+    height: 155%;
+    border-radius: 50%;
+    justify-self: center;
+    justify-items: center ;
+    align-items: center;
+    font-size: 80%;
+    margin-top: 4%;
+}
+
+/* .show-match {
+    display: grid;
+    background-color: rgb(253, 234, 62);
+    width : 32% ;
+    height: 155%;
+    border-radius: 50%;
+    justify-self: center;
+    justify-items: center ;
+    align-items: center;
+    font-size: 80%;
+    margin-top: 4%;
+} */
+
+.interestedUser > a {
+    text-decoration: none;
     display: grid;
     background-color: rgb(253, 234, 62);
     width : 32% ;
