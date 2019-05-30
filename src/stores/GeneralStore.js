@@ -89,28 +89,12 @@ export class GeneralStore {
         for (let foodItem of this.filteredFood) {
             usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
         }
-        console.log(usersWithFood)
         return usersWithFood
     }
-
-    // @action match = userToMatch => {
-    //     // ev.preventDefault();
-    //     this.socket.emit('MATCH', {
-    //         email: this.currentUser.email,
-    //         password: this.currentUser.password,
-    //         matchedUser: userToMatch
-    //     })
-    //     // this.setState({ message: '' });
-    // }
-
 
     @action addMatch = data => {
         console.log(data);
         alert(data)
-        // this.matchedUser = data
-        // this.setState({ messages: [...this.state.messages, data] });
-
-        // console.log(this.state.messages);
     }
 
     @action matchUsers = (email) => {
@@ -177,7 +161,7 @@ export class GeneralStore {
         console.log(rating)
         let emails = Object.keys(rating)
         let sortedEmails = []
-        let maxInterests = 0
+        let maxInterests = -1
         let maxEmail = ""
         while (emails.length) {
             for (let email of emails) {
@@ -189,8 +173,15 @@ export class GeneralStore {
             sortedEmails.push(maxEmail)
             let index = emails.findIndex(e => e === maxEmail)
             emails.splice(index, 1)
+            maxInterests =-1
+            maxEmail = ""
         }
-        console.log(sortedEmails)
+        let sortedUsers = []
+        sortedEmails.forEach(e => sortedUsers.push(this.getUserByEmail(e)))
+        console.log(sortedUsers)
+        return sortedUsers
     }
+
+    @action getUserByEmail = email => this.users.find(u => u.email === email)
 
 }
