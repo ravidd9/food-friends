@@ -27,7 +27,7 @@ class InterestedUsers extends Component {
 
         return (
             <div id="interestedUsers">
-                {users.filter(u => u.interestedFood.some(f => f === this.props.selectedFood.name)).map((u, i) => <InterestedUser key={i} user={u} />)}
+                {users.filter(u => u.interestedFood.some(f => f === this.props.selectedFood)).map((u, i) => <InterestedUser key={i} user={u} />)}
             </div>
         );
     }
