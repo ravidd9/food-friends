@@ -3,7 +3,7 @@ import '../style/FoodContainer.css';
 import { observer, inject } from 'mobx-react';
 import FoodBubble from './FoodBubble';
 import { async } from 'q';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 @inject("generalStore")
@@ -11,17 +11,17 @@ import {Link} from 'react-router-dom'
 class FoodContainer extends Component {
 
     addInterestedFood = () => this.props.generalStore.addInterestedFood()
-    
-    
+
+
     render() {
         // let foods = this.props.generalStore.foods
         let foods = this.props.generalStore.filteredFoodArray
         return (
             <div>
-            <div id="foodContainer">
-                {foods.map((f,i) => <FoodBubble key={i} food={f} />)}
-            </div>
-            <Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>Search</div></Link>
+                <Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>SEARCH</div></Link>
+                <div id="foodContainer">
+                    {foods.map((f, i) => <FoodBubble key={i} food={f} />)}
+                </div>
             </div>
         );
     }
