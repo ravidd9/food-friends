@@ -170,7 +170,7 @@ export class GeneralStore {
     @action sortUsersByInterests = users => {
         let rating = {}
         users.forEach(u => rating[u.email] = 0)
-        for (let user of users) {
+        for (let user of users) {   
             for (let inter of user.interests) {
                 for (let inter2 of this.currentUser.interests) {
                     if (inter2 === inter) {
