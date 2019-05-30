@@ -14,16 +14,14 @@ class ChosenFood extends Component {
 
         return (
 
-             <div id="food" onClick={this.changeSelectedFood}>
+             
                 
-                <span className="picAndText">
-                    <img src={food.pic}></img>
-                    <div className="text">YOU'VE CHOSEN :{food.name.toUpperCase()}
-                    <div className="desc">{food.description}</div></div>
-                
+                <span onClick={this.changeSelectedFood} className="picAndText">
+                    {food.name === this.props.currentFood ? <img src={food.pic} className="selected-image"></img> : <img src={food.pic}></img>}
+                    <div className="text">{food.name.toUpperCase()}</div>
                 </span>
 
-            </div>
+            
         );
     }
 }
