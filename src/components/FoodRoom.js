@@ -10,6 +10,15 @@ import { Redirect } from 'react-router-dom'
 
 class FoodRoom extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectedFood: props.generalStore.filteredFood[0].name
+        }
+    }
+
+    changeSelectedFood = foodName => this.setState({selectedFood: foodName})
+
     render() {
 
         console.log(this.props.generalStore.currentUser)
@@ -17,6 +26,8 @@ class FoodRoom extends Component {
         let selectedFoods = this.props.generalStore.filteredFood
         let interestedUsers = this.props.generalStore.interestedUsers
 
+        
+        
         return (
 
 

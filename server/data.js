@@ -200,5 +200,9 @@ let food = [
     }
 ]
 
+<<<<<<< HEAD
 module.exports = users
+=======
+// module.exports = users
+>>>>>>> master
 // module.exports = food
