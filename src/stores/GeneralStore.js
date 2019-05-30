@@ -85,15 +85,12 @@ export class GeneralStore {
     }
 
     @action findUsersByFoodName = () => {
-
-        let users = []
-
+        let usersWithFood = []
         for (let foodItem of this.filteredFood) {
-            let usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
-            usersWithFood.forEach(u => users.push(u))
+            usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
         }
-
-        return users
+        console.log(usersWithFood)
+        return usersWithFood
     }
 
     // @action match = userToMatch => {
@@ -177,26 +174,22 @@ export class GeneralStore {
             }
         }
 
-
         console.log(rating)
         let emails = Object.keys(rating)
         let sortedEmails = []
         let maxInterests = 0
         let maxEmail = ""
-        for (let i = 0; i < emails.length; i++) {
-
-            for (let j = i; j < emails.length; j++) {
-                if (rating[emails[j]] > maxInterests) {
-                    maxInterests = rating[emails[j]]
-                    maxEmail = emails[j]
+        while (emails.length) {
+            for (let email of emails) {
+                if (rating[email] > maxInterests) {
+                    maxInterests = rating[email]
+                    maxEmail = email
                 }
             }
-
-
             sortedEmails.push(maxEmail)
-            maxInterests = 0
+            let index = emails.findIndex(e => e === maxEmail)
+            emails.splice(index, 1)
         }
-
         console.log(sortedEmails)
     }
 
