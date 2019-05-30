@@ -178,6 +178,7 @@ export class GeneralStore {
         }
         let sortedUsers = []
         sortedEmails.forEach(e => sortedUsers.push(this.getUserByEmail(e)))
+        console.log(sortedEmails)
         console.log(sortedUsers)
         return sortedUsers
     }

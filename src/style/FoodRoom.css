@@ -1,7 +1,7 @@
 .foodRoom{
     /* display: grid ;
     grid-template-rows: 1fr 8fr ; */
-    background-color: rgb(214, 207, 207);
+    background-color: #d8d8d8;
 }
 
 .chosenFoods {

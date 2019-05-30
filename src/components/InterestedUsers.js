@@ -22,6 +22,7 @@ class InterestedUsers extends Component {
     render() {
         let generalStore = this.props.generalStore
         let users = generalStore.findUsersByFoodName()
+        console.log(users)
         users = generalStore.sortUsersByInterests(users)
 
         let currentUserName = this.props.generalStore.currentUser.firstName

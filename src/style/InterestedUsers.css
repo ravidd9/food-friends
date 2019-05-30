@@ -3,6 +3,8 @@
     grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 .who {
