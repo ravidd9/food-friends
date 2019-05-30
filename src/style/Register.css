@@ -22,6 +22,7 @@
 #registerButton{
     border: 1px solid black;
     border-radius: 10px;
+    background-color: rgb(250, 175, 175);
     cursor: pointer;
     margin: 2%;
     padding: 2%;
@@ -41,12 +42,7 @@
     text-align: center;
 }
 
-#invalidInput{
-    color: red;
-    font-weight: bold;
-    margin-bottom: 2%;
-}
-#userExist{
+.error{
     color: red;
     font-weight: bold;
     margin-bottom: 2%;
