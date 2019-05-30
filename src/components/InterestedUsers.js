@@ -20,14 +20,14 @@ class InterestedUsers extends Component {
 
 
     render() {
-
-        let users = this.props.generalStore.findUsersByFoodName()
+        let generalStore = this.props.generalStore
+        
     
-        // let users = this.getInterestedUsers()
 
         return (
             <div id="interestedUsers">
-                {users.filter(u => u.interestedFood.some(f => f === this.props.selectedFood)).map((u, i) => <InterestedUser key={i} user={u} />)}
+                <span className="who">Who's interested?</span>
+                 {users.filter(u => u.interestedFood.some(f => f === this.props.selectedFood)).map((u, i) => <InterestedUser key={i} user={u} />)}
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../style/InterestedUser.css';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom'
+import "../style/InterestedUser.css"
 
 @inject("generalStore")
 @observer
@@ -25,17 +26,23 @@ class InterestedUser extends Component {
 
         return (
             <div className="interestedUser">
-                <div className="profilePic"><img src={user.profilePic} alt="" /></div>
-                <div className="firstName">{user.firstName}</div>
-                <div className="interests">
-                    Interestes : {user.interests.map(i => <span className="inter">{i}</span>)}
-                </div>
-                <div className="interests">
-                    Would love to eat : {user.interestedFood.map(i => <span className="inter">{i}</span>)}
-                </div>
+                <span className="profilePic">
+                <img src={user.profilePic} />
+                <span className="nameContainer">
+                    <span className="name">{user.firstName.toUpperCase()} {user.lastName.toUpperCase()}</span>
+                    <span className="interests">
+                    INTERESTS : {user.interests.map(i => <span className="inter">{i.toUpperCase()} </span>)}
+                </span>
+                </span>
+                </span>
+                
+                
+                <span className="wouldLove">
+                    PARTNET FOR : {user.interestedFood.map(i => <span className="inter">{i.toUpperCase()} </span>)}
+                </span>
                 {!this.state.haveMatched ?
-                    <button onClick={this.matchUsers}>Match !</button> :
-                    <Link to="show-match"><button onClick={this.showMatch}>Show match !</button></Link>
+                    <span className="match" onClick={this.matchUsers}>Match !</span> :
+                    <Link to="show-match"><span className="match" onClick={this.showMatch}>Show match !</span></Link>
                 }
 
             </div>
