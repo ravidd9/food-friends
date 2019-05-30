@@ -32,7 +32,7 @@ class InterestedUsers extends Component {
         return (
             <div id="interestedUsers">
                 <span className="who">Who's interested?</span>
-                {users.map((u, i) => <InterestedUser key={i} user={u} />)}
+                 {users.filter(u => u.interestedFood.some(f => f === this.props.selectedFood)).map((u, i) => <InterestedUser key={i} user={u} />)}
             </div>
         );
     }
