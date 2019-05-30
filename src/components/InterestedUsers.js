@@ -20,6 +20,7 @@ class InterestedUsers extends Component {
 
 
     render() {
+        let users = this.props.generalStore.findUsersByFoodName()
         let generalStore = this.props.generalStore
         
 
