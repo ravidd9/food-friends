@@ -77,14 +77,11 @@ export class GeneralStore {
     doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
 
     @action addInterestedFood = async () => {
-        this.users.find(u => u.email === this.currentUser.email).interestedFood.push()
-        this.filteredFood.forEach(f => {
-            this.currentUser.interestedFood.push(f.name)
-            this.users.find(u => u.email === this.currentUser.email).interestedFood.push(f.name)
-        })
-
+        let filteredFoodNames = []
+        this.filteredFood.forEach(f => filteredFoodNames.push(f.name))
+        this.currentUser.interestedFood = filteredFoodNames
+        this.users.find(u => u.email === this.currentUser.email).interestedFood = filteredFoodNames
         let updatedUser = await axios.put(`${API_URL}/user/interestedFood`, this.currentUser)
-        // console.log(updatedUser)
     }
 
     @action findUsersByFoodName = () => {
@@ -195,7 +192,7 @@ export class GeneralStore {
                 }
             }
 
-            
+
             sortedEmails.push(maxEmail)
             maxInterests = 0
         }
