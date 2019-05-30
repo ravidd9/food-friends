@@ -11,8 +11,8 @@ class InterestedUsers extends Component {
     getInterestedUsers = () => {
         let filteredFoods = this.props.generalStore.filteredFood
         let users = []
-        for(let foodItem of filteredFoods) {
-           foodItem.interestedUsers.forEach(u => users.push(u))
+        for (let foodItem of filteredFoods) {
+            foodItem.interestedUsers.forEach(u => users.push(u))
         }
 
         return users
@@ -20,10 +20,14 @@ class InterestedUsers extends Component {
 
 
     render() {
-        let users = this.props.generalStore.findUsersByFoodName()
-        console.log(users)
         let generalStore = this.props.generalStore
+        let users = generalStore.findUsersByFoodName()
+        generalStore.sortUsersByInterests(users)
+
+        let currentUserName = this.props.generalStore.currentUser.firstName
+        let index = users.findIndex(u => u.firstName == currentUserName)
         
+        users.splice(index, 1)
 
         return (
             <div id="interestedUsers">
