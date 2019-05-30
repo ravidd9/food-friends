@@ -27,14 +27,13 @@ class FoodRoom extends Component {
         
         return (
             <div className="foodRoom">
-                {/* Your'e chosen foods are : */}
 
                 <div className="chosenFoods">
                     {selectedFoods.map((s, i) => <ChosenFood key={i} selectedFood={s} currentFood={this.state.selectedFood} changeSelectedFood={this.changeSelectedFood} />)}
                 </div>
 
 
-                {/* Who's interested? */}
+    
                 <div className="whosInterested">
                     <InterestedUsers selectedFood={this.state.selectedFood} />
                 </div>

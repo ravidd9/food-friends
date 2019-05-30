@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../style/Register.css';
 import { observer, inject } from 'mobx-react';
 import TagsInput from 'react-tagsinput'
-import 'react-tagsinput/react-tagsinput.css'
+// import 'react-tagsinput/react-tagsinput.css'
 
 
 @inject("generalStore")

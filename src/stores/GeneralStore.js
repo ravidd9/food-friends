@@ -85,35 +85,16 @@ export class GeneralStore {
     }
 
     @action findUsersByFoodName = () => {
-
-        let users = []
-
+        let usersWithFood = []
         for (let foodItem of this.filteredFood) {
-            let usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
-            usersWithFood.forEach(u => users.push(u))
+            usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
         }
-
-        return users
+        return usersWithFood
     }
-
-    // @action match = userToMatch => {
-    //     // ev.preventDefault();
-    //     this.socket.emit('MATCH', {
-    //         email: this.currentUser.email,
-    //         password: this.currentUser.password,
-    //         matchedUser: userToMatch
-    //     })
-    //     // this.setState({ message: '' });
-    // }
-
 
     @action addMatch = data => {
         console.log(data);
         alert(data)
-        // this.matchedUser = data
-        // this.setState({ messages: [...this.state.messages, data] });
-
-        // console.log(this.state.messages);
     }
 
     @action matchUsers = (email) => {
@@ -177,27 +158,30 @@ export class GeneralStore {
             }
         }
 
-
         console.log(rating)
         let emails = Object.keys(rating)
         let sortedEmails = []
-        let maxInterests = 0
+        let maxInterests = -1
         let maxEmail = ""
-        for (let i = 0; i < emails.length; i++) {
-
-            for (let j = i; j < emails.length; j++) {
-                if (rating[emails[j]] > maxInterests) {
-                    maxInterests = rating[emails[j]]
-                    maxEmail = emails[j]
+        while (emails.length) {
+            for (let email of emails) {
+                if (rating[email] > maxInterests) {
+                    maxInterests = rating[email]
+                    maxEmail = email
                 }
             }
-
-
             sortedEmails.push(maxEmail)
-            maxInterests = 0
+            let index = emails.findIndex(e => e === maxEmail)
+            emails.splice(index, 1)
+            maxInterests =-1
+            maxEmail = ""
         }
-
-        console.log(sortedEmails)
+        let sortedUsers = []
+        sortedEmails.forEach(e => sortedUsers.push(this.getUserByEmail(e)))
+        console.log(sortedUsers)
+        return sortedUsers
     }
+
+    @action getUserByEmail = email => this.users.find(u => u.email === email)
 
 }

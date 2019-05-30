@@ -40,3 +40,14 @@
     width: 70vw;
     text-align: center;
 }
+
+#invalidInput{
+    color: red;
+    font-weight: bold;
+    margin-bottom: 2%;
+}
+#userExist{
+    color: red;
+    font-weight: bold;
+    margin-bottom: 2%;
+}
