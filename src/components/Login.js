@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../style/Login.css';
 import { observer, inject } from 'mobx-react';
+import validator from 'validator'
+
 
 
 @inject("generalStore")
@@ -41,13 +43,13 @@ class Login extends Component {
                 <div>Already a member?</div>
                 <div id="loginForm">
                     <div>Email</div>
-                    <input type="text" placeholder="Enter Email" name="email" onChange={this.handleInput} />
+                    <input type="email" placeholder="Enter Email" name="email" onChange={this.handleInput} />
                     <div>Password</div>
-                    <input type="text" placeholder="Enter Password" name="password" onChange={this.handleInput} />
+                    <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
                 </div>
                 <button id="loginButton" onClick={this.checkLogin} >Login</button>
                 {this.state.invalidLogin ?
-                    <div id="invalidLogin">Wrong Email or Password</div> :
+                    <div className="error">Wrong Email or Password</div> :
                     null}
                 <div id="navigateToRegister">
                     <span> Not a member?, </span>

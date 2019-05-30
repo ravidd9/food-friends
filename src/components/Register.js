@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../style/Register.css';
 import { observer, inject } from 'mobx-react';
 import TagsInput from 'react-tagsinput'
-// import 'react-tagsinput/react-tagsinput.css'
+import validator from 'validator'
+import 'react-tagsinput/react-tagsinput.css'
 
 
 @inject("generalStore")
@@ -17,6 +18,7 @@ class Register extends Component {
             password: "",
             invalidInput: false,
             userExist: false,
+            error: "",
             interests: []
         }
     }
@@ -26,6 +28,7 @@ class Register extends Component {
     changeLogin = () => this.props.changeLogin()
 
     checkRegister = async () => {
+        this.checkErrors()
         this.setState({ userExist: false, invalidInput: false })
         let generalStore = this.props.generalStore
         let s = this.state
@@ -42,6 +45,14 @@ class Register extends Component {
         }
     }
 
+    checkErrors = () =>{
+        let error = ""
+        if(!validator.isEmail(this.state.email)){
+            error += "Invalid Email\n"
+        }
+        this.setState({error})
+    }
+
     handleChange = interests => {
         this.setState({ interests })
     }
@@ -56,19 +67,20 @@ class Register extends Component {
                     <div>Last Name</div>
                     <input type="text" placeholder="Enter Last Name" name="lastName" onChange={this.handleInput} />
                     <div>Email</div>
-                    <input type="text" placeholder="Enter Email" name="email" onChange={this.handleInput} />
+                    <input type="email" placeholder="Enter Email" name="email" onChange={this.handleInput} />
                     <div>Password</div>
-                    <input type="text" placeholder="Enter Password" name="password" onChange={this.handleInput} />
+                    <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
                     <div>Interests</div>
                     <TagsInput value={this.state.interests} onChange={this.handleChange} />
                 </div>
                 <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
                 {this.state.invalidInput ?
-                    <div id="invalidInput">Empty Fields</div> :
+                    <div className="error">Empty Fields</div> :
                     null}
                 {this.state.userExist ?
-                    <div id="userExist">Email already in use</div> :
+                    <div className="error">Email already in use</div> :
                     null}
+                <div className="error">{this.state.error}</div>
                 <div id="navigateToLogin">
                     <span> Already a member?, </span>
                     <span id="loginLink" onClick={this.changeLogin}>Login</span>
