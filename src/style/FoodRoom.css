@@ -1,10 +1,10 @@
 .foodRoom{
-display: grid ;
-grid-template-rows: 1fr 8fr ;
-background-color: rgb(214, 207, 207);
+    display: grid ;
+    grid-template-rows: 1fr 8fr ;
+    background-color: rgb(214, 207, 207);
 }
 
 .chosenFoods {
-display: grid ;
-grid-template-columns: repeat(3, 1fr)
+    display: grid ;
+    grid-template-columns: repeat(3, 1fr)
 }

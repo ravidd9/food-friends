@@ -1,13 +1,17 @@
 #food {
   border-radius: 20%;
   width: 100%;
-  background-color:#6bec7d;
+  /* background-color:#6bec7d; */
   grid-template-rows : 2fr 1fr;
   font-size: 90%;
 }
+
 img {
   border-radius: 50%;
+}
 
+.selected-image {
+  border: 3px solid #6bec7d;
 }
 
 .picAndText {
