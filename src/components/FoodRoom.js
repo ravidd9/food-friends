@@ -16,13 +16,9 @@ class FoodRoom extends Component {
 
         return (
             <div className="foodRoom">
-                {/* Your'e chosen foods are : */}
 
-                {/* <div className="chosenFoods"> */}
-                    {selectedFoods.map((s, i) => <ChosenFood key={i} selectedFood={s} />)}
-                {/* </div> */}
+                {selectedFoods.map((s, i) => <ChosenFood key={i} selectedFood={s} />)}
 
-                {/* Who's interested? */}
                 <div className="whosInterested">
                     <InterestedUsers />
                 </div>
