@@ -45,21 +45,28 @@ class Register extends Component {
         }
     }
 
-    checkErrors = () =>{
+    checkErrors = () => {
         let error = ""
-        if(!validator.isEmail(this.state.email)){
+        if (!validator.isEmail(this.state.email)) {
             error += "Invalid Email\n"
         }
-        this.setState({error})
+        this.setState({ error })
     }
 
     handleChange = interests => {
         this.setState({ interests })
     }
 
+
+
     render() {
         return (
             <div id="register">
+                <form class="fileupload" action="upload" method="post" enctype="multipart/form-data">
+                    <h1>Upload File Here</h1>
+                    <input type="file" name="upfile" value="" />
+                    <input type="submit" onClick={this.upload}/>
+                </form>
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
                     <div>First Name</div>

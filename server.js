@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 const socket = require('socket.io');
 const rp = require('request-promise')
 const SocketCom = require('./server/socket-com')
+var upload = require('express-fileupload');
+
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", { useNewUrlParser: true })
 
