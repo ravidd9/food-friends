@@ -7,7 +7,6 @@ const mongoose = require('mongoose')
 const socket = require('socket.io');
 const rp = require('request-promise')
 const SocketCom = require('./server/socket-com')
-var upload = require('express-fileupload');
 
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", { useNewUrlParser: true })
@@ -27,6 +26,7 @@ app.use(function (req, res, next) {
 })
 app.use('/', api)
 
+
 const socketCom = new SocketCom()
 
 const port = 8000
@@ -34,6 +34,7 @@ let server = app.listen(process.env.PORT || port, function () {
     console.log(`Server running on ${port}`)
     socketCom.getUsers()
 })
+
 
 io = socket(server)
 

@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import TagsInput from 'react-tagsinput'
 import validator from 'validator'
 import 'react-tagsinput/react-tagsinput.css'
+import axios from 'axios';
 
 
 @inject("generalStore")
@@ -19,7 +20,8 @@ class Register extends Component {
             invalidInput: false,
             userExist: false,
             error: "",
-            interests: []
+            interests: [],
+            selectedFile : null
         }
     }
 
@@ -58,43 +60,57 @@ class Register extends Component {
     }
 
 
+    fileChangedHandler = (event) => {
+        // const file = event.target.files[0]
+        // console.log(file)
+        this.setState({ selectedFile: event.target.files[0] }, () => {
+            console.log(this.state.selectedFile)
+        })
+        
+      }
+      
+    // upload = async () => {
+    //     let pic = "www.wow.co.ul"
+    //     await axios.post(`http://localhost:8000/upload`, pic)
+
+    // }
+
 
     render() {
         return (
             <div id="register">
-                <form class="fileupload" action="upload" method="post" enctype="multipart/form-data">
-                    <h1>Upload File Here</h1>
-                    <input type="file" name="upfile" value="" />
-                    <input type="submit" onClick={this.upload}/>
-                </form>
-                <div>Sign Up and find your Food-Friend today</div>
-                <div id="registerForm">
-                    <div>First Name</div>
-                    <input type="text" placeholder="Enter First Name" name="firstName" onChange={this.handleInput} />
-                    <div>Last Name</div>
-                    <input type="text" placeholder="Enter Last Name" name="lastName" onChange={this.handleInput} />
-                    <div>Email</div>
-                    <input type="email" placeholder="Enter Email" name="email" onChange={this.handleInput} />
-                    <div>Password</div>
-                    <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
-                    <div>Interests</div>
-                    <TagsInput value={this.state.interests} onChange={this.handleChange} />
-                </div>
-                <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
-                {this.state.invalidInput ?
-                    <div className="error">Empty Fields</div> :
-                    null}
-                {this.state.userExist ?
-                    <div className="error">Email already in use</div> :
-                    null}
-                <div className="error">{this.state.error}</div>
-                <div id="navigateToLogin">
-                    <span> Already a member?, </span>
-                    <span id="loginLink" onClick={this.changeLogin}>Login</span>
-                </div>
-            </div>
-        );
-    }
-}
 
+                <input type="file" onChange={this.fileChangedHandler}/>
+                    <button onClick={this.uploadHandler}>Upload!</button>
+
+                    <div>Sign Up and find your Food-Friend today</div>
+                    <div id="registerForm">
+                        <div>First Name</div>
+                        <input type="text" placeholder="Enter First Name" name="firstName" onChange={this.handleInput} />
+                        <div>Last Name</div>
+                        <input type="text" placeholder="Enter Last Name" name="lastName" onChange={this.handleInput} />
+                        <div>Email</div>
+                        <input type="email" placeholder="Enter Email" name="email" onChange={this.handleInput} />
+                        <div>Password</div>
+                        <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
+                        <div>Interests</div>
+                        <TagsInput value={this.state.interests} onChange={this.handleChange} />
+                    </div>
+                    <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
+                    {this.state.invalidInput ?
+                        <div className="error">Empty Fields</div> :
+                        null}
+                    {this.state.userExist ?
+                        <div className="error">Email already in use</div> :
+                        null}
+                    <div className="error">{this.state.error}</div>
+                    <div id="navigateToLogin">
+                        <span> Already a member?, </span>
+                        <span id="loginLink" onClick={this.changeLogin}>Login</span>
+                    </div>
+            </div>
+                );
+            }
+        }
+        
 export default Register;

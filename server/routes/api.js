@@ -53,6 +53,11 @@ router.post(`/food`, async function (req, res) {
 })
 
 
+router.post('/upload',function(req,res){
+    console.log("OKKKKKK")
+  })
+
+
 
 module.exports = router
 
