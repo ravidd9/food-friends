@@ -70,10 +70,6 @@ router.post(`/food`, async function (req, res) {
 })
 
 
-// router.post('/upload',function(req,res){
-//     console.log(req.file)
-//   })
-
 router.post('/upload', function (req, res) {
     upload(req, res, function (err) {
         console.log("Request ---", req.body);

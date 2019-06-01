@@ -4,9 +4,6 @@ import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
 
-const upload = require('express-fileupload');
-
-
 const API_URL = 'http://localhost:8000'
 
 export class GeneralStore {

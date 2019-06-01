@@ -23,8 +23,7 @@ class Register extends Component {
             interests: [],
             file: null
         }
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
+        
     }
 
     handleInput = e => this.setState({ [e.target.name]: e.target.value })
@@ -41,6 +40,7 @@ class Register extends Component {
                 this.setState({ userExist: true })
             }
             else {
+                
                 await generalStore.addUser(s.firstName, s.lastName, s.email, s.password, s.interests)
                 this.changeLogin()
             }
@@ -62,7 +62,7 @@ class Register extends Component {
     }
 
 
-    onFormSubmit(e){
+    onFormSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('myImage',this.state.file);
@@ -77,7 +77,7 @@ class Register extends Component {
             }).catch((error) => {
         });
     }
-    onChange(e) {
+    onChange = (e) => {
         this.setState({file:e.target.files[0]});
     }
 
@@ -85,13 +85,6 @@ class Register extends Component {
     render() {
         return (
             <div id="register">
-
-                <form onSubmit={this.onFormSubmit}>
-                    <h1>File Upload</h1>
-                    <input type="file" name="myImage" onChange={this.onChange} />
-                    <button type="submit">Upload</button>
-                </form>
-
 
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
@@ -106,6 +99,11 @@ class Register extends Component {
                     <div>Interests</div>
                     <TagsInput value={this.state.interests} onChange={this.handleChange} />
                 </div>
+                <form onSubmit={this.onFormSubmit}>
+                    <div>Upload profile picture</div>
+                    <input type="file" name="myImage" onChange={this.onChange} />
+                    <button type="submit">Upload</button>
+                </form>
                 <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
                 {this.state.invalidInput ?
                     <div className="error">Empty Fields</div> :
