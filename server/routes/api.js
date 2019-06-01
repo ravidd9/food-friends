@@ -3,13 +3,30 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/User')
 const Food = require('../models/Food')
+const path = require("path");
+
 // const foods = require('../data')
 // const users = require('../data')
 
+const multer = require("multer");
 
+
+const storage = multer.diskStorage({
+    destination: "./public/uploads/",
+    filename: function(req, file, cb){
+       cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+    }
+ });
+ 
+ const upload = multer({
+    storage: storage,
+    limits:{fileSize: 1000000},
+ }).single("myImage");
 
 const getUsers = async () => User.find({})
 const getFoods = async () => Food.find({})
+
+
 
 router.get('/sanity', function (req, res) {
     res.send('OK!')
@@ -53,10 +70,20 @@ router.post(`/food`, async function (req, res) {
 })
 
 
-router.post('/upload',function(req,res){
-    console.log("OKKKKKK")
-  })
+// router.post('/upload',function(req,res){
+//     console.log(req.file)
+//   })
 
+router.post('/upload', function (req, res) {
+    upload(req, res, function (err) {
+        console.log("Request ---", req.body);
+        console.log("Request file ---", req.file);//Here you get file.
+        /*Now do where ever you want to do*/
+        if(!err) {
+            return res.send(200).end();
+        }
+    })
+})
 
 
 module.exports = router
@@ -76,6 +103,10 @@ const saveFood = function() {
         save.then(console.log("saved"))
     }
 }
+
+
+
+
 
 
 // saveUser()
