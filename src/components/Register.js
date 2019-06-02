@@ -4,13 +4,14 @@ import { observer, inject } from 'mobx-react';
 import TagsInput from 'react-tagsinput'
 import validator from 'validator'
 import 'react-tagsinput/react-tagsinput.css'
+import axios from 'axios';
 
 
 @inject("generalStore")
 @observer
 class Register extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             firstName: "",
             lastName: "",
@@ -19,8 +20,10 @@ class Register extends Component {
             invalidInput: false,
             userExist: false,
             error: "",
-            interests: []
+            interests: [],
+            file: null
         }
+        
     }
 
     handleInput = e => this.setState({ [e.target.name]: e.target.value })
@@ -37,6 +40,7 @@ class Register extends Component {
                 this.setState({ userExist: true })
             }
             else {
+                
                 await generalStore.addUser(s.firstName, s.lastName, s.email, s.password, s.interests)
                 this.changeLogin()
             }
@@ -45,21 +49,43 @@ class Register extends Component {
         }
     }
 
-    checkErrors = () =>{
+    checkErrors = () => {
         let error = ""
-        if(!validator.isEmail(this.state.email)){
+        if (!validator.isEmail(this.state.email)) {
             error += "Invalid Email\n"
         }
-        this.setState({error})
+        this.setState({ error })
     }
 
     handleChange = interests => {
         this.setState({ interests })
     }
 
+
+    onFormSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('myImage',this.state.file);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        axios.post("http://localhost:8000/upload",formData,config)
+            .then((response) => {
+                alert("The file is successfully uploaded");
+            }).catch((error) => {
+        });
+    }
+    onChange = (e) => {
+        this.setState({file:e.target.files[0]});
+    }
+
+
     render() {
         return (
             <div id="register">
+
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
                     <div>First Name</div>
@@ -73,6 +99,11 @@ class Register extends Component {
                     <div>Interests</div>
                     <TagsInput value={this.state.interests} onChange={this.handleChange} />
                 </div>
+                <form onSubmit={this.onFormSubmit}>
+                    <div>Upload profile picture</div>
+                    <input type="file" name="myImage" onChange={this.onChange} />
+                    <button type="submit">Upload</button>
+                </form>
                 <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
                 {this.state.invalidInput ?
                     <div className="error">Empty Fields</div> :
