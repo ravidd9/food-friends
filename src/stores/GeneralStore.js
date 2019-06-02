@@ -13,7 +13,7 @@ export class GeneralStore {
     @observable filteredFood = []
     @observable budget = 150
     @observable socket = io('localhost:8000');
-    
+    @observable matchNotification = {open: false, name: ""}
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {
     //     _id: "5cee3ef7c5a16519f8094d69",
