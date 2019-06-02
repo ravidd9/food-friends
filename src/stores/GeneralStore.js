@@ -148,7 +148,12 @@ export class GeneralStore {
         await this.updateUser('matchedWith')
     }
 
-    @action matchUsers = (email) => {
+    @action matchUsers = async email => {
+
+        this.currentUser.matchedWith.push(email)
+        await this.updateUser('matchedWith')
+
+
         let matchedUser = this.users.find(u => u.email === email)
         this.currentUser.matchedWith = matchedUser.firstName
         // console.log(matchedUser)
