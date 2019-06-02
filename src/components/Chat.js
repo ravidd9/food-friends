@@ -30,6 +30,7 @@ class Chat extends Component {
             chat.push({ author : data.author, message : data.message})
             this.setState({ messages: chat });
             console.log(this.state.messages);
+            
         };
 
         this.sendMessage = ev => {
