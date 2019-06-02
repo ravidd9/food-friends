@@ -44,7 +44,7 @@ class SimpleSnackbar extends Component {
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">{this.props.generalStore.matchNotification.data}</span>}
+          message={<span id="message-id">{`You matched with ${this.props.generalStore.matchNotification.name}`}</span>}
           action={[
             <Button key="undo" color="primary" size="small" onClick={this.handleClose}>
               CHAT

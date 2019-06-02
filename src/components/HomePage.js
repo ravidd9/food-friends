@@ -14,9 +14,8 @@ class HomePage extends Component {
         super(props)
         this.socket = io('localhost:8000');
 
-        this.socket.on('RECEIVE_MATCH', function (data) {
-            console.log(data)
-            props.generalStore.addMatch(data)
+        this.socket.on('RECEIVE_MATCH', function (name) {
+            props.generalStore.addMatch(name)
         })
     }    
 

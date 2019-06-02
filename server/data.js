@@ -7,7 +7,8 @@ let users = [
         password: "dannyb",
         profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
         interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
-        interestedFood : ["hamburger", "shawarma"]
+        interestedFood : ["hamburger", "shawarma"],
+        matchedWith: []
     },
     {
         firstName: "yossi",
@@ -17,8 +18,8 @@ let users = [
         password: "yossid",
         profilePic: "https://images.pexels.com/photos/462680/pexels-photo-462680.jpeg",
         interests: ["nba", "beach", "css"],
-        interestedFood : ["hamburger", "pancakes"]
-
+        interestedFood : ["hamburger", "pancakes"],
+        matchedWith: []
     },
     {
         firstName: "ravid",
@@ -28,8 +29,8 @@ let users = [
         password: "ravidc",
         profilePic: "https://images.pexels.com/photos/842548/pexels-photo-842548.jpeg",
         interests: ["coding", "soccer", "business"],
-        interestedFood :  ["pancakes", "falafel"]
-
+        interestedFood :  ["pancakes", "falafel"],
+        matchedWith: []
     },
     {
         firstName: "srul",
@@ -39,8 +40,8 @@ let users = [
         password: "sruld",
         profilePic: "https://images.pexels.com/photos/839586/pexels-photo-839586.jpeg",
         interests: ["nba", "game of thrones", "plants"],
-        interestedFood :  ["philly cheessteak", "falafel"]
-
+        interestedFood :  ["philly cheessteak", "falafel"],
+        matchedWith: []
     },
     {
         firstName: "paul",
@@ -50,8 +51,8 @@ let users = [
         password: "paulg",
         profilePic: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg",
         interests: ["dungeons and dragons", "history"],
-        interestedFood :  ["philly cheessteak", "shawarma"]
-
+        interestedFood :  ["philly cheessteak", "shawarma"],
+        matchedWith: []
     },
     {
         firstName: "avishai",
@@ -61,8 +62,8 @@ let users = [
         password: "avishaip",
         profilePic: "https://images.pexels.com/photos/834863/pexels-photo-834863.jpeg",
         interests: ["game of thrones", "aepi"],
-        interestedFood :  ["fried wings", "pizza"]
-
+        interestedFood :  ["fried wings", "pizza"],
+        matchedWith: []
     },
     {
         firstName: "nadav",
@@ -72,8 +73,8 @@ let users = [
         password: "nadavs",
         profilePic: "https://images.pexels.com/photos/1138903/pexels-photo-1138903.jpeg",
         interests: ["programming", "entrepreneurship", "game of thrones"],
-        interestedFood :  ["pancakes", "pizza"]
-
+        interestedFood :  ["pancakes", "pizza"],
+        matchedWith: []
     },
     {
         firstName: "jona",
@@ -83,8 +84,8 @@ let users = [
         password: "jonaf",
         profilePic: "https://images.pexels.com/photos/1139743/pexels-photo-1139743.jpeg",
         interests: ["literature", "algorithms", "biking"],
-        interestedFood :  ["fried wings", "falafel"]
-
+        interestedFood :  ["fried wings", "falafel"],
+        matchedWith: []
     },
     {
         firstName: "hunter",
@@ -94,8 +95,8 @@ let users = [
         password: "hunters",
         profilePic: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg",
         interests: ["literature", "theatre", "puns"],
-        interestedFood :  ["shawarma", "falafel"]
-
+        interestedFood :  ["shawarma", "falafel"],
+        matchedWith: []
     },
     {
         firstName: "corinne",
@@ -105,8 +106,8 @@ let users = [
         password: "corinneg",
         profilePic: "https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg",
         interests: ["pets", "coding", "education"],
-        interestedFood :  ["hamburger", "pizza"]
-
+        interestedFood :  ["hamburger", "pizza"],
+        matchedWith: []
     },
     {
         firstName: "chen",
@@ -116,7 +117,8 @@ let users = [
         password: "chenc",
         profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
         interests: ["soccer", "coding", "economics"],
-        interestedFood :  ["hamburger", "falafel"]
+        interestedFood :  ["hamburger", "falafel"],
+        matchedWith: []
     },
     {
 
@@ -127,8 +129,8 @@ let users = [
         password: "reutk",
         profilePic: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg",
         interests: ["travel", "baking", "web"],
-        interestedFood :  ["philly cheessteak", "fried wings"]
-
+        interestedFood :  ["philly cheessteak", "fried wings"],
+        matchedWith: []
     },
     {
         firstName: "mor",
@@ -138,8 +140,8 @@ let users = [
         password: "morz",
         profilePic: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
         interests: ["board games", "gaming", "sports"],
-        interestedFood :  ["pizza", "shawarma"]
-
+        interestedFood :  ["pizza", "shawarma"],
+        matchedWith: []
     },
     {
         firstName: "reuben",
@@ -149,8 +151,8 @@ let users = [
         password: "reubenc",
         profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
         interests: ["blogging", "digital marketing"],
-        interestedFood :  ["falafel", "shawarma"]
-
+        interestedFood :  ["falafel", "shawarma"],
+        matchedWith: []
     }
 ]
 
