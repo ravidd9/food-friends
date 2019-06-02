@@ -6,11 +6,11 @@ import "../style/ChosenFood.css"
 
 class ChosenFood extends Component {
 
-    changeSelectedFood = () => this.props.changeSelectedFood(this.props.selectedFood.name)
+    changeSelectedFood = () => this.props.changeSelectedFood(this.props.selectedFood)
 
     render() {
-
-        let food = this.props.selectedFood
+        let generalStore = this.props.generalStore
+        let food = generalStore.getFoodByName(this.props.selectedFood)
 
         return (
 

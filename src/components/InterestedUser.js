@@ -31,7 +31,7 @@ class InterestedUser extends Component {
                     <span className="nameContainer">
                         <span className="name">{user.firstName.toUpperCase()} {user.lastName.toUpperCase()}</span>
                         <span className="interests">
-                            INTERESTS : {user.interests.map(i => <span className="inter">{i.toUpperCase()} </span>)}
+                            INTERESTS : {user.interests.map((inter, i) => <span key={i} className="inter">{inter.toUpperCase()} </span>)}
                         </span>
                     </span>
                 </span>

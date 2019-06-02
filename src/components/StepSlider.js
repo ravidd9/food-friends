@@ -18,22 +18,15 @@ const styles = {
 @inject("generalStore")
 @observer
 class StepSlider extends Component {
-    constructor() {
-        super()
-        this.state = {
-            value: 150
-        }
-    }
+    
 
     handleChange = (event, value) => {
-        this.setState({ value },function(){
-            this.props.generalStore.filterFoodByBudget(this.state.value)
-        })
+        this.props.generalStore.budget = value
     };
 
     render() {
         const { classes } = this.props;
-        const { value } = this.state;
+        const value  = this.props.generalStore.budget
 
         return (
             <div className={classes.root}>

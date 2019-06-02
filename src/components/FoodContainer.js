@@ -14,8 +14,9 @@ class FoodContainer extends Component {
 
 
     render() {
-        // let foods = this.props.generalStore.foods
-        let foods = this.props.generalStore.filteredFoodArray
+
+        let foods = this.props.generalStore.filterFoodByBudget
+        
         return (
             <div>
                 <Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>SEARCH</div></Link>
