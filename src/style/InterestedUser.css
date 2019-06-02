@@ -2,21 +2,19 @@
     display: grid;
     font-family: 'Montserrat', sans-serif;
     border-radius: 7%;
-    width: 100%;
+    width: 90vw;
     height: 25vh;
-    background-color: #ff6b81;
-    grid-template-columns: 1fr, 1fr, 5fr;
-    grid-auto-rows: 2fr repeat(4, 1fr);
-    font-size: 100%;
-    margin: 2%;
-    margin-bottom: 10px;
+    background-color: #7bed9f;
+    margin-bottom: 4%;
     font-weight: bold;
-    grid-template-rows: repeat(5, 1fr);
     box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.75);
-    padding: 5px;
-}
-.interestedUser:hover {
-background-color: rgb(231, 67, 67);
+    grid-template-areas:
+    "i n n"
+    "i t t"
+    "i t t"
+    "m m m";
+    justify-items: center;
+    align-items: center;
 }
 
 img {
@@ -26,61 +24,46 @@ img {
     border-radius: 50%;
 }
 
+
 .profilePic {
-    display: grid;
-    margin-left: 1%;
-    margin-top: 2%;
-    grid-template-columns: 1fr 2fr;
+    grid-area: i;
 }
 
-.nameContainer {
-    display: grid;
-    grid-template-areas: 
-    "n"
-    "i" ;
-}
+
 .name {
     grid-area: n;
-    margin-top: 10%;
+    margin-top: 1%;
+    justify-self: left;
 }
 
 .interests {
-    grid-area: i ;
-    font-size: 85%;
+    grid-area: t;
+    justify-self: left;
+    width: 10vw;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 50vw;
 }
 
-.wouldLove {
-    display: grid ;
-    justify-self: center ;
-    margin-left: 4%;
-    font-size: 85%;    
+.inter{
+    background-color: #2ed573;
+    font-size: 60%;
+    margin: 1%;
+    border-radius: 10px;
+    padding: 3%;
+    display: inline-block;
 }
 
 .match {
-    display: grid;
-    background-color: rgb(253, 234, 62);
-    width : 32% ;
-    height: 155%;
+    grid-area: m;
+    background-color: #2ed573;
+    border: 1px solid black;
+    padding: 4%;
     border-radius: 50%;
-    justify-self: center;
-    justify-items: center ;
-    align-items: center;
     font-size: 80%;
-    margin-top: 4%;
+    margin-bottom: 4%;
 }
 
-/* .show-match {
-    display: grid;
-    background-color: rgb(253, 234, 62);
-    width : 32% ;
-    height: 155%;
-    border-radius: 50%;
-    justify-self: center;
-    justify-items: center ;
-    align-items: center;
-    font-size: 80%;
-    margin-top: 4%;
-} */
 
 .interestedUser > a {
     text-decoration: none;

@@ -4,7 +4,6 @@ import { observer, inject } from 'mobx-react';
 import TagsInput from 'react-tagsinput'
 import validator from 'validator'
 import 'react-tagsinput/react-tagsinput.css'
-import axios from 'axios';
 
 
 @inject("generalStore")
@@ -21,9 +20,12 @@ class Register extends Component {
             userExist: false,
             error: "",
             interests: [],
-            file: null
+            file: null,
+            kosher: false,
+            vegan: false,
+            vegetarian: false
         }
-        
+
     }
 
     handleInput = e => this.setState({ [e.target.name]: e.target.value })
@@ -33,16 +35,16 @@ class Register extends Component {
     checkRegister = async () => {
         this.checkErrors()
         this.setState({ userExist: false, invalidInput: false })
+
         let generalStore = this.props.generalStore
         let s = this.state
+
         if (s.firstName && s.lastName && s.email && s.password) {
             if (generalStore.checkExistUser(this.state.email)) {
                 this.setState({ userExist: true })
             }
             else {
-                
-                await generalStore.addUser(s.firstName, s.lastName, s.email, s.password, s.interests)
-                this.changeLogin()
+               this.createNewUser()
             }
         } else {
             this.setState({ invalidInput: true })
@@ -57,29 +59,45 @@ class Register extends Component {
         this.setState({ error })
     }
 
-    handleChange = interests => {
-        this.setState({ interests })
+    handleInterests = interests => this.setState({ interests })
+
+    createNewUser = async () =>{
+        let s = this.state
+        let newUser = {
+            firstName: s.firstName,
+            lastName: s.lastName,
+            email: s.email,
+            password: s.password,
+            interests: s.interests,
+            kosher: s.kosher,
+            vegan: s.vegan,
+            vegetarian: s.vegetarian
+        }
+        await this.props.generalStore.saveUser(newUser)
+        this.changeLogin()
     }
 
+    handleCheckBox = e => this.setState({[e.target.name]: !this.state[e.target.name]})
 
-    onFormSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('myImage',this.state.file);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-        axios.post("http://localhost:8000/upload",formData,config)
-            .then((response) => {
-                alert("The file is successfully uploaded");
-            }).catch((error) => {
-        });
-    }
-    onChange = (e) => {
-        this.setState({file:e.target.files[0]});
-    }
+
+    // onFormSubmit = (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append('myImage',this.state.file);
+    //     const config = {
+    //         headers: {
+    //             'content-type': 'multipart/form-data'
+    //         }
+    //     };
+    //     axios.post("http://localhost:8000/upload",formData,config)
+    //         .then((response) => {
+    //             alert("The file is successfully uploaded");
+    //         }).catch((error) => {
+    //     });
+    // }
+    // onChange = (e) => {
+    //     this.setState({file:e.target.files[0]});
+    // }
 
 
     render() {
@@ -97,13 +115,16 @@ class Register extends Component {
                     <div>Password</div>
                     <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
                     <div>Interests</div>
-                    <TagsInput value={this.state.interests} onChange={this.handleChange} />
+                    <TagsInput value={this.state.interests} onChange={this.handleInterests} />
+                    <input type="checkbox" name="kosher" onChange={this.handleCheckBox} /> Kosher
+                    <input type="checkbox" name="vegan" onChange={this.handleCheckBox} /> Vegan
+                    <input type="checkbox" name="vegetarian" onChange={this.handleCheckBox} /> Vegetarian
                 </div>
-                <form onSubmit={this.onFormSubmit}>
+                {/* <form onSubmit={this.onFormSubmit}>
                     <div>Upload profile picture</div>
                     <input type="file" name="myImage" onChange={this.onChange} />
                     <button type="submit">Upload</button>
-                </form>
+                </form> */}
                 <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
                 {this.state.invalidInput ?
                     <div className="error">Empty Fields</div> :

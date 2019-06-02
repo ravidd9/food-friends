@@ -29,6 +29,7 @@ class Login extends Component {
         let generalStore = this.props.generalStore
         let user = generalStore.checkLogin(this.state.email, this.state.password)
         console.log(user)
+        
         if(user){
             generalStore.changeCurrentUser(user)
             window.location = "http://localhost:3000/home" 
