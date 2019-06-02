@@ -11,7 +11,6 @@ class ShowMatch extends Component {
         return (
             <div>
                 <Chat/>
-                You've matched with : {this.props.generalStore.currentUser.matchedWith}
             </div>
         );
     }

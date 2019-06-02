@@ -40,7 +40,7 @@ class SimpleSnackbar extends Component {
             horizontal: 'left',
           }}
           open={this.props.generalStore.matchNotification.open}
-          autoHideDuration={6000}
+          autoHideDuration={20000}
           onClose={this.handleClose}
           ContentProps={{
             'aria-describedby': 'message-id',
