@@ -7,6 +7,7 @@ import FoodRoom from './components/FoodRoom';
 import Landing from './components/Landing';
 import ShowMatch from './components/ShowMatch';
 import ButtonAppBar from './components/ButtonAppBar';
+import SimpleSnackbar from './components/SimpleSnackbar';
 
 
 
@@ -29,6 +30,7 @@ class App extends Component {
     return (
       <div id="app">
         <ButtonAppBar />
+        <SimpleSnackbar />
         <Router>
           <Route exact path='/' render={() => <Landing />} />
           <Route exact path='/home' render={() => <HomePage />} />

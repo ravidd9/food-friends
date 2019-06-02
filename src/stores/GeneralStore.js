@@ -11,7 +11,7 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable budget = 150
-    
+    @observable matchNotification = {open: false, data: ""}
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {
     //     _id: "5cee3ef7c5a16519f8094d69",
@@ -137,10 +137,7 @@ export class GeneralStore {
     }
 
 
-    @action addMatch = data => {
-        console.log(data);
-        alert(data)
-    }
+    @action addMatch = data => this.handleMatchNotification(true, data)
 
     @action matchUsers = (email) => {
         let matchedUser = this.users.find(u => u.email === email)
@@ -155,7 +152,8 @@ export class GeneralStore {
             matchedUser: matchedUser.firstName
         })
     }
-
+    
+    @action handleMatchNotification = (shouldOpen, data) => this.matchNotification = {open: shouldOpen, data}
 
 
     @action checkLogin = (email, password) => {

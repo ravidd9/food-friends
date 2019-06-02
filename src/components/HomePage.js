@@ -15,12 +15,10 @@ class HomePage extends Component {
         this.socket = io('localhost:8000');
 
         this.socket.on('RECEIVE_MATCH', function (data) {
-            console.log(props)
-            props.generalStore.addMatch(data);
+            console.log(data)
+            props.generalStore.addMatch(data)
         })
-
-
-    }
+    }    
 
     logout = () => {
         sessionStorage.removeItem("login")

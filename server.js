@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     socket.on('MATCH', function(data){
         let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
         // console.log(userSocketId)
-        let matchMsg = `You matched with ${data.currentUser}` 
+        let matchMsg = `You matched with ${data.currentUser[0].toUpperCase()}${data.currentUser.slice(1)}` 
         socket.broadcast.to(userSocketId).emit('RECEIVE_MATCH', matchMsg);
         // io.emit('RECEIVE_MATCH', data)
     })
