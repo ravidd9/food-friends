@@ -9,6 +9,7 @@ class Chat extends Component {
 
     constructor(props){
         super(props);
+        this.socket = io('localhost:8000');
 
         this.state = {
             username: this.props.generalStore.currentUser.firstName,
@@ -16,15 +17,16 @@ class Chat extends Component {
             messages: []
         };
 
-        this.socket = io('localhost:8000');
 
         this.socket.on('RECEIVE_MESSAGE', function(data){
-            addMessage(data);
+            console.log("Matching")
+            // addMessage(data);
         });
 
         const addMessage = data => {
             console.log(data);
-            let chat = [data.message]
+            let chat = []
+            chat.push(data.message)
             this.setState({messages: chat});
             // console.log(this.state.messages);
         };
@@ -33,7 +35,8 @@ class Chat extends Component {
             ev.preventDefault();
             this.socket.emit('SEND_MESSAGE', {
                 author: this.state.username,
-                message: this.state.message
+                message: this.state.message,
+                recipient: 'danny'
             })
             this.setState({message: ''});
 
@@ -42,7 +45,7 @@ class Chat extends Component {
     render(){
         return (
             <div className="card-footer">
-            {this.state.messages.map(m => <div> {this.state.username} : {m} </div>)}
+            {this.state.messages.map((m,i) => <div key={i}> {this.state.username} : {m} </div>)}
             <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
             <br/>
             <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>

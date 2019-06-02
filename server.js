@@ -55,11 +55,13 @@ io.on('connection', (socket) => {
     })
 
     socket.on('SEND_MESSAGE', function(data){
-        console.log(data)
-        // let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
-        // console.log(userSocketId)
+        console.log(`Recipient name is : ${data.recipient}`)
+        let userSocketId = socketCom.findUsersSocketId(data.recipient)
+        console.log(`Recipient socketID is : ${userSocketId}`)
 
-        io.emit('RECEIVE_MESSAGE', data);
+        socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', data);
+
+        // io.emit('RECEIVE_MESSAGE', data);
     })
     
 })
