@@ -142,7 +142,6 @@ export class GeneralStore {
 
     @action addMatch = async email => {
         let name = this.getUserByEmail(email).firstName
-
         let properCaseName = name[0].toUpperCase() + name.slice(1)
 
         this.handleMatchNotification(true, properCaseName)
