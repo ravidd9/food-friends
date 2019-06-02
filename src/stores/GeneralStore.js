@@ -140,30 +140,24 @@ export class GeneralStore {
     }
 
 
-    @action addMatch = async name => {
+    @action addMatch = async email => {
+        let name = this.getUserByEmail(email).firstName
+
         let properCaseName = name[0].toUpperCase() + name.slice(1)
+
         this.handleMatchNotification(true, properCaseName)
-        this.currentUser.matchedWith.push(name)
+        this.currentUser.matchedWith.push(email)
 
         await this.updateUser('matchedWith')
     }
 
     @action matchUsers = async email => {
-
         this.currentUser.matchedWith.push(email)
         await this.updateUser('matchedWith')
 
-
-        let matchedUser = this.users.find(u => u.email === email)
-        this.currentUser.matchedWith = matchedUser.firstName
-        // console.log(matchedUser)
-        console.log(this.currentUser)
-        matchedUser.matchedWith = this.currentUser.firstName
-        console.log(matchedUser)
-
         this.socket.emit('MATCH', {
-            currentUser: this.currentUser.firstName,
-            matchedUser: matchedUser.firstName
+            currentUser: this.currentUser.email,
+            matchedUser: email
         })
     }
     
