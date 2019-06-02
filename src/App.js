@@ -7,6 +7,7 @@ import FoodRoom from './components/FoodRoom';
 import Landing from './components/Landing';
 import ShowMatch from './components/ShowMatch';
 import ButtonAppBar from './components/ButtonAppBar';
+import Chat from './components/Chat';
 
 
 
@@ -34,6 +35,8 @@ class App extends Component {
           <Route exact path='/home' render={() => <HomePage />} />
           <Route exact path='/food-room' render={() => <FoodRoom />} />
           <Route exact path='/show-match' render={() => <ShowMatch />} />
+          <Route exact path='/chat' render={() => <Chat />} />
+
 
         </Router>
       </div>

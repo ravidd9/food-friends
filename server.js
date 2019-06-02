@@ -9,6 +9,7 @@ const rp = require('request-promise')
 const SocketCom = require('./server/socket-com')
 
 
+
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", { useNewUrlParser: true })
 
 
@@ -53,4 +54,12 @@ io.on('connection', (socket) => {
         // io.emit('RECEIVE_MATCH', data)
     })
 
+    socket.on('SEND_MESSAGE', function(data){
+        console.log(data)
+        // let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
+        // console.log(userSocketId)
+
+        io.emit('RECEIVE_MESSAGE', data);
+    })
+    
 })
