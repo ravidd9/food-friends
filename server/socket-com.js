@@ -10,17 +10,18 @@ class SocketCom {
         this.users = JSON.parse(users)
     }
 
-    saveIdToUser(id, firstName) {
-        let user = this.findUserByName(firstName)
+    saveIdToUser(id, email) {
+        let user = this.findUserByEmail(email)
+        console.log(email)
         user.socketId = id
     }
 
-    findUserByName(firstName) {
-        return this.users.find(u => u.firstName === firstName)
+    findUserByEmail(email) {
+        return this.users.find(u => u.email === email)
     }
 
-    findUsersSocketId(firstName) {
-        let user = this.findUserByName(firstName)
+    findUsersSocketId(email) {
+        let user = this.findUserByEmail(email)
         return user.socketId
     }
 }

@@ -14,8 +14,8 @@ class HomePage extends Component {
         super(props)
         this.socket = io('localhost:8000');
 
-        this.socket.on('RECEIVE_MATCH', function (name) {
-            props.generalStore.addMatch(name)
+        this.socket.on('RECEIVE_MATCH', function (email) {
+            props.generalStore.addMatch(email)
         })
     }    
 
@@ -34,7 +34,7 @@ class HomePage extends Component {
 
         if (this.props.generalStore.currentUser.firstName) {
             this.socket.emit('USER_IN', {
-                currentUser: this.props.generalStore.currentUser.firstName
+                currentUser: this.props.generalStore.currentUser.email
             })
         }
     }
