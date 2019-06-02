@@ -36,7 +36,7 @@ class Chat extends Component {
             this.socket.emit('SEND_MESSAGE', {
                 author: this.state.username,
                 message: this.state.message,
-                recipient: 'danny'
+                recipient: 'dannybrudner@gmail.com'
             })
             this.setState({message: ''});
 

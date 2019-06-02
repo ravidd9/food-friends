@@ -13,9 +13,6 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            chat: false
-        }
         this.socket = props.generalStore.socket
 
         this.socket.on('RECEIVE_MATCH', function (email) {
@@ -49,7 +46,6 @@ class HomePage extends Component {
         let generalStore = this.props.generalStore
         return (
             <div id="homePage">
-                <button onClick={this.toggleChat}>Chat</button>
                 {generalStore.currentUser.firstName ?
                     <div>
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
@@ -59,7 +55,7 @@ class HomePage extends Component {
                         <FoodContainer />
                     </div> :
                     <Redirect to="/" />}
-                    {this.state.chat? <Redirect to="/chat"/>  : null}
+                    {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
             </div>
         );
     }

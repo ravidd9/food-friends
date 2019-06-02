@@ -6,6 +6,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { observer, inject } from 'mobx-react';
+import { Link } from 'react-router-dom';
 
 
 const styles = theme => ({
@@ -46,9 +47,9 @@ class SimpleSnackbar extends Component {
           }}
           message={<span id="message-id">{`You matched with ${this.props.generalStore.matchNotification.name}`}</span>}
           action={[
-            <Button key="undo" color="primary" size="small" onClick={this.handleClose}>
-              CHAT
-            </Button>,
+            <Link to="/show-match"> <Button key="undo" color="primary" size="small" onClick={this.handleClose}>
+            CHAT
+          </Button></Link>,
             <IconButton
               key="close"
               aria-label="Close"
