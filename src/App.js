@@ -7,6 +7,8 @@ import FoodRoom from './components/FoodRoom';
 import Landing from './components/Landing';
 import ShowMatch from './components/ShowMatch';
 import ButtonAppBar from './components/ButtonAppBar';
+import TemporaryDrawer from './components/TemporaryDrawer';
+import Profile from './components/Profile';
 
 
 
@@ -27,16 +29,15 @@ class App extends Component {
 
   render() {
     return (
-      <div id="app">
+      <Router>
         <ButtonAppBar />
-        <Router>
-          <Route exact path='/' render={() => <Landing />} />
-          <Route exact path='/home' render={() => <HomePage />} />
-          <Route exact path='/food-room' render={() => <FoodRoom />} />
-          <Route exact path='/show-match' render={() => <ShowMatch />} />
+        <Route exact path='/' render={() => <Landing />} />
+        <Route exact path='/home' render={() => <HomePage />} />
+        <Route exact path='/food-room' render={() => <FoodRoom />} />
+        <Route exact path='/show-match' render={() => <ShowMatch />} />
+        <Route exact path='/profile' render={() => <Profile />} />
 
-        </Router>
-      </div>
+      </Router>
     )
   }
 }

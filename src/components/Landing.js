@@ -17,7 +17,11 @@ class Landing extends Component {
         this.setState({login: !this.state.login})
     }
 
+    componentDidMount = () => {
+    }
+
     render() {
+
         return (
             <div id="landing">
                 <h2>Welcome to Food-Friends</h2>
