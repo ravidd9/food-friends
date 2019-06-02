@@ -58,14 +58,14 @@ function ButtonAppBar() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        <ListItem button key={"Profile"}>
-          <ListItemIcon>
-            <Link to="/profile">
+        <Link to="/profile">
+          <ListItem button key={"Profile"}>
+            <ListItemIcon>
               <AccountCircle />
-            </Link>
-          </ListItemIcon>
-          <ListItemText primary={"Profile"} />
-        </ListItem>
+            </ListItemIcon>
+            <ListItemText primary={"Profile"} />
+          </ListItem>
+        </Link>
         <ListItem button key={"Matches"}>
           <ListItemIcon>
             <HowToReg />
