@@ -9,18 +9,18 @@ class Chat extends Component {
 
     constructor(props){
         super(props);
-        this.socket = io('localhost:8000');
+        this.socket = props.generalStore.socket
 
         this.state = {
-            username: this.props.generalStore.currentUser.firstName,
+            username: props.generalStore.currentUser.firstName,
             message: '',
             messages: []
         };
 
 
-        this.socket.on('RECEIVE_MESSAGE', function(data){
-            console.log("Matching")
-            // addMessage(data);
+        this.socket.on('RECEIVE_MESSAGE', function (data) {
+            alert("Matching")
+            addMessage(data);
         });
 
         const addMessage = data => {

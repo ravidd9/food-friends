@@ -4,6 +4,7 @@ import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
 
+
 const API_URL = 'http://localhost:8000'
 
 export class GeneralStore {
@@ -11,6 +12,7 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable budget = 150
+    @observable socket = io('localhost:8000');
     
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {

@@ -5,6 +5,7 @@ import Filters from './Filters';
 import io from 'socket.io-client'
 import { observer, inject } from 'mobx-react';
 import { Redirect } from 'react-router-dom'
+import Chat from './Chat';
 
 @inject("generalStore")
 @observer
@@ -12,13 +13,15 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props)
-        this.socket = io('localhost:8000');
+        this.state = {
+            chat: false
+        }
+        this.socket = props.generalStore.socket
 
         this.socket.on('RECEIVE_MATCH', function (data) {
             console.log(props)
             props.generalStore.addMatch(data);
         })
-
 
     }
 
@@ -33,6 +36,7 @@ class HomePage extends Component {
         }
     }
 
+    toggleChat = () => this.setState({chat : true})
     componentDidMount = () => {
 
         if (this.props.generalStore.currentUser.firstName) {
@@ -46,6 +50,7 @@ class HomePage extends Component {
         let generalStore = this.props.generalStore
         return (
             <div id="homePage">
+                <button onClick={this.toggleChat}>Chat</button>
                 {generalStore.currentUser.firstName ?
                     <div>
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
@@ -55,6 +60,7 @@ class HomePage extends Component {
                         <FoodContainer />
                     </div> :
                     <Redirect to="/" />}
+                    {this.state.chat? <Redirect to="/chat"/>  : null}
             </div>
         );
     }
