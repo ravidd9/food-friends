@@ -18,12 +18,11 @@ class App extends Component {
   componentDidMount = async () => {
     await this.props.generalStore.getFoodsFromDB()
     await this.props.generalStore.getUsersFromDB()
-    await this.props.generalStore.filterFoodByBudget(150)
   }
+
   componentDidUpdate = async () => {
     await this.props.generalStore.getFoodsFromDB()
     await this.props.generalStore.getUsersFromDB()
-    await this.props.generalStore.filterFoodByBudget(150)
   }
 
   render() {

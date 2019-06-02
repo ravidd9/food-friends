@@ -10,7 +10,7 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
-    @observable filteredFoodArray = []
+    @observable budget = 150
     
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {
@@ -170,15 +170,15 @@ export class GeneralStore {
     }
 
 
-    @action filterFoodByBudget = budget => this.filteredFoodArray = this.foods.filter(f => f.budget <= budget)
+    @computed get filterFoodByBudget () {
+        return this.foods.filter(f => f.budget <= this.budget)
+    }
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
     @action addUser = async (firstName, lastName, email, password, interests) => {
         let user = { firstName, lastName, email, password, interests }
-        let newUser = await axios.post(`${API_URL}/user`, user)
+        await axios.post(`${API_URL}/user`, user)
     }
 
-
-   
 }
