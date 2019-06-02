@@ -14,7 +14,6 @@ class FoodContainer extends Component {
 
 
     render() {
-        // let foods = this.props.generalStore.foods
         let foods = this.props.generalStore.filteredFoodArray
         return (
             <div>

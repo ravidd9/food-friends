@@ -21,19 +21,13 @@ class InterestedUsers extends Component {
 
     render() {
         let generalStore = this.props.generalStore
-        let users = generalStore.findUsersByFoodName()
-        console.log(users)
-        users = generalStore.sortUsersByInterests(users)
-
-        let currentUserName = this.props.generalStore.currentUser.firstName
-        let index = users.findIndex(u => u.firstName == currentUserName)
-        
-        users.splice(index, 1)
+        let interestedUsers = generalStore.getInterestedUsers(this.props.selectedFood)
+        console.log(interestedUsers)
 
         return (
             <div id="interestedUsers">
                 <span className="who">Who's interested?</span>
-                 {users.filter(u => u.interestedFood.some(f => f === this.props.selectedFood))
+                 {interestedUsers.filter(u => u.interestedFood.some(f => f === this.props.selectedFood))
                     .map((u, i) => <InterestedUser key={i} user={u} />)}
             </div>
         );

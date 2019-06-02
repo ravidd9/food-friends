@@ -8,15 +8,15 @@ const Food = require('../models/Food')
 
 
 
-const getUsers = async () => User.find({})
-const getFoods = async () => Food.find({})
+const getUsersFromDB = async () => User.find({})
+const getFoodsFromDB = async () => Food.find({})
 
 router.get('/sanity', function (req, res) {
     res.send('OK!')
 })
 
 router.get('/users', async function (req, res) {
-    let users = await getUsers()
+    let users = await getUsersFromDB()
     res.send(users)
 })
 
@@ -40,7 +40,7 @@ router.put(`/user/:key`, async function (req, res) {
 })
 
 router.get('/foods', async function (req, res) {
-    let foods = await getFoods()
+    let foods = await getFoodsFromDB()
     res.send(foods)
 })
 

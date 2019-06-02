@@ -21,7 +21,7 @@ class StepSlider extends Component {
     constructor() {
         super()
         this.state = {
-            value: 150
+            value: 150,
         }
     }
 

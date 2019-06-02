@@ -11,10 +11,9 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable filteredFoodArray = []
-    @observable interestedUsers = []
+    
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {
-
     //     _id: "5cee3ef7c5a16519f8094d69",
     //     firstName: "danny",
     //     lastName: "brudner",
@@ -24,22 +23,20 @@ export class GeneralStore {
     //     password: "dannyb",
     //     profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
     //     matchedWith: ""
-
     // }
-    @observable matchedUser = "yossi"
     @observable socket = io('localhost:8000');
+    
+    getUserByEmail = email => this.users.find(u => u.email === email)
 
-
-
-
-
+    getEmailsByUsers = users => users.map(u => u.email)
+    
+    getFoodByName = name => this.foods.find(f => f.name === name)
+    
     @action saveUser = async (user) => {
-        let newUser = await axios.post(`${API_URL}/user`, user)
-        this.users.push(newUser)
+        await axios.post(`${API_URL}/user`, user)
+        await this.getUsersFromDB()
     }
     @action saveFood = async (food) => {
-
-
         let doesExist = this.foods.some(u => u.name == food)
         console.log(doesExist)
 
@@ -49,48 +46,96 @@ export class GeneralStore {
             return
         }
         else {
-            let newFood = await axios.post(`${API_URL}/food`, foodToAdd)
-            this.foods.push(foodToAdd)
+            await axios.post(`${API_URL}/food`, foodToAdd)
+            await this.getFoodsFromDB()
         }
     }
-    @action getUsers = async () => {
+    @action getUsersFromDB = async () => {
         let users = await axios.get(`${API_URL}/users`)
         this.users = users.data
-        return users.data
     }
-    @action getFoods = async () => {
+    @action getFoodsFromDB = async () => {
         let foods = await axios.get(`${API_URL}/foods`)
         this.foods = foods.data
-        return foods.data
     }
 
     @action filterFoodByName = async (selectedFood) => {
         if (this.doesExistInFilteredFood(selectedFood)) {
-            let indexOfSelected = this.filteredFood.findIndex(f => f.name === selectedFood)
+            let indexOfSelected = this.filteredFood.findIndex(f => f === selectedFood)
             this.filteredFood.splice(indexOfSelected, 1)
         } else {
-            let foodItem = this.foods.find(f => f.name === selectedFood)
-            this.filteredFood.push(foodItem)
+            this.filteredFood.push(selectedFood)
         }
     }
 
-    doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f.name === selectedFood)
+
+    doesExistInFilteredFood = selectedFood => this.filteredFood.some(f => f === selectedFood)
+
+    updateSessionStorage = user => sessionStorage.setItem('login', JSON.stringify(user))
+
+    updateUser = async user => await axios.put(`${API_URL}/user/interestedFood`, user)
 
     @action addInterestedFood = async () => {
-        let filteredFoodNames = []
-        this.filteredFood.forEach(f => filteredFoodNames.push(f.name))
-        this.currentUser.interestedFood = filteredFoodNames
-        this.users.find(u => u.email === this.currentUser.email).interestedFood = filteredFoodNames
-        let updatedUser = await axios.put(`${API_URL}/user/interestedFood`, this.currentUser)
+        this.currentUser.interestedFood = this.filteredFood
+
+        await this.updateUser(this.currentUser)
+        this.updateSessionStorage(this.currentUser)
+
+        await this.getUsersFromDB()
     }
 
-    @action findUsersByFoodName = () => {
-        let usersWithFood = []
-        for (let foodItem of this.filteredFood) {
-            usersWithFood = this.users.filter(u => u.interestedFood.some(f => f === foodItem.name))
-        }
-        return usersWithFood
+    getInterestedUsers = foodName => {
+        let interestedUsers = this.removeCurrentUser()
+        interestedUsers = this.findUsersByFoodName(interestedUsers, foodName)
+        interestedUsers = this.sortUsersByInterests(interestedUsers)
+        return interestedUsers
     }
+
+    removeCurrentUser = () => {
+        let usersWithoutCurrent = [...this.users]
+        let currentUserIndex = usersWithoutCurrent.findIndex(u => u.email == this.currentUser.email)
+        usersWithoutCurrent.splice(currentUserIndex, 1)
+        return usersWithoutCurrent
+    }
+
+    @action findUsersByFoodName = (interestedUsers, foodName) =>
+        interestedUsers.filter(u => u.interestedFood.some(f => f === foodName))
+
+    @action sortUsersByInterests = users => {
+        let rating = {}
+        users.forEach(u => rating[u.email] = 0)
+        for (let user of users) {
+            for (let inter of user.interests) {
+                for (let inter2 of this.currentUser.interests) {
+                    if (inter2 === inter) {
+                        rating[user.email]++
+                    }
+                }
+            }
+        }
+
+        let emails = Object.keys(rating)
+        let sortedEmails = []
+        let maxInterests = -1
+        let maxEmail = ""
+        while (emails.length) {
+            for (let email of emails) {
+                if (rating[email] > maxInterests) {
+                    maxInterests = rating[email]
+                    maxEmail = email
+                }
+            }
+            sortedEmails.push(maxEmail)
+            let index = emails.findIndex(e => e === maxEmail)
+            emails.splice(index, 1)
+            maxInterests = -1
+            maxEmail = ""
+        }
+        let sortedUsers = []
+        sortedEmails.forEach(e => sortedUsers.push(this.getUserByEmail(e)))
+        return sortedUsers
+    }
+
 
     @action addMatch = data => {
         console.log(data);
@@ -112,16 +157,6 @@ export class GeneralStore {
     }
 
 
-    @action checkLogin = (email, password) => {
-        let user = this.users.find(u => (u.email === email) && (u.password === password))
-        return user ? user : null
-    }
-
-    @action changeCurrentUser = user => {
-        console.log(user)
-        this.currentUser = user
-    }
-
 
     @action checkLogin = (email, password) => {
         let user = this.users.find(u => (u.email === email) && (u.password === password))
@@ -131,10 +166,9 @@ export class GeneralStore {
     @action changeCurrentUser = user => {
         console.log(user)
         this.currentUser = user
-
         sessionStorage.setItem('login', JSON.stringify(user));
-
     }
+
 
     @action filterFoodByBudget = budget => this.filteredFoodArray = this.foods.filter(f => f.budget <= budget)
 
@@ -145,44 +179,6 @@ export class GeneralStore {
         let newUser = await axios.post(`${API_URL}/user`, user)
     }
 
-    @action sortUsersByInterests = users => {
-        let rating = {}
-        users.forEach(u => rating[u.email] = 0)
-        for (let user of users) {
-            for (let inter of user.interests) {
-                for (let inter2 of this.currentUser.interests) {
-                    if (inter2 === inter) {
-                        rating[user.email]++
-                    }
-                }
-            }
-        }
 
-        console.log(rating)
-        let emails = Object.keys(rating)
-        let sortedEmails = []
-        let maxInterests = -1
-        let maxEmail = ""
-        while (emails.length) {
-            for (let email of emails) {
-                if (rating[email] > maxInterests) {
-                    maxInterests = rating[email]
-                    maxEmail = email
-                }
-            }
-            sortedEmails.push(maxEmail)
-            let index = emails.findIndex(e => e === maxEmail)
-            emails.splice(index, 1)
-            maxInterests =-1
-            maxEmail = ""
-        }
-        let sortedUsers = []
-        sortedEmails.forEach(e => sortedUsers.push(this.getUserByEmail(e)))
-        console.log(sortedEmails)
-        console.log(sortedUsers)
-        return sortedUsers
-    }
-
-    @action getUserByEmail = email => this.users.find(u => u.email === email)
-
+   
 }
