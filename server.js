@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const api = require('./server/routes/api')
 const mongoose = require('mongoose')
 const socket = require('socket.io');
-const rp = require('request-promise')
 const SocketCom = require('./server/socket-com')
 
 
@@ -43,13 +42,14 @@ io.on('connection', (socket) => {
 
     socket.on('USER_IN', function(data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
+        socketCom.makeActive(data.currentUser, true)
     })
     
     
     socket.on('MATCH', function(data){
         let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
         // console.log(userSocketId)
-        let matchEmail = data.currentUser 
+        let matchEmail = data.currentUser
         socket.broadcast.to(userSocketId).emit('RECEIVE_MATCH', matchEmail)
         // io.emit('RECEIVE_MATCH', data)
     })
@@ -64,4 +64,8 @@ io.on('connection', (socket) => {
         // io.emit('RECEIVE_MESSAGE', data);
     })
     
+})
+
+io.on('disconnect', () => {
+    socketCom.saveIdToUser("", data.currentUser)
 })

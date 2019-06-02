@@ -42,7 +42,7 @@ class App extends Component {
         <Route exact path='/home' render={() => <HomePage />} />
         <Route exact path='/food-room' render={() => <FoodRoom />} />
         <Route exact path='/show-match' render={() => <ShowMatch />} />
-        <Route exact path='/chat' render={() => <Chat />} />
+        <Route exact path='/chat' render={() => <Chat />} /> 
         <Route exact path='/profile' render={() => <Profile />} />
 
       </Router>

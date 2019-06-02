@@ -11,7 +11,9 @@ const userSchema = new Schema({
     interests : [String], 
     profilePic : String,
     interestedFood: [String],
-    matchedWith: [String]
+    matchedWith: [String],
+    socketId: String,
+    isActive: Boolean
 })
 
 const User = mongoose.model('User', userSchema, "Users")
