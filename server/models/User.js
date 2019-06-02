@@ -12,6 +12,8 @@ const userSchema = new Schema({
     profilePic : String,
     interestedFood: [String],
     matchedWith: [String],
+    socketId: String,
+    isActive: Boolean,
     kosher: Boolean,
     vegan: Boolean,
     vegetarian: Boolean

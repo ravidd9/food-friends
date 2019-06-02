@@ -5,8 +5,8 @@ const User = require('../models/User')
 const Food = require('../models/Food')
 const path = require("path");
 
-const foods = require('../data')
-const users = require('../data')
+// const foods = require('../data')
+// const users = require('../data')
 
 const multer = require("multer");
 
