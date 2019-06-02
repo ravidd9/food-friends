@@ -13,9 +13,9 @@ class Profile extends Component {
     constructor() {
         super()
         this.state = {
-            oldPass1: "",
-            oldPass2: "",
-            newPass: "",
+            oldPass: "",
+            newPass1: "",
+            newPass2: "",
             interests: [],
             error: ""
         }
@@ -30,17 +30,19 @@ class Profile extends Component {
     changePassword = () => {
         let generalStore = this.props.generalStore
         this.setState({ error: "" })
-        if (this.state.oldPass1 && this.state.oldPass2 && this.state.newPass) {
+        if (this.state.oldPass && this.state.newPass1 && this.state.newPass2) {
 
-            if (this.state.oldPass1 === this.state.oldPass2) {
+            if (this.state.newPass1 === this.state.mewPass2) {
                 if (generalStore.currentUser.password === this.state.oldPass1) {
-                    generalStore.currentUser.password = this.state.newPass
+                    generalStore.currentUser.password = this.state.newPass1
                     generalStore.updateUser("password")
+                    window.location = "http://localhost:3000/home"
+
                 } else {
-                    this.setState({ error: "Wrong old password (input #1)" })
+                    this.setState({ error: "Wrong old password" })
                 }
             } else {
-                this.setState({ error: "Old Passwords do not match" })
+                this.setState({ error: "New Passwords do not match" })
             }
         } else {
             this.setState({ error: "Empty Fields" })
@@ -51,6 +53,7 @@ class Profile extends Component {
         let generalStore = this.props.generalStore
         generalStore.currentUser.interests = this.state.interests
         generalStore.updateUser("interests")
+        window.location = "http://localhost:3000/home"
     }
 
     componentDidMount = () => this.setState({ interests: this.props.generalStore.currentUser.interests })
@@ -63,9 +66,9 @@ class Profile extends Component {
                     <div id="profileForms">
                         <div id="passwordChange">
                             <h2>Change Password</h2>
-                            <input type="password" name="oldPass1" onChange={this.handleInput} placeholder="Enter Old Password" />
-                            <input type="password" name="oldPass2" onChange={this.handleInput} placeholder="Re-Enter Old Password" />
-                            <input type="password" name="newPass" onChange={this.handleInput} placeholder="Enter New Password" />
+                            <input type="password" name="oldPass" onChange={this.handleInput} placeholder="Enter Old Password" />
+                            <input type="password" name="newPass1" onChange={this.handleInput} placeholder="Enter New Password" />
+                            <input type="password" name="newPass2" onChange={this.handleInput} placeholder="Re-Enter New Password" />
                             <button onClick={this.changePassword}>Change Password</button>
                             <div className="error">{this.state.error}</div>
                         </div>

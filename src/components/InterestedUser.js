@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import '../style/InterestedUser.css';
 import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom'
-import "../style/InterestedUser.css"
+
 
 @inject("generalStore")
 @observer
+
+
 class InterestedUser extends Component {
     constructor() {
         super()
         this.state = {
-            haveMatched: false
+            haveMatched: false,
+
         }
     }
 
@@ -26,26 +29,18 @@ class InterestedUser extends Component {
 
         return (
             <div className="interestedUser">
-                <span className="profilePic">
+                <div className="profilePic">
                     <img src={user.profilePic} />
-                    <span className="nameContainer">
-                        <span className="name">{user.firstName.toUpperCase()} {user.lastName.toUpperCase()}</span>
-                        <span className="interests">
-                            INTERESTS : {user.interests.map((inter, i) => <span key={i} className="inter">{inter.toUpperCase()} </span>)}
-                        </span>
-                    </span>
-                </span>
-
-
-                {/* <span className="wouldLove">
-                    PARTNET FOR : {user.interestedFood.map(i => <span className="inter">{i.toUpperCase()} </span>)}
-                </span> */}
+                </div>
+                <div className="name">{user.firstName.toUpperCase()} {user.lastName.toUpperCase()}</div>
+                <div className="interests">
+                    {user.interests.map((inter, i) =>
+                        <span className="inter" key={i}>{inter.toUpperCase()}</span>)}
+                </div>
                 {!this.state.haveMatched ?
                     <span className="match" onClick={this.matchUsers}>Match !</span> :
-                    <Link to="show-match"><span className="show-match" onClick={this.showMatch}>CHAT</span></Link>
-                }
-
-            </div>
+                    <Link to="show-match"><span className="show-match" onClick={this.showMatch}>CHAT</span></Link>}
+            </div >
 
         );
     }
