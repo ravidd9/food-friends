@@ -9,6 +9,7 @@ import ShowMatch from './components/ShowMatch';
 import ButtonAppBar from './components/ButtonAppBar';
 import TemporaryDrawer from './components/TemporaryDrawer';
 import Profile from './components/Profile';
+import SimpleSnackbar from './components/SimpleSnackbar';
 
 
 
@@ -30,6 +31,7 @@ class App extends Component {
   render() {
     return (
       <Router>
+        <SimpleSnackbar />
         <ButtonAppBar />
         <Route exact path='/' render={() => <Landing />} />
         <Route exact path='/home' render={() => <HomePage />} />

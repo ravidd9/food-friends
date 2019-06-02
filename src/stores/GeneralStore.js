@@ -11,7 +11,7 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable budget = 150
-    
+    @observable matchNotification = {open: false, name: ""}
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {
     //     _id: "5cee3ef7c5a16519f8094d69",
@@ -73,12 +73,15 @@ export class GeneralStore {
 
     updateSessionStorage = user => sessionStorage.setItem('login', JSON.stringify(user))
 
-    updateUser = async user => await axios.put(`${API_URL}/user/interestedFood`, user)
+    updateUserInDB = async (user, value) => await axios.put(`${API_URL}/user/${value}`, user)
 
     @action addInterestedFood = async () => {
         this.currentUser.interestedFood = this.filteredFood
+        this.updateUser('interestedFood')
+    }
 
-        await this.updateUser(this.currentUser)
+    @action updateUser = async valueToUpdate => {
+        await this.updateUserInDB(this.currentUser, valueToUpdate)
         this.updateSessionStorage(this.currentUser)
 
         await this.getUsersFromDB()
@@ -137,9 +140,12 @@ export class GeneralStore {
     }
 
 
-    @action addMatch = data => {
-        console.log(data);
-        alert(data)
+    @action addMatch = async name => {
+        let properCaseName = name[0].toUpperCase() + name.slice(1)
+        this.handleMatchNotification(true, properCaseName)
+        this.currentUser.matchedWith.push(name)
+
+        await this.updateUser('matchedWith')
     }
 
     @action matchUsers = (email) => {
@@ -155,7 +161,8 @@ export class GeneralStore {
             matchedUser: matchedUser.firstName
         })
     }
-
+    
+    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {open: shouldOpen, name}
 
 
     @action checkLogin = (email, password) => {
