@@ -4,6 +4,7 @@ import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
 
+
 const API_URL = 'http://localhost:8000'
 
 export class GeneralStore {
@@ -11,7 +12,8 @@ export class GeneralStore {
     @observable foods = []
     @observable filteredFood = []
     @observable budget = 150
-    @observable matchNotification = {open: false, name: ""}
+    @observable socket = io('localhost:8000');
+    
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {
     //     _id: "5cee3ef7c5a16519f8094d69",

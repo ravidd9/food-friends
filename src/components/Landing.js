@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../style/Landing.css';
 import Login from './Login';
 import Register from './Register';
+import Chat from './Chat';
 
 
 
