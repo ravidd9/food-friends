@@ -75,12 +75,15 @@ export class GeneralStore {
 
     updateSessionStorage = user => sessionStorage.setItem('login', JSON.stringify(user))
 
-    updateUser = async user => await axios.put(`${API_URL}/user/interestedFood`, user)
+    updateUserInDB = async (user, value) => await axios.put(`${API_URL}/user/${value}`, user)
 
     @action addInterestedFood = async () => {
         this.currentUser.interestedFood = this.filteredFood
+        this.updateUser('interestedFood')
+    }
 
-        await this.updateUser(this.currentUser)
+    @action updateUser = async valueToUpdate => {
+        await this.updateUserInDB(this.currentUser, valueToUpdate)
         this.updateSessionStorage(this.currentUser)
 
         await this.getUsersFromDB()
@@ -139,25 +142,28 @@ export class GeneralStore {
     }
 
 
-    @action addMatch = data => {
-        console.log(data);
-        alert(data)
+    @action addMatch = async email => {
+        let name = this.getUserByEmail(email).firstName
+
+        let properCaseName = name[0].toUpperCase() + name.slice(1)
+
+        this.handleMatchNotification(true, properCaseName)
+        this.currentUser.matchedWith.push(email)
+
+        await this.updateUser('matchedWith')
     }
 
-    @action matchUsers = (email) => {
-        let matchedUser = this.users.find(u => u.email === email)
-        this.currentUser.matchedWith = matchedUser.firstName
-        // console.log(matchedUser)
-        console.log(this.currentUser)
-        matchedUser.matchedWith = this.currentUser.firstName
-        console.log(matchedUser)
+    @action matchUsers = async email => {
+        this.currentUser.matchedWith.push(email)
+        await this.updateUser('matchedWith')
 
         this.socket.emit('MATCH', {
-            currentUser: this.currentUser.firstName,
-            matchedUser: matchedUser.firstName
+            currentUser: this.currentUser.email,
+            matchedUser: email
         })
     }
-
+    
+    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {open: shouldOpen, name}
 
 
     @action checkLogin = (email, password) => {

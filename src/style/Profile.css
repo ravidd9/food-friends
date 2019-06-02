@@ -1,0 +1,29 @@
+#profileForms{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    margin: 10%;
+    height: 150%;
+}
+
+#passwordChange{
+    display: grid;
+    grid-gap: 5%;
+    height: 40vh;
+}
+
+input{
+    font-size: 120%;
+    padding: 2%;
+}
+
+button{
+    font-size: 130%;
+    padding: 2%;
+}
+
+#interestsChange{
+    display: grid;
+    grid-gap: 5%;
+    grid-template-rows: 1fr 2fr 1fr;
+}
+
