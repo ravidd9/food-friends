@@ -11,12 +11,12 @@
     height: 40vh;
 }
 
-input{
+#passwordChange>input{
     font-size: 120%;
     padding: 2%;
 }
 
-button{
+#passwordChange>button{
     font-size: 130%;
     padding: 2%;
 }

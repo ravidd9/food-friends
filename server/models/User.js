@@ -13,7 +13,10 @@ const userSchema = new Schema({
     interestedFood: [String],
     matchedWith: [String],
     socketId: String,
-    isActive: Boolean
+    isActive: Boolean,
+    kosher: Boolean,
+    vegan: Boolean,
+    vegetarian: Boolean
 })
 
 const User = mongoose.model('User', userSchema, "Users")

@@ -38,6 +38,7 @@ export class GeneralStore {
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
     }
+    
     @action saveFood = async (food) => {
         let doesExist = this.foods.some(u => u.name == food)
         console.log(doesExist)
@@ -183,9 +184,6 @@ export class GeneralStore {
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
-    @action addUser = async (firstName, lastName, email, password, interests) => {
-        let user = { firstName, lastName, email, password, interests }
-        await axios.post(`${API_URL}/user`, user)
-    }
+    
 
 }

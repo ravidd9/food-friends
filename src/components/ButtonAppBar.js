@@ -13,21 +13,27 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Home from '@material-ui/icons/Home';
 import HowToReg from '@material-ui/icons/HowToReg';
 import { Link } from 'react-router-dom';
 import "../style/ButtonAppBar.css"
 
 
 const useStyles = makeStyles(theme => ({
+  list: {
+    width: 200,
+  },
   root: {
     flexGrow: 1,
+    background: '#7bed9f',
+    color: 'black'
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
-  },
+  }
 }));
 
 function ButtonAppBar() {
@@ -35,6 +41,7 @@ function ButtonAppBar() {
   const [state, setState] = React.useState({
     left: false
   });
+
 
   const toggleDrawer = (side, open) => event => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -58,6 +65,18 @@ function ButtonAppBar() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
+        <ListItem button key={"Navigation"}>
+          <ListItemText primary={"Navigation"} />
+        </ListItem>
+        <Divider />
+        <Link to="/home">
+          <ListItem button key={"Home"}>
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary={"Home"} />
+          </ListItem>
+        </Link>
         <Link to="/profile">
           <ListItem button key={"Profile"}>
             <ListItemIcon>
@@ -66,19 +85,21 @@ function ButtonAppBar() {
             <ListItemText primary={"Profile"} />
           </ListItem>
         </Link>
-        <ListItem button key={"Matches"}>
-          <ListItemIcon>
-            <HowToReg />
-          </ListItemIcon>
-          <ListItemText primary={"Matches"} />
-        </ListItem>
+        <Link to="/show-match">
+          <ListItem button key={"Matches"}>
+            <ListItemIcon>
+              <HowToReg />
+            </ListItemIcon>
+            <ListItemText primary={"Matches"} />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.root}>
         <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
           {sideList('left')}
         </Drawer>
@@ -87,7 +108,7 @@ function ButtonAppBar() {
             <MenuIcon onClick={toggleDrawer('left', true)} />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            Food-Friends
           </Typography>
 
           <Button color="inherit" onClick={login}>{sessionStorage.login ? "LOGOUT" : "LOGIN"}</Button>
