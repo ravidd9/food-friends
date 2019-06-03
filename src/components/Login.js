@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../style/Login.css';
 import { observer, inject } from 'mobx-react';
 import validator from 'validator'
+import SocialLogin from './SocialLogin';
 
 
 

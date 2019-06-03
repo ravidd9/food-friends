@@ -18,6 +18,21 @@ class Facebook extends Component {
         }
     }
 
+    
+  responseFacebook = response => {
+    // console.log(response);
+
+    this.setState({
+      isLoggedIn: true,
+      userID: response.userID,
+      name: response.name,
+      email: response.email,
+      picture: response.picture.data.url
+    });
+  };
+
+  componentClicked = () => console.log("clicked");
+
     render() {
         let fbContent;
 
@@ -39,7 +54,7 @@ class Facebook extends Component {
         } else {
             fbContent = (
                 <FacebookLogin
-                    appId="189486938370592"
+                    appId="465846097291922"
                     autoLoad={true}
                     fields="name,email,picture"
                     onClick={this.componentClicked}
