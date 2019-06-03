@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
     limits:{fileSize: 1000000},
  }).single("myImage");
 
-const getUsersFromDB = async () => User.find({})
+const getUsersFromDB = async () => User.find({}) //should only query anyone who isActive
 const getFoodsFromDB = async () => Food.find({})
 
 
