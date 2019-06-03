@@ -19,38 +19,34 @@ class HomePage extends Component {
             props.generalStore.addMatch(email)
         })
     }
-
-    logout = () => {
-        sessionStorage.removeItem("login")
-        window.location = "http://localhost:3000/"
-    }
-
+    
     handleChange = e => {
         if (e.key === "Enter") {
             this.props.generalStore.saveFood(e.target.value)
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         let generalStore = this.props.generalStore
         if (generalStore.currentUser.firstName) {
             this.socket.emit('USER_IN', {
                 currentUser: generalStore.currentUser.email
             })
         }
+        await this.props.generalStore.makeActive()
         this.handleLocation()
     }
 
     handleLocation = () => {
         let generalStore = this.props.generalStore
-        if(generalStore.currentUser.location.name){
-            window.navigator.geolocation.getCurrentPosition(function (position) {
-                console.log(position)
-                generalStore.addUserLocation(position)
-            })
+        // if(generalStore.currentUser.location){
 
-            await this.props.generalStore.makeActive()
-        }
+        window.navigator.geolocation.getCurrentPosition(function (position) {
+            console.log(position)
+            generalStore.addUserLocation(position)
+        })
+
+        // }
     }
 
 
@@ -62,7 +58,6 @@ class HomePage extends Component {
                     <div>
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
                         New Food : <input onKeyDown={this.handleChange} />
-                        <button onClick={this.logout}>Log Out</button>
                         <Filters />
                         <FoodContainer />
                     </div> :
