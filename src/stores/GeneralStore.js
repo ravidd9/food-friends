@@ -152,22 +152,22 @@ export class GeneralStore {
         await this.currentUser.conversations.push({ id: conversationId })
         await this.updateUser("conversations")
 
-        if (userConversations == "dannybrudner@gmail.comAndyossidagan@gmail.com" ||
-            "yossidagan@gmail.comAnddannybrudner@gmail.com") {
+        if (userConversations == `${currentUser}And${matchedUser.email}` ||
+            `${matchedUser.email}And${currentUser}`) {
             console.log("Ok")
             await this.updateConversationInDB(message)
         }
-        // else {
-        //     await this.addConversation(newConversationContent)
-        //     await this.getConversationsFromDB()
+        else {
+            await this.addConversation(newConversationContent)
+            await this.getConversationsFromDB()
 
-        // }
+        }
     }
     updateConversationInDB = async (message) => {
         let conversationsFromDB = await this.getConversationsFromDB()
         console.log(conversationsFromDB)
-        let exactConversation = conversationsFromDB.find(c => c.id == "dannybrudner@gmail.comAndyossidagan@gmail.com" ||
-            "yossidagan@gmail.comAnddannybrudner@gmail.com")
+        let exactConversation = conversationsFromDB.find(c => c.id == `${currentUser}And${matchedUser.email}` ||
+        `${matchedUser.email}And${currentUser}`)
         console.log(exactConversation)
         console.log(message[0].message)
 
