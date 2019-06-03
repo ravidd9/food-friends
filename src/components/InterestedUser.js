@@ -13,7 +13,6 @@ class InterestedUser extends Component {
         super()
         this.state = {
             haveMatched: false,
-
         }
     }
 

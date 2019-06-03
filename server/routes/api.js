@@ -45,8 +45,16 @@ router.post(`/user`, async function (req, res) {
     })
 })
 
+// const isEmpty = function (obj) {
+//     for(var key in obj) {
+//         if(obj.hasOwnProperty(key))
+//             return false;
+//     }
+//     return true;
+// }
+
 router.put(`/user/:key`, async function (req, res) {
-    const user = req.body
+    let user = req.body
     let key = req.params.key
     let id = user._id
     let value = user[key]
