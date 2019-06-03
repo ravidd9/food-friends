@@ -13,7 +13,7 @@ export class GeneralStore {
     @observable filteredFood = []
     @observable budget = 150
     @observable socket = io('localhost:8000');
-    @observable matchNotification = {open: false, name: ""}
+    @observable matchNotification = { open: false, name: "" }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     // {
     //     _id: "5cee3ef7c5a16519f8094d69",
@@ -27,13 +27,13 @@ export class GeneralStore {
     //     matchedWith: ""
     // }
     @observable socket = io('localhost:8000');
-    
+
     getUserByEmail = email => this.users.find(u => u.email === email)
 
     getEmailsByUsers = users => users.map(u => u.email)
-    
+
     getFoodByName = name => this.foods.find(f => f.name === name)
-    
+
     @action saveUser = async (user) => {
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
@@ -170,8 +170,8 @@ export class GeneralStore {
             matchedUser: email
         })
     }
-    
-    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {open: shouldOpen, name}
+
+    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = { open: shouldOpen, name }
 
 
     @action checkLogin = (email, password) => {
@@ -186,12 +186,28 @@ export class GeneralStore {
     }
 
 
-    @computed get filterFoodByBudget () {
+    @computed get filterFoodByBudget() {
         return this.foods.filter(f => f.budget <= this.budget)
     }
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
-    
+    @action addUserLocation = async position => {
+        let name = await this.getLocationName(position.coords.latitude, position.coords.longitude)
+        let location = {
+            name,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        }
+        this.currentUser.location = location
+        this.updateUser("location")
+    }
 
+    getLocationName = async (latitude, longitude) => {
+        let apiKey = "AIzaSyDyEUWonGwNpeknij5cwdp94mN4ZL7Raxo"
+        let data = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?key=${apiKey}&latlng=${latitude},${longitude}&sensor=false`)
+        let name = data.data.results[0].formatted_address
+        console.log(name)
+        return name
+    }
 }
