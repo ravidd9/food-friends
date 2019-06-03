@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import FacebookLogin from "react-facebook-login";
 import { Redirect } from 'react-router-dom'
+import "../style/FacebookLogIn.css"
 
 
 @inject("generalStore")
 @observer
-class Facebook extends Component {
+class FacebookLogIn extends Component {
 
     constructor() {
         super()
@@ -53,17 +54,9 @@ class Facebook extends Component {
         if (this.state.isLoggedIn) {
             this.facebookLogin()
             fbContent = (
-                <div
-                    style={{
-                        width: "400px",
-                        margin: "auto",
-                        background: "#f4f4f4",
-                        padding: "20px"
-                    }}
-                >
+                <div id="fbContent">
                     <img src={this.state.picture} alt={this.state.name} />
                     <h2>Welcome {this.state.name}</h2>
-                    Email: {this.state.email}
                 </div>
             );
         } else {
@@ -87,4 +80,4 @@ class Facebook extends Component {
     }
 }
 
-export default Facebook;
+export default FacebookLogIn;

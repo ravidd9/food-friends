@@ -263,8 +263,14 @@ export class GeneralStore {
 
     @action updateFacebookDetails = (details) => {
 
+        let splitName = details.name.split(" ")
 
-        this.facebookDetails.push(details)
+        this.facebookDetails.push({
+            firstName : splitName[0],
+            lastName : splitName[1],
+            email : details.email, 
+            pic : details.pic
+        })
 
         console.log(this.facebookDetails)
 
