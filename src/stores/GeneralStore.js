@@ -4,7 +4,6 @@ import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
 
-
 const API_URL = 'http://localhost:8000'
 
 export class GeneralStore {
@@ -82,8 +81,9 @@ export class GeneralStore {
     }
 
     @action addMessage = data => {
-        alert("OK")
+
         console.log(data)
+
         let matchedUser = data.author
         let message = []
         message.push({ author: data.author, message: data.message })
@@ -113,19 +113,30 @@ export class GeneralStore {
         return usersWithoutCurrent
     }
 
-    pushToConversations = (matchedUser, message) => {
+    pushToConversations = async (matchedUser, message) => {
+
 
         let currentUser = this.currentUser.firstName
         let userConversations = this.changeCurrentUser.conversations
         let conversationId = `${currentUser}And${matchedUser}`
+        let newConversationContent = { id: conversationId, text: message }
+
 
         if (userConversations.some(c => c.id == conversationId)) {
-            this.updateUser(currentUser, message)
+            let conversationToUpdate = userConversations.find = (c => c.id == conversationId)
+            conversationId.push(message)
+            this.updateUser(currentUser, )
         }
         else {
+            await this.addConversation(newConversationContent)
+            await this.getUsersFromDB()
+
+
 
         }
     }
+
+    @action addConversation = (newConversation) => axios.put(`${API_URL}/conversation`, newConversation)
 
     @action findUsersByFoodName = (interestedUsers, foodName) =>
         interestedUsers.filter(u => u.interestedFood.some(f => f === foodName))

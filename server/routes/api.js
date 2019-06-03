@@ -3,6 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/User')
 const Food = require('../models/Food')
+const Conversation = require("../models/Conversation")
 const path = require("path");
 
 // const foods = require('../data')
@@ -42,6 +43,14 @@ router.post(`/user`, async function (req, res) {
     let save = newUser.save()
     save.then(function (user) {
         res.send(user)
+    })
+})
+
+router.post(`/conversation`, async function (req, res) {
+    const newConversation = new Conversation(req.body)
+    let save = newConversation.save()
+    save.then(function (conversation) {
+        res.send(conversation)
     })
 })
 
