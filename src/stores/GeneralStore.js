@@ -3,6 +3,7 @@ import axios from '../../node_modules/axios/dist/axios'
 import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
+const CronJob = require('cron').CronJob
 
 
 const API_URL = 'http://localhost:8000'
@@ -192,6 +193,7 @@ export class GeneralStore {
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
-    
-
+    // job = new CronJob('0 */1 * * * *', function() {
+    //     this.getData
+    // })
 }

@@ -33,6 +33,9 @@ class App extends Component {
   }
 
   render() {
+
+    // this.props.generalStore.job.start()
+
     return (
       <Router>
         <SimpleSnackbar />
