@@ -6,6 +6,8 @@ const api = require('./server/routes/api')
 const mongoose = require('mongoose')
 const socket = require('socket.io');
 const SocketCom = require('./server/socket-com')
+const CronJob = require('cron').CronJob
+const axios = require('axios')
 
 
 
@@ -40,12 +42,12 @@ io = socket(server)
 
 io.on('connection', (socket) => {
 
-    socket.on('USER_IN', async function(data) {
+    socket.on('USER_IN', async function (data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
     })
-    
-    
-    socket.on('MATCH', function(data){
+
+
+    socket.on('MATCH', function (data) {
         let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
         console.log(userSocketId)
         let matchEmail = data.currentUser
@@ -53,7 +55,7 @@ io.on('connection', (socket) => {
         // io.emit('RECEIVE_MATCH', data)
     })
 
-    socket.on('SEND_MESSAGE', function(data){
+    socket.on('SEND_MESSAGE', function (data) {
         console.log(`Recipient name is : ${data.recipient}`)
         let userSocketId = socketCom.findUsersSocketId(data.recipient)
         console.log(`Recipient socketID is : ${userSocketId}`)
@@ -62,9 +64,24 @@ io.on('connection', (socket) => {
 
         // io.emit('RECEIVE_MESSAGE', data);
     })
-    
+
 })
 
 io.on('disconnect', () => {
     socketCom.saveIdToUser("", data.currentUser)
 })
+
+const job = new CronJob('0 */10 * * * *', async function () {
+    let users = await axios.get('http://localhost:8000/users')
+
+    let activeUsers = users.data.filter(u => u.isActive)
+    activeUsers.forEach(u => 
+        parseInt(((new Date() - new Date(u.lastSeen))/1000)/60) > 60 ? u.isActive = false : null)
+    
+    let nonActiveUsers = activeUsers.filter(u => !u.isActive)
+    nonActiveUsers.forEach(u => socketCom.updateUser('isActive', u))
+    
+    await socketCom.getUsers()
+})
+
+job.start()
