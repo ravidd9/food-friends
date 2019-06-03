@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const conversation = require("../models/Conversation")
+const conversationSchema = conversation.conversationSchema
 
 const userSchema = new Schema({
 
@@ -18,11 +20,13 @@ const userSchema = new Schema({
     vegan: Boolean,
     vegetarian: Boolean,
     lastSeen: Date,
+    conversations : [conversationSchema]
     location: {
         name: String,
         latitude: Number,
         longitude: Number
     }
+
 })
 
 const User = mongoose.model('User', userSchema, "Users")

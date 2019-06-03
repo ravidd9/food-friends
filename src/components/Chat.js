@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import io from "socket.io-client";
 import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 
 
 @inject("generalStore")
@@ -12,47 +13,41 @@ class Chat extends Component {
         this.socket = props.generalStore.socket
 
         this.state = {
-            username: props.generalStore.currentUser.firstName,
-            message: '',
-            messages: [],
-            myMessages : []
-        };
-
-
-        this.socket.on('RECEIVE_MESSAGE', function (data) {
-            alert("Matching")
-            addMessage(data);
-        });
-
-        const addMessage = data => {
-            console.log(data);
-            let chat = [...this.state.messages]
-            chat.push({ author : data.author, message : data.message})
-            this.setState({ messages: chat });
-            console.log(this.state.messages);
-            
-        };
-
-        this.sendMessage = ev => {
-            ev.preventDefault();
-            this.socket.emit('SEND_MESSAGE', {
-                author: this.state.username,
-                message: this.state.message,
-                recipient: props.generalStore.currentUser.matchedWith[0]
-            })
-            this.setState({ message: '' });
-
+            message: "",
+            conversations : ""
         }
+
+        this.socket.on('RECEIVE_MESSAGE', async function (data) {
+            console.log(data)
+            await props.generalStore.addMessage(data)
+            this.getConversation()
+        })
+
     }
+
+    getConversation = () => this.setState({conversation : props.generalStore.conversations})
+    sendMessage = ev => {
+        ev.preventDefault();
+        this.socket.emit('SEND_MESSAGE', {
+            author: this.props.generalStore.currentUser.email,
+            message: this.state.message,
+            recipient: this.props.generalStore.currentUser.matchedWith[0]
+        })
+        this.setState({ message: '' });
+        
+
+    }
+
     render() {
+
+        // let userConversation = this.props.generalStore.currentUser.conversations
+
+        console.log(this.state.conversation)
+
         return (
             <div>
                 <div className="chatView">
-                    {this.state.messages.map(m => {
-                        return (
-                            <div>{m.author} : {m.message}</div>
-                        )
-                    })}
+
                 </div>
                 <div className="card-footer">
                     <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
