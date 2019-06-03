@@ -58,6 +58,10 @@ export class GeneralStore {
         let foods = await axios.get(`${API_URL}/foods`)
         this.foods = foods.data
     }
+    @action getConversationsFromDB = async () => {
+        return await axios.get(`${API_URL}/conversations`)
+       
+    }
 
     @action filterFoodByName = async (selectedFood) => {
         if (this.doesExistInFilteredFood(selectedFood)) {
@@ -84,12 +88,14 @@ export class GeneralStore {
 
         console.log(data)
 
-        let matchedUser = data.author
+        let matchedUser = this.users.find(u => u.email == data.author)
+        console.log(matchedUser)
+
         let message = []
         message.push({ author: data.author, message: data.message })
 
-        this.pushToConversations(matchedUser, message)
-        // this.setState({ messages: message });
+        this.pushToConversations(matchedUser.email, message)
+
     };
 
     @action updateUser = async valueToUpdate => {
@@ -116,27 +122,48 @@ export class GeneralStore {
     pushToConversations = async (matchedUser, message) => {
 
 
-        let currentUser = this.currentUser.firstName
-        let userConversations = this.changeCurrentUser.conversations
+        let currentUser = this.currentUser.email
+        let userConversations = this.currentUser.conversations
         let conversationId = `${currentUser}And${matchedUser}`
-        let newConversationContent = { id: conversationId, text: message }
+
+        console.log(conversationId)
+        console.log(message)
+
+        let newConversationContent = {
+            id: conversationId,
+            users: [currentUser, matchedUser],
+            messages: [
+                {
+                    author: message[0].author,
+                    text: message[0].message,
+                    time: new Date()
+                }
+            ]
+        }
+        console.log(newConversationContent)
+
+        // let conversationsFromDB = await this.getConversationsFromDB()
 
 
         if (userConversations.some(c => c.id == conversationId)) {
             let conversationToUpdate = userConversations.find = (c => c.id == conversationId)
-            conversationId.push(message)
-            this.updateUser(currentUser, )
+            conversationToUpdate.push(message)
+
+            userConversations.push(conversationToUpdate)
+            console.log(userConversations)
+
+            await this.updateUser(userConversations)
         }
         else {
             await this.addConversation(newConversationContent)
-            await this.getUsersFromDB()
-
-
-
+            await this.getConversationsFromDB()
+            await this.updateUser(userConversations)
+            // await this.getUsersFromDB()
+            // console.log(this.currentUser.conversations)
         }
     }
 
-    @action addConversation = (newConversation) => axios.put(`${API_URL}/conversation`, newConversation)
+    @action addConversation = (newConversation) => axios.post(`${API_URL}/conversation`, newConversation)
 
     @action findUsersByFoodName = (interestedUsers, foodName) =>
         interestedUsers.filter(u => u.interestedFood.some(f => f === foodName))

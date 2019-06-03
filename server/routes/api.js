@@ -3,11 +3,11 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/User')
 const Food = require('../models/Food')
-const Conversation = require("../models/Conversation")
+const Conversation = require("../models/Conversation").Conversation
 const path = require("path");
 
-// const foods = require('../data')
-// const users = require('../data')
+const foods = require('../data')
+const users = require('../data')
 
 const multer = require("multer");
 
@@ -26,6 +26,8 @@ const storage = multer.diskStorage({
 
 const getUsersFromDB = async () => User.find({})
 const getFoodsFromDB = async () => Food.find({})
+const getConversationsFromDB = async () => Conversation.find({})
+
 
 
 
@@ -47,6 +49,7 @@ router.post(`/user`, async function (req, res) {
 })
 
 router.post(`/conversation`, async function (req, res) {
+    console.log(req.body)
     const newConversation = new Conversation(req.body)
     let save = newConversation.save()
     save.then(function (conversation) {
@@ -76,6 +79,11 @@ router.put(`/user/:key`, async function (req, res) {
 router.get('/foods', async function (req, res) {
     let foods = await getFoodsFromDB()
     res.send(foods)
+})
+
+router.get('/conversations', async function (req, res) {
+    let conversations = await getConversationsFromDB()
+    res.send(conversations)
 })
 
 router.post(`/food`, async function (req, res) {

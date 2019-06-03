@@ -13,23 +13,20 @@ class Chat extends Component {
         this.socket = props.generalStore.socket
 
         this.state = {
-            username: props.generalStore.currentUser.firstName,
-            message: '',
-            messages: [],
-        };
-
+            message: ""
+        }
 
         this.socket.on('RECEIVE_MESSAGE', function (data) {
-            // alert("Matching")
+            console.log(data)
             props.generalStore.addMessage(data)
         })
 
     }
-    
+
     sendMessage = ev => {
         ev.preventDefault();
         this.socket.emit('SEND_MESSAGE', {
-            author: this.state.username,
+            author: this.props.generalStore.currentUser.email,
             message: this.state.message,
             recipient: this.props.generalStore.currentUser.matchedWith[0]
         })
@@ -38,14 +35,15 @@ class Chat extends Component {
     }
 
     render() {
+
+        // let userConversation = this.props.generalStore.currentUser.conversations
+
+        // console.log(userConversation)
+
         return (
             <div>
                 <div className="chatView">
-                    {this.state.messages.map(m => {
-                        return (
-                            <div>{m.author} : {m.message}</div>
-                        )
-                    })}
+
                 </div>
                 <div className="card-footer">
                     <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
