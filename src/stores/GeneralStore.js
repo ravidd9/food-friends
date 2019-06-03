@@ -194,6 +194,6 @@ export class GeneralStore {
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
     // job = new CronJob('0 */1 * * * *', function() {
-    //     this.getData
+    //     this.getUsersFromDB()
     // })
 }
