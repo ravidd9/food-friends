@@ -9,8 +9,8 @@ let users = [
         interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
         interestedFood : ["hamburger", "shawarma"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(1993, 10, 24)
     },
     {
         firstName: "yossi",
@@ -22,8 +22,8 @@ let users = [
         interests: ["nba", "beach", "css"],
         interestedFood : ["hamburger", "pancakes"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(1993, 10, 24)
     },
     {
         firstName: "ravid",
@@ -35,8 +35,8 @@ let users = [
         interests: ["coding", "soccer", "business"],
         interestedFood :  ["pancakes", "falafel"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(1993, 10, 24)
     },
     {
         firstName: "srul",
@@ -48,8 +48,8 @@ let users = [
         interests: ["nba", "game of thrones", "plants"],
         interestedFood :  ["philly cheessteak", "falafel"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(1993, 10, 24)
     },
     {
         firstName: "paul",
@@ -61,8 +61,8 @@ let users = [
         interests: ["dungeons and dragons", "history"],
         interestedFood :  ["philly cheessteak", "shawarma"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(1993, 10, 24)
     },
     {
         firstName: "avishai",
@@ -74,8 +74,8 @@ let users = [
         interests: ["game of thrones", "aepi"],
         interestedFood :  ["fried wings", "pizza"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(1993, 10, 24)
     },
     {
         firstName: "nadav",
@@ -87,8 +87,8 @@ let users = [
         interests: ["programming", "entrepreneurship", "game of thrones"],
         interestedFood :  ["pancakes", "pizza"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date()
     },
     {
         firstName: "jona",
@@ -100,8 +100,8 @@ let users = [
         interests: ["literature", "algorithms", "biking"],
         interestedFood :  ["fried wings", "falafel"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date()
     },
     {
         firstName: "hunter",
@@ -113,8 +113,8 @@ let users = [
         interests: ["literature", "theatre", "puns"],
         interestedFood :  ["shawarma", "falafel"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date()
     },
     {
         firstName: "corinne",
@@ -126,8 +126,8 @@ let users = [
         interests: ["pets", "coding", "education"],
         interestedFood :  ["hamburger", "pizza"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(2019, 5, 3)
     },
     {
         firstName: "chen",
@@ -139,8 +139,8 @@ let users = [
         interests: ["soccer", "coding", "economics"],
         interestedFood :  ["hamburger", "falafel"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(2019, 5, 3)
     },
     {
 
@@ -153,8 +153,8 @@ let users = [
         interests: ["travel", "baking", "web"],
         interestedFood :  ["philly cheessteak", "fried wings"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date()
     },
     {
         firstName: "mor",
@@ -166,8 +166,8 @@ let users = [
         interests: ["board games", "gaming", "sports"],
         interestedFood :  ["pizza", "shawarma"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date()
     },
     {
         firstName: "reuben",
@@ -179,8 +179,8 @@ let users = [
         interests: ["blogging", "digital marketing"],
         interestedFood :  ["falafel", "shawarma"],
         matchedWith: [],
-        socketId: "",
-        isActive: false
+        isActive: false,
+        lastSeen: new Date(2011, 10, 24)
     }
 ]
 

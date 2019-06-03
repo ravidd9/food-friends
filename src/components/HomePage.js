@@ -33,12 +33,14 @@ class HomePage extends Component {
     }
 
     toggleChat = () => this.setState({chat : true})
-    componentDidMount = () => {
+    componentDidMount = async () => {
 
         if (this.props.generalStore.currentUser.firstName) {
             this.socket.emit('USER_IN', {
                 currentUser: this.props.generalStore.currentUser.email
             })
+
+            await this.props.generalStore.makeActive()
         }
     }
 

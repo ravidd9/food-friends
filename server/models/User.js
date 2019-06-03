@@ -16,7 +16,8 @@ const userSchema = new Schema({
     isActive: Boolean,
     kosher: Boolean,
     vegan: Boolean,
-    vegetarian: Boolean
+    vegetarian: Boolean,
+    lastSeen: Date
 })
 
 const User = mongoose.model('User', userSchema, "Users")
