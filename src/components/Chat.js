@@ -38,8 +38,6 @@ class Chat extends Component {
 
     render() {
 
-        // let userConversation = this.props.generalStore.currentUser.conversations
-
         console.log(this.state.conversation)
 
         return (

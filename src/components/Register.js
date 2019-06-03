@@ -119,7 +119,7 @@ class Register extends Component {
 
             <div id="register">
 
-                <div>Sign up using Facebook </div>
+                <h3>Sign up using Facebook </h3>
                 <FacebookLogIn facebookLogin={this.facebookLogin} />
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
