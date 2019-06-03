@@ -41,6 +41,7 @@ class Login extends Component {
     render() {
         return (
             <div id="login">
+                <SocialLogin />
                 <div>Already a member?</div>
                 <div id="loginForm">
                     <div>Email</div>
