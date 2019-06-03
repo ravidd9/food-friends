@@ -31,8 +31,6 @@ class HomePage extends Component {
         }
     }
 
-    toggleChat = () => this.setState({ chat: true })
-
     componentDidMount = () => {
         let generalStore = this.props.generalStore
         if (generalStore.currentUser.firstName) {
@@ -50,6 +48,8 @@ class HomePage extends Component {
                 console.log(position)
                 generalStore.addUserLocation(position)
             })
+
+            await this.props.generalStore.makeActive()
         }
     }
 

@@ -17,6 +17,7 @@ const userSchema = new Schema({
     kosher: Boolean,
     vegan: Boolean,
     vegetarian: Boolean,
+    lastSeen: Date,
     location: {
         name: String,
         latitude: Number,
