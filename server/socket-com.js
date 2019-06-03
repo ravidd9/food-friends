@@ -1,4 +1,5 @@
-const rp = require('request-promise')
+const rp = require('request-promise-any')
+const axios = require('axios')
 
 class SocketCom {
     constructor() {
@@ -14,20 +15,17 @@ class SocketCom {
         let user = this.findUserByEmail(email)
         user.isActive = flag
 
-        await this.updateUser('makeActive', user)
+        await this.updateUser('isActive', user)
         await this.getUsers()
     }
 
     async updateUser (valueToUpdate, user) {
-        await rp.put(`http://localhost:8000/user/${valueToUpdate}`, user)
+        await axios.put(`http://localhost:8000/user/${valueToUpdate}`, user)
     }
 
-    async saveIdToUser(id, email) {
+    saveIdToUser(id, email) {
         let user = this.findUserByEmail(email)
         user.socketId = id
-
-        await this.updateUser('socketId', user)
-        await this.getUsers()
     }
 
     findUserByEmail(email) {

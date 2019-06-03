@@ -40,9 +40,8 @@ io = socket(server)
 
 io.on('connection', (socket) => {
 
-    socket.on('USER_IN', function(data) {
+    socket.on('USER_IN', async function(data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
-        socketCom.makeActive(data.currentUser, true)
     })
     
     

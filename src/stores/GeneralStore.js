@@ -38,6 +38,14 @@ export class GeneralStore {
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
     }
+
+    @action makeActive = async () => {
+        this.currentUser.isActive = true
+        this.currentUser.lastSeen = new Date()
+
+        await this.updateUserInDB(this.currentUser, 'isActive')
+        await this.updateUser('lastSeen', this.currentUser)
+    }
     
     @action saveFood = async (food) => {
         let doesExist = this.foods.some(u => u.name == food)
