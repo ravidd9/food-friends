@@ -13,27 +13,17 @@ export class GeneralStore {
     @observable filteredFood = []
     @observable budget = 150
     @observable socket = io('localhost:8000');
-    @observable matchNotification = {open: false, name: ""}
+    @observable matchNotification = { open: false, name: "" }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
-    // {
-    //     _id: "5cee3ef7c5a16519f8094d69",
-    //     firstName: "danny",
-    //     lastName: "brudner",
-    //     interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
-    //     interestedFood: [],
-    //     email: "dannybrudner@gmail.com",
-    //     password: "dannyb",
-    //     profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
-    //     matchedWith: ""
-    // }
+
     @observable socket = io('localhost:8000');
-    
+
     getUserByEmail = email => this.users.find(u => u.email === email)
 
     getEmailsByUsers = users => users.map(u => u.email)
-    
+
     getFoodByName = name => this.foods.find(f => f.name === name)
-    
+
     @action saveUser = async (user) => {
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
@@ -46,7 +36,7 @@ export class GeneralStore {
         await this.updateUserInDB(this.currentUser, 'isActive')
         await this.updateUser('lastSeen', this.currentUser)
     }
-    
+
     @action saveFood = async (food) => {
         let doesExist = this.foods.some(u => u.name == food)
         console.log(doesExist)
@@ -91,6 +81,17 @@ export class GeneralStore {
         this.updateUser('interestedFood')
     }
 
+    @action addMessage = data => {
+        alert("OK")
+        console.log(data)
+        let matchedUser = data.author
+        let message = []
+        message.push({ author: data.author, message: data.message })
+
+        this.pushToConversations(matchedUser, message)
+        // this.setState({ messages: message });
+    };
+
     @action updateUser = async valueToUpdate => {
         await this.updateUserInDB(this.currentUser, valueToUpdate)
         this.updateSessionStorage(this.currentUser)
@@ -110,6 +111,20 @@ export class GeneralStore {
         let currentUserIndex = usersWithoutCurrent.findIndex(u => u.email == this.currentUser.email)
         usersWithoutCurrent.splice(currentUserIndex, 1)
         return usersWithoutCurrent
+    }
+
+    pushToConversations = (matchedUser, message) => {
+
+        let currentUser = this.currentUser.firstName
+        let userConversations = this.changeCurrentUser.conversations
+        let conversationId = `${currentUser}And${matchedUser}`
+
+        if (userConversations.some(c => c.id == conversationId)) {
+            this.updateUser(currentUser, message)
+        }
+        else {
+
+        }
     }
 
     @action findUsersByFoodName = (interestedUsers, foodName) =>
@@ -170,8 +185,8 @@ export class GeneralStore {
             matchedUser: email
         })
     }
-    
-    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {open: shouldOpen, name}
+
+    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = { open: shouldOpen, name }
 
 
     @action checkLogin = (email, password) => {
@@ -186,12 +201,12 @@ export class GeneralStore {
     }
 
 
-    @computed get filterFoodByBudget () {
+    @computed get filterFoodByBudget() {
         return this.foods.filter(f => f.budget <= this.budget)
     }
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
-    
+
 
 }

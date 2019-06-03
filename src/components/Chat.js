@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import io from "socket.io-client";
 import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 
 
 @inject("generalStore")
@@ -15,38 +16,26 @@ class Chat extends Component {
             username: props.generalStore.currentUser.firstName,
             message: '',
             messages: [],
-            myMessages: []
         };
 
 
         this.socket.on('RECEIVE_MESSAGE', function (data) {
-            alert("Matching")
-            addMessage(data);
-        });
+            // alert("Matching")
+            props.generalStore.addMessage(data)
+        })
 
-        const addMessage = data => {
-            console.log(data);
-            let chat = [...this.state.messages]
-            chat.push({ author: data.author, message: data.message })
-            this.setState({ messages: chat });
-            console.log(this.state.messages);
-
-        };
-
-        this.sendMessage = ev => {
-            ev.preventDefault();
-            this.socket.emit('SEND_MESSAGE', {
-                author: this.state.username,
-                message: this.state.message,
-                recipient: props.generalStore.currentUser.matchedWith[0]
-            })
-            this.setState({ message: '' });
-
-        }
     }
+    
+    sendMessage = ev => {
+        ev.preventDefault();
+        this.socket.emit('SEND_MESSAGE', {
+            author: this.state.username,
+            message: this.state.message,
+            recipient: this.props.generalStore.currentUser.matchedWith[0]
+        })
+        this.setState({ message: '' });
 
-  
-
+    }
 
     render() {
         return (
