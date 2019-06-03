@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../style/Login.css';
 import { observer, inject } from 'mobx-react';
 import validator from 'validator'
-import SocialLogin from './SocialLogin';
 
 
 
@@ -42,7 +41,6 @@ class Login extends Component {
     render() {
         return (
             <div id="login">
-                <SocialLogin />
                 <div>Already a member?</div>
                 <div id="loginForm">
                     <div>Email</div>

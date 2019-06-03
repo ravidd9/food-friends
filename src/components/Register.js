@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import TagsInput from 'react-tagsinput'
 import validator from 'validator'
 import 'react-tagsinput/react-tagsinput.css'
+import Facebook from './Facebook';
 
 
 @inject("generalStore")
@@ -23,7 +24,8 @@ class Register extends Component {
             file: null,
             kosher: false,
             vegan: false,
-            vegetarian: false
+            vegetarian: false,
+            isFacebookLoggidIn : false
         }
 
     }
@@ -44,7 +46,7 @@ class Register extends Component {
                 this.setState({ userExist: true })
             }
             else {
-               this.createNewUser()
+                this.createNewUser()
             }
         } else {
             this.setState({ invalidInput: true })
@@ -61,7 +63,12 @@ class Register extends Component {
 
     handleInterests = interests => this.setState({ interests })
 
-    createNewUser = async () =>{
+    facebookLogin = () => {
+        this.setState({isFacebookLoggidIn : true})
+        this.setState({firstName : this.generalStore.facebookDetails.name})
+    }
+
+    createNewUser = async () => {
         let s = this.state
         let newUser = {
             firstName: s.firstName,
@@ -77,7 +84,7 @@ class Register extends Component {
         this.changeLogin()
     }
 
-    handleCheckBox = e => this.setState({[e.target.name]: !this.state[e.target.name]})
+    handleCheckBox = e => this.setState({ [e.target.name]: !this.state[e.target.name] })
 
 
     // onFormSubmit = (e) => {
@@ -102,11 +109,14 @@ class Register extends Component {
 
     render() {
         return (
+
             <div id="register">
 
+                <div>Sign up using Facebook </div>
+                <Facebook facebookLogin={this.facebookLogin} />
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
-                    <div>First Name</div>
+                    <div>First Name</div>   
                     <input type="text" placeholder="Enter First Name" name="firstName" onChange={this.handleInput} />
                     <div>Last Name</div>
                     <input type="text" placeholder="Enter Last Name" name="lastName" onChange={this.handleInput} />

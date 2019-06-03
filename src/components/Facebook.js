@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import FacebookLogin from "react-facebook-login";
+import { Redirect } from 'react-router-dom'
 
 
 @inject("generalStore")
@@ -18,25 +19,39 @@ class Facebook extends Component {
         }
     }
 
-    
-  responseFacebook = response => {
-    // console.log(response);
 
-    this.setState({
-      isLoggedIn: true,
-      userID: response.userID,
-      name: response.name,
-      email: response.email,
-      picture: response.picture.data.url
-    });
-  };
+    responseFacebook = response => {
+        // console.log(response);
 
-  componentClicked = () => console.log("clicked");
+        this.setState({
+            isLoggedIn: true,
+            userID: response.userID,
+            name: response.name,
+            email: response.email,
+            picture: response.picture.data.url
+        });
+    };
+
+    updateFacebookDetails = () => {
+        let details = {
+            name: this.state.name,
+            email: this.state.email,
+            pic: this.state.picture
+        }
+        console.log(details)
+        this.props.generalStore.updateFacebookDetails(details)
+    }
+
+    facebookLogin = () => this.props.facebookLogin()
+
+    componentClicked = () => console.log("clicked");
 
     render() {
+
         let fbContent;
 
         if (this.state.isLoggedIn) {
+            this.facebookLogin()
             fbContent = (
                 <div
                     style={{
@@ -63,7 +78,12 @@ class Facebook extends Component {
             );
         }
 
-        return <div>{fbContent}</div>;
+        return (
+            <div>
+                {this.state.isLoggedIn ? this.updateFacebookDetails() : null}
+                <div>{fbContent}</div>
+            </div>
+        )
     }
 }
 

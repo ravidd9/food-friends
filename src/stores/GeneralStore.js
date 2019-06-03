@@ -15,6 +15,7 @@ export class GeneralStore {
     @observable matchNotification = { open: false, name: "" }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     @observable conversations = []
+    @observable facebookDetails = []
 
     @observable socket = io('localhost:8000');
 
@@ -260,13 +261,20 @@ export class GeneralStore {
         sessionStorage.setItem('login', JSON.stringify(user));
     }
 
+    @action updateFacebookDetails = (details) => {
+
+
+        this.facebookDetails.push(details)
+
+        console.log(this.facebookDetails)
+
+    }
 
     @computed get filterFoodByBudget() {
         return this.foods.filter(f => f.budget <= this.budget)
     }
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
-
 
 
 }
