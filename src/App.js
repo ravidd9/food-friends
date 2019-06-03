@@ -25,6 +25,9 @@ class App extends Component {
   componentDidMount = async () => {
     await this.props.generalStore.getFoodsFromDB()
     await this.props.generalStore.getUsersFromDB()
+    window.navigator.geolocation.getCurrentPosition(function(pos) {
+      console.log(pos)
+    })
   }
 
   componentDidUpdate = async () => {

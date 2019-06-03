@@ -16,7 +16,12 @@ const userSchema = new Schema({
     isActive: Boolean,
     kosher: Boolean,
     vegan: Boolean,
-    vegetarian: Boolean
+    vegetarian: Boolean,
+    location: {
+        name: String,
+        latitude: Number,
+        longitude: Number
+    }
 })
 
 const User = mongoose.model('User', userSchema, "Users")

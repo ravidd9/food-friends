@@ -74,7 +74,8 @@ class Register extends Component {
             vegetarian: s.vegetarian
         }
         await this.props.generalStore.saveUser(newUser)
-        this.changeLogin()
+        this.props.generalStore.changeCurrentUser(newUser)
+        window.location = "http://localhost:3000/home" 
     }
 
     handleCheckBox = e => this.setState({[e.target.name]: !this.state[e.target.name]})

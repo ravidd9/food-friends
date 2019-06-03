@@ -18,7 +18,6 @@ class HomePage extends Component {
         this.socket.on('RECEIVE_MATCH', function (email) {
             props.generalStore.addMatch(email)
         })
-
     }
 
     logout = () => {
@@ -32,15 +31,28 @@ class HomePage extends Component {
         }
     }
 
-    toggleChat = () => this.setState({chat : true})
-    componentDidMount = () => {
+    toggleChat = () => this.setState({ chat: true })
 
-        if (this.props.generalStore.currentUser.firstName) {
+    componentDidMount = () => {
+        let generalStore = this.props.generalStore
+        if (generalStore.currentUser.firstName) {
             this.socket.emit('USER_IN', {
-                currentUser: this.props.generalStore.currentUser.email
+                currentUser: generalStore.currentUser.email
+            })
+        }
+        this.handleLocation()
+    }
+
+    handleLocation = () => {
+        let generalStore = this.props.generalStore
+        if(generalStore.currentUser.location.name){
+            window.navigator.geolocation.getCurrentPosition(function (position) {
+                console.log(position)
+                generalStore.addUserLocation(position)
             })
         }
     }
+
 
     render() {
         let generalStore = this.props.generalStore
@@ -55,7 +67,7 @@ class HomePage extends Component {
                         <FoodContainer />
                     </div> :
                     <Redirect to="/" />}
-                    {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
+                {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
             </div>
         );
     }

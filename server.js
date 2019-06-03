@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 
     socket.on('USER_IN', function(data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
-        socketCom.makeActive(data.currentUser, true)
+        socketCom.toggleIsActive(data.currentUser, true)
     })
     
     
