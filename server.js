@@ -42,13 +42,13 @@ io.on('connection', (socket) => {
 
     socket.on('USER_IN', function(data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
-        socketCom.makeActive(data.currentUser, true)
+        socketCom.toggleIsActive(data.currentUser, true)
     })
     
     
     socket.on('MATCH', function(data){
         let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
-        // console.log(userSocketId)
+        console.log(userSocketId)
         let matchEmail = data.currentUser
         socket.broadcast.to(userSocketId).emit('RECEIVE_MATCH', matchEmail)
         // io.emit('RECEIVE_MATCH', data)

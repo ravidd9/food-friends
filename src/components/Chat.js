@@ -15,7 +15,7 @@ class Chat extends Component {
             username: props.generalStore.currentUser.firstName,
             message: '',
             messages: [],
-            myMessages : []
+            myMessages: []
         };
 
 
@@ -27,10 +27,10 @@ class Chat extends Component {
         const addMessage = data => {
             console.log(data);
             let chat = [...this.state.messages]
-            chat.push({ author : data.author, message : data.message})
+            chat.push({ author: data.author, message: data.message })
             this.setState({ messages: chat });
             console.log(this.state.messages);
-            
+
         };
 
         this.sendMessage = ev => {
@@ -44,6 +44,10 @@ class Chat extends Component {
 
         }
     }
+
+  
+
+
     render() {
         return (
             <div>
