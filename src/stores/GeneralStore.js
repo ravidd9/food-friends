@@ -14,6 +14,7 @@ export class GeneralStore {
     @observable socket = io('localhost:8000');
     @observable matchNotification = { open: false, name: "" }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
+    @observable conversations = []
 
     @observable socket = io('localhost:8000');
 
@@ -60,9 +61,9 @@ export class GeneralStore {
     }
 
     getConversationsFromDB = async () => {
-        let conversations = await axios.get(`${API_URL}/conversations`)
-
-        return conversations.data
+        let conversationsFromDB = await axios.get(`${API_URL}/conversations`)
+        await this.conversations.push(conversationsFromDB)
+        return conversationsFromDB.data
 
     }
 
@@ -168,11 +169,17 @@ export class GeneralStore {
         let exactConversation = conversationsFromDB.find(c => c.id == "dannybrudner@gmail.comAndyossidagan@gmail.com" ||
             "yossidagan@gmail.comAnddannybrudner@gmail.com")
         console.log(exactConversation)
-        exactConversation.messages.push(message)
+        console.log(message[0].message)
+
+        exactConversation.messages.push({
+            author: message[0].author,
+            text: message[0].message,
+            time: new Date()
+        })
         console.log(exactConversation)
 
-        axios.put(`${API_URL}/conversation/update`, exactConversation);
-        
+        await axios.put(`${API_URL}/conversations/update`, exactConversation);
+        await this.getConversationsFromDB()
     }
 
 

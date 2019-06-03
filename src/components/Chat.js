@@ -13,12 +13,14 @@ class Chat extends Component {
         this.socket = props.generalStore.socket
 
         this.state = {
-            message: ""
+            message: "",
+            conversation : ""
         }
 
-        this.socket.on('RECEIVE_MESSAGE', function (data) {
+        this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
-            props.generalStore.addMessage(data)
+            await props.generalStore.addMessage(data)
+            this.setState({conversation : props.generalStore.conversations})
         })
 
     }
@@ -38,7 +40,7 @@ class Chat extends Component {
 
         // let userConversation = this.props.generalStore.currentUser.conversations
 
-        // console.log(userConversation)
+        console.log(this.state.conversation)
 
         return (
             <div>
