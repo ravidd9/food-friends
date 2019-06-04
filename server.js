@@ -42,7 +42,9 @@ io = socket(server)
 
 io.on('connection', (socket) => {
 
-    socket.on('USER_IN', async function (data) {
+    socket.emit('GET_USERNAME')
+
+    socket.on('SAVE_ID', async function (data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
     })
 

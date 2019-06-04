@@ -33,12 +33,6 @@ class HomePage extends Component {
     addFood = () => this.props.generalStore.saveFood(this.state.foodInput)
 
     componentDidMount = async () => {
-        let generalStore = this.props.generalStore
-        if (generalStore.currentUser.firstName) {
-            this.socket.emit('USER_IN', {
-                currentUser: generalStore.currentUser.email
-            })
-        }
         await this.props.generalStore.makeActive()
         this.handleLocation()
     }
