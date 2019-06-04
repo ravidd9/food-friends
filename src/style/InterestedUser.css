@@ -63,7 +63,7 @@
     display: inline-block;
 }
 
-.match {
+.btn1 {
     grid-area: m;
     background-color: #2ed573;
     border: 1px solid black;
@@ -75,6 +75,14 @@
     justify-self: center;
 }
 
+.match{
+    background-color: #2ed573;
+}
+.chat{
+    background-color: rgb(255, 255, 95);
+}
+
+
 .location{
     grid-area: l;
     font-size: 80%;
@@ -84,14 +92,4 @@
 
 .interestedUser > a {
     text-decoration: none;
-    display: grid;
-    background-color: rgb(253, 234, 62);
-    width : 32% ;
-    height: 155%;
-    border-radius: 50%;
-    justify-self: center;
-    justify-items: center ;
-    align-items: center;
-    font-size: 80%;
-    margin-top: 4%;
 }
