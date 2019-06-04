@@ -20,18 +20,16 @@ class Chat extends Component {
 
         this.state = {
             message: "",
-            currentConv: 0
+            conversations: ""
         }
 
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
             await props.generalStore.addMessage(data)
-            this.getConversation()
+            // this.getConversation()
         })
 
     }
-
-    handleChange = e => this.setState({message: e.target.value})
 
     sendMessage = ev => {
         console.log("sa")
@@ -68,9 +66,6 @@ class Chat extends Component {
         //         ]
         //     }
         // ]
-
-        // let usersConvs= generalStore.getUsersConvs()
-        // let currentChat = generalStore.getMessageList(conversations[this.state.currentConv].messages)
 
         return (
             <div id="chat">

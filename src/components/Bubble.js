@@ -5,7 +5,7 @@ import { observer, inject } from 'mobx-react';
 
 @inject("generalStore")
 @observer
-class Bubble extends Component {
+class Bubble extends Component {    
     bubbleClick = (label) => {
         console.log("Custom bubble click func")
     }

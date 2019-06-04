@@ -17,6 +17,8 @@ export class GeneralStore {
     @observable conversations = []
     @observable facebookDetails = []
 
+    @observable socket = io('localhost:8000');
+
     getUserByEmail = email => this.users.find(u => u.email === email)
 
     getEmailsByUsers = users => users.map(u => u.email)
@@ -25,7 +27,7 @@ export class GeneralStore {
 
     @action saveUser = async (user) => {
         let randomNum = Math.floor(Math.random() * 1000) + 1;
-        user.profilePic = `https://api.adorable.io/avatars/${randomNum}.jpg`
+        user.profilePic= `https://api.adorable.io/avatars/${randomNum}.jpg`
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
     }
@@ -40,14 +42,14 @@ export class GeneralStore {
 
     @action saveFood = async food => {
         let doesExist = this.foods.some(u => u.name == food)
-
+        
         if (doesExist) {
             alert("Food already exists, please select it from bubbles.")
         } else {
             let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
             console.log(foodToAdd)
             // { name: food.toLowerCase() }
-
+            
             // await axios.post(`${API_URL}/food`, foodToAdd)
             // await this.getFoodsFromDB()
         }
@@ -89,17 +91,22 @@ export class GeneralStore {
         this.updateUser('interestedFood')
     }
 
-    @action addMessage = data => {
+    @action addMessage = async data => {
+
+        
 
         console.log(data)
 
-        let matchedUser = this.users.find(u => u.email == data.author)
-        console.log(matchedUser)
+       let conversationsFromDB = await this.getConversationsFromDB()
 
-        let message = []
-        message.push({ author: data.author, message: data.message })
 
-        this.pushToConversations(matchedUser.email, message)
+        // let matchedUser = this.users.find(u => u.email == data.author)
+        // console.log(matchedUser)
+
+        // let message = []
+        // message.push({ author: data.author, message: data.message })
+
+        // this.pushToConversations(matchedUser.email, message)
 
     };
 
@@ -168,7 +175,7 @@ export class GeneralStore {
         let conversationsFromDB = await this.getConversationsFromDB()
         console.log(conversationsFromDB)
         let exactConversation = conversationsFromDB.find(c => c.id == `${this.currentUser.email}And${matchedUser.email}` ||
-            `${matchedUser.email}And${this.currentUser.email}`)
+        `${matchedUser.email}And${this.currentUser.email}`)
         console.log(exactConversation)
         console.log(message[0].message)
 
@@ -324,33 +331,4 @@ export class GeneralStore {
         let d = R * c; // Distance in km
         return Math.round(d * 100) / 100;
     }
-
-//     getMessageList = messages =>{
-//         let messageList = []
-//         let position = "left"
-//         console.log(messages)
-//         messages.map(m =>{
-//             if(m.author === this.currentUser.firstName){position = "left"}
-//             else{position = "right"}
-//             messageList.push({
-//                 position,
-//                 type: "text",
-//                 text: m.text,
-//                 date: m.time,
-//                 color: "yellow"
-//             })
-//         })
-//         return messageList
-//     }
-    
-    socketUsernameListener = () => {
-        this.socket.on('GET_USERNAME', () => {
-            if (this.currentUser.firstName) {
-                this.socket.emit('SAVE_ID', {
-                    currentUser: this.currentUser.email
-                })
-            }
-        })
-    }
-
 }
