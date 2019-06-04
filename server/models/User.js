@@ -20,7 +20,7 @@ const userSchema = new Schema({
     vegan: Boolean,
     vegetarian: Boolean,
     lastSeen: Date,
-    conversations : [conversationSchema]
+    conversations : [conversationSchema],
     location: {
         name: String,
         latitude: Number,
