@@ -94,10 +94,8 @@ export class GeneralStore {
 
     @action addMessage = data => {
 
-        console.log(data)
 
         let matchedUser = this.users.find(u => u.email == data.author)
-        console.log(matchedUser)
 
         let message = []
         message.push({ author: data.author, message: data.message })
@@ -132,11 +130,7 @@ export class GeneralStore {
 
         let currentUser = this.currentUser.email
         let userConversations = this.currentUser.conversations.map(c => c.id)
-        console.log(userConversations)
         let conversationId = `${currentUser}And${matchedUser}`
-
-        console.log(conversationId)
-        console.log(message)
 
         let newConversationContent = {
             id: conversationId,
@@ -149,16 +143,13 @@ export class GeneralStore {
                 }
             ]
         }
-        console.log(newConversationContent)
-
-        console.log(conversationId)
 
         await this.currentUser.conversations.push({ id: conversationId })
         await this.updateUser("conversations")
 
         if (userConversations == `${currentUser}And${matchedUser.email}` ||
             `${matchedUser.email}And${currentUser}`) {
-            console.log("Ok")
+
             await this.updateConversationInDB(message, matchedUser)
         }
         else {
@@ -169,18 +160,14 @@ export class GeneralStore {
     }
     updateConversationInDB = async (message, matchedUser) => {
         let conversationsFromDB = await this.getConversationsFromDB()
-        console.log(conversationsFromDB)
         let exactConversation = conversationsFromDB.find(c => c.id == `${this.currentUser.email}And${matchedUser.email}` ||
         `${matchedUser.email}And${this.currentUser.email}`)
-        console.log(exactConversation)
-        console.log(message[0].message)
-
+     
         exactConversation.messages.push({
             author: message[0].author,
             text: message[0].message,
             time: new Date()
         })
-        console.log(exactConversation)
 
         await axios.put(`${API_URL}/conversations/update`, exactConversation);
         await this.getConversationsFromDB()
