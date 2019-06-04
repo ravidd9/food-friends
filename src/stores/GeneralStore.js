@@ -50,18 +50,18 @@ export class GeneralStore {
         await this.updateUser('lastSeen', this.currentUser)
     }
 
-    @action saveFood = async (food) => {
+    @action saveFood = async food => {
         let doesExist = this.foods.some(u => u.name == food)
-        console.log(doesExist)
-
-        let foodToAdd = { name: food.toLowerCase() }
-
+        
         if (doesExist) {
-            return
-        }
-        else {
-            await axios.post(`${API_URL}/food`, foodToAdd)
-            await this.getFoodsFromDB()
+            alert("Food already exists, please select it from bubbles.")
+        } else {
+            let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
+            console.log(foodToAdd)
+            // { name: food.toLowerCase() }
+            
+            // await axios.post(`${API_URL}/food`, foodToAdd)
+            // await this.getFoodsFromDB()
         }
     }
     @action getUsersFromDB = async () => {
