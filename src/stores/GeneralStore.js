@@ -1,7 +1,13 @@
-import { observable, action, computed } from 'mobx'
+import {
+    observable,
+    action,
+    computed
+} from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
 import io from 'socket.io-client'
-import { object } from 'prop-types';
+import {
+    object
+} from 'prop-types';
 const CronJob = require('cron').CronJob
 
 const API_URL = 'http://localhost:8000'
@@ -12,7 +18,10 @@ export class GeneralStore {
     @observable filteredFood = []
     @observable budget = 150
     @observable socket = io('localhost:8000');
-    @observable matchNotification = { open: false, name: "" }
+    @observable matchNotification = {
+        open: false,
+        name: ""
+    }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     @observable conversations = []
     @observable facebookDetails = []
@@ -27,7 +36,7 @@ export class GeneralStore {
 
     @action saveUser = async (user) => {
         let randomNum = Math.floor(Math.random() * 1000) + 1;
-        user.profilePic= `https://api.adorable.io/avatars/${randomNum}.jpg`
+        user.profilePic = `https://api.adorable.io/avatars/${randomNum}.jpg`
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
     }
@@ -42,14 +51,14 @@ export class GeneralStore {
 
     @action saveFood = async food => {
         let doesExist = this.foods.some(u => u.name == food)
-        
+
         if (doesExist) {
             alert("Food already exists, please select it from bubbles.")
         } else {
             let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
             console.log(foodToAdd)
             // { name: food.toLowerCase() }
-            
+
             // await axios.post(`${API_URL}/food`, foodToAdd)
             // await this.getFoodsFromDB()
         }
@@ -93,11 +102,11 @@ export class GeneralStore {
 
     @action addMessage = async data => {
 
-        
+
 
         console.log(data)
 
-       let conversationsFromDB = await this.getConversationsFromDB()
+        let conversationsFromDB = await this.getConversationsFromDB()
 
 
         // let matchedUser = this.users.find(u => u.email == data.author)
@@ -145,27 +154,26 @@ export class GeneralStore {
         let newConversationContent = {
             id: conversationId,
             users: [currentUser, matchedUser],
-            messages: [
-                {
-                    author: message[0].author,
-                    text: message[0].message,
-                    time: new Date()
-                }
-            ]
+            messages: [{
+                author: message[0].author,
+                text: message[0].message,
+                time: new Date()
+            }]
         }
         console.log(newConversationContent)
 
         console.log(conversationId)
 
-        await this.currentUser.conversations.push({ id: conversationId })
+        await this.currentUser.conversations.push({
+            id: conversationId
+        })
         await this.updateUser("conversations")
 
         if (userConversations == `${currentUser}And${matchedUser.email}` ||
             `${matchedUser.email}And${currentUser}`) {
             console.log("Ok")
             await this.updateConversationInDB(message, matchedUser)
-        }
-        else {
+        } else {
             await this.addConversation(newConversationContent)
             await this.getConversationsFromDB()
 
@@ -175,7 +183,7 @@ export class GeneralStore {
         let conversationsFromDB = await this.getConversationsFromDB()
         console.log(conversationsFromDB)
         let exactConversation = conversationsFromDB.find(c => c.id == `${this.currentUser.email}And${matchedUser.email}` ||
-        `${matchedUser.email}And${this.currentUser.email}`)
+            `${matchedUser.email}And${this.currentUser.email}`)
         console.log(exactConversation)
         console.log(message[0].message)
 
@@ -255,7 +263,10 @@ export class GeneralStore {
         })
     }
 
-    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = { open: shouldOpen, name }
+    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {
+        open: shouldOpen,
+        name
+    }
 
 
     @action checkLogin = (email, password) => {
@@ -274,10 +285,10 @@ export class GeneralStore {
         let splitName = details.name.split(" ")
 
         this.facebookDetails.push({
-            firstName : splitName[0],
-            lastName : splitName[1],
-            email : details.email, 
-            pic : details.pic
+            firstName: splitName[0],
+            lastName: splitName[1],
+            email: details.email,
+            pic: details.pic
         })
 
         console.log(this.facebookDetails)
@@ -322,7 +333,7 @@ export class GeneralStore {
         let lat1 = this.currentUser.location.latitude
         let lon1 = this.currentUser.location.longitude
         let R = 6371; // Radius of the earth in km
-        let dLat = (lat2 - lat1).toRad();  // Javascript functions in radians
+        let dLat = (lat2 - lat1).toRad(); // Javascript functions in radians
         let dLon = (lon2 - lon1).toRad();
         let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
@@ -330,5 +341,15 @@ export class GeneralStore {
         let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         let d = R * c; // Distance in km
         return Math.round(d * 100) / 100;
+    }
+
+    socketUsernameListener = () => {
+        this.socket.on('GET_USERNAME', () => {
+            if (this.currentUser.firstName) {
+                this.socket.emit('SAVE_ID', {
+                    currentUser: this.currentUser.email
+                })
+            }
+        })
     }
 }
