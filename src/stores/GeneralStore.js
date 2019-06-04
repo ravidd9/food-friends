@@ -60,10 +60,7 @@ export class GeneralStore {
         } else {
             let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
             console.log(foodToAdd)
-            // { name: food.toLowerCase() }
-
-            // await axios.post(`${API_URL}/food`, foodToAdd)
-            // await this.getFoodsFromDB()
+           
         }
     }
     @action getUsersFromDB = async () => {
@@ -105,20 +102,20 @@ export class GeneralStore {
 
     @action addMessage = async data => {
 
-
-
         console.log(data)
 
+        let currentUser = this.currentUser
+        let matchedUser = this.users.find(u => u.email == data.author)
+
+        let message = { author: data.author, message: data.message }
+
         let conversationsFromDB = await this.getConversationsFromDB()
+        let conversationToUpdate = conversationsFromDB.find(c =>
+            c.users[0] == matchedUser.email && c.users[1] == currentUser.email ||
+            c.users[0] == currentUser.email && c.users[1] == matchedUser.email)
 
-
-        // let matchedUser = this.users.find(u => u.email == data.author)
-        // console.log(matchedUser)
-
-        // let message = []
-        // message.push({ author: data.author, message: data.message })
-
-        // this.pushToConversations(matchedUser.email, message)
+        conversationToUpdate.messages.push(message)
+        this.updateConversationInDB(conversationToUpdate)
 
     };
 
@@ -143,61 +140,8 @@ export class GeneralStore {
         return usersWithoutCurrent
     }
 
-    pushToConversations = async (matchedUser, message) => {
-
-
-        let currentUser = this.currentUser.email
-        let userConversations = this.currentUser.conversations.map(c => c.id)
-        console.log(userConversations)
-        let conversationId = `${currentUser}And${matchedUser}`
-
-        console.log(conversationId)
-        console.log(message)
-
-        let newConversationContent = {
-            id: conversationId,
-            users: [currentUser, matchedUser],
-            messages: [{
-                author: message[0].author,
-                text: message[0].message,
-                time: new Date()
-            }]
-        }
-        console.log(newConversationContent)
-
-        console.log(conversationId)
-
-        await this.currentUser.conversations.push({
-            id: conversationId
-        })
-        await this.updateUser("conversations")
-
-        if (userConversations == `${currentUser}And${matchedUser.email}` ||
-            `${matchedUser.email}And${currentUser}`) {
-            console.log("Ok")
-            await this.updateConversationInDB(message, matchedUser)
-        } else {
-            await this.addConversation(newConversationContent)
-            await this.getConversationsFromDB()
-
-        }
-    }
-    updateConversationInDB = async (message, matchedUser) => {
-        let conversationsFromDB = await this.getConversationsFromDB()
-        console.log(conversationsFromDB)
-        let exactConversation = conversationsFromDB.find(c => c.id == `${this.currentUser.email}And${matchedUser.email}` ||
-            `${matchedUser.email}And${this.currentUser.email}`)
-        console.log(exactConversation)
-        console.log(message[0].message)
-
-        exactConversation.messages.push({
-            author: message[0].author,
-            text: message[0].message,
-            time: new Date()
-        })
-        console.log(exactConversation)
-
-        await axios.put(`${API_URL}/conversations/update`, exactConversation);
+    updateConversationInDB = async (conversationToUpdate) => {
+        await axios.put(`${API_URL}/conversations/update`, conversationToUpdate);
         await this.getConversationsFromDB()
     }
 
