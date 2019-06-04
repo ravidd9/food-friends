@@ -158,7 +158,7 @@ export class GeneralStore {
         if (userConversations == `${currentUser}And${matchedUser.email}` ||
             `${matchedUser.email}And${currentUser}`) {
             console.log("Ok")
-            await this.updateConversationInDB(message)
+            await this.updateConversationInDB(message, matchedUser)
         }
         else {
             await this.addConversation(newConversationContent)
@@ -166,11 +166,11 @@ export class GeneralStore {
 
         }
     }
-    updateConversationInDB = async (message) => {
+    updateConversationInDB = async (message, matchedUser) => {
         let conversationsFromDB = await this.getConversationsFromDB()
         console.log(conversationsFromDB)
-        let exactConversation = conversationsFromDB.find(c => c.id == `${currentUser}And${matchedUser.email}` ||
-        `${matchedUser.email}And${currentUser}`)
+        let exactConversation = conversationsFromDB.find(c => c.id == `${this.currentUser.email}And${matchedUser.email}` ||
+        `${matchedUser.email}And${this.currentUser.email}`)
         console.log(exactConversation)
         console.log(message[0].message)
 

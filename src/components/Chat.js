@@ -25,7 +25,7 @@ class Chat extends Component {
 
     }
 
-    getConversation = () => this.setState({conversation : props.generalStore.conversations})
+    getConversation = () => this.setState({conversation : this.props.generalStore.conversations})
     sendMessage = ev => {
         ev.preventDefault();
         this.socket.emit('SEND_MESSAGE', {
