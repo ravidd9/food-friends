@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const conversationSchema = new Schema({
-    id: String,
-    users: [String],
+    users : [String],
     messages: [
         {
             author: String,
