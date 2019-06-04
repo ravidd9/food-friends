@@ -14,18 +14,17 @@ class Chat extends Component {
 
         this.state = {
             message: "",
-            conversations : ""
+            conversations: ""
         }
 
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
             await props.generalStore.addMessage(data)
-            this.getConversation()
+            // this.getConversation()
         })
 
     }
 
-    getConversation = () => this.setState({conversation : this.props.generalStore.conversations})
     sendMessage = ev => {
         ev.preventDefault();
         this.socket.emit('SEND_MESSAGE', {
@@ -34,13 +33,11 @@ class Chat extends Component {
             recipient: this.props.generalStore.currentUser.matchedWith[0]
         })
         this.setState({ message: '' });
-        
+
 
     }
 
     render() {
-
-        console.log(this.state.conversation)
 
         return (
             <div>
