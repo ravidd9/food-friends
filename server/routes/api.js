@@ -92,7 +92,7 @@ router.put('/conversations/update', async function (req, res) {
 
     let update = Conversation.findOneAndUpdate({ id: req.body.id}, { messages: req.body.messages })
     update.then(function (conversation) {
-        res.send("updated")
+        res.send(conversation)
     })
 
     // res.send(conversations)

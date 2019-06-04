@@ -63,38 +63,21 @@ io.on('connection', (socket) => {
     })
 
     socket.on('SEND_MESSAGE', async function (data) {
-        console.log(`Recipient name is : ${data.recipient}`)
+
         let author = socketCom.findUserByEmail(data.author)
-        let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient) //
+        let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient)
         let conversation = {}
-        console.log(data)
+        let conversations = await axios.get(`http://localhost:8000/conversations`)
 
-        if (conversationId) {
-            let conversations = await axios.get(`http://localhost:8000/conversations`)
-            conversation = conversations.find(c => c._id === conversationId)
-            console.log(conversation + "here")
-            conversation.messages.push({
-                author: author.name,
-                text: data.message,
-                time: new Date()
-            })
+        conversation = conversations.find(c => c._id === conversationId)
 
-            await axios.put(`http://localhost:8000/conversations/update`, conversation)
-        } else {
-            conversation = {
-                users: [data.author, data.recipient],
-                messages: [{
-                    author: author.name,
-                    text: data.message,
-                    time: new Date()
-                }]
-            }
+        conversation.messages.push({
+            author: author.name,
+            text: data.message,
+            time: new Date()
+        })
 
-            conversation = await axios.post(`http://localhost:8000/conversation`, conversation)
-            conversation = conversation.data // add res.send in post
-        }
-
-        console.log(conversation)
+        conversation = await axios.put(`http://localhost:8000/conversations/update`, conversation)
 
         let userSocketId = socketCom.findUsersSocketId(data.recipient)
         if (userSocketId) {
@@ -102,10 +85,6 @@ io.on('connection', (socket) => {
         } else {
             //push notification
         }
-
-        console.log(`Recipient socketID is : ${userSocketId}`)
-
-        // io.emit('RECEIVE_MESSAGE', data);
     })
 
 })

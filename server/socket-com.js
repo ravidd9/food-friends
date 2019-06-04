@@ -42,7 +42,7 @@ class SocketCom {
 
     async findConversationIdByEmails(authorEmail, recipientEmail){
         let conversations = await axios.get(`http://localhost:8000/conversations`)
-        let conversation = conversations.length ? conversations.find(c => c.users.some(u => u === authorEmail) && c.users.some(u => recipientEmail)) : false
+        let conversation = conversations.find(c => c.users.some(u => u === authorEmail) && c.users.some(u => recipientEmail)) : false
         console.log(conversation)
         return conversation ? conversation._id : false
     }
