@@ -1,24 +1,62 @@
-.foodBubble{
+
+
+@keyframes scale-up-hor-center {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+
+
+@keyframes scale-down-hor-center {
+    0% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+
+
+.foodBubble {
     display: grid;
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
-    /* margin: 30px auto; */
-    width: 40vw;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+    width: 30vw;
     height: 12vh;
-    border-radius: 35px;   
-    margin-top: 5%; 
-    margin-bottom: 10%; 
+    border-radius: 20%;
+    margin-top: 5%;
+    margin-bottom: 10%;
     font-size: 70%;
     justify-items: center;
     align-items: center;
     grid-template: 1fr 3fr 1fr;
     background-color: #f5f1e0;
+
+    /* animation: scale-down-hor-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; */
+    animation-name: scale-down-hor-center;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+
 }
 
-.checked{
+.checked {
     background-color: #fceda5;
+
+    animation: scale-up-hor-center 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
 
-.foodPic > img{
+.foodPic>img {
     height: 40px;
     width: 50px;
     border: 1px solid black;

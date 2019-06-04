@@ -22,7 +22,6 @@ class InterestedUsers extends Component {
     render() {
         let generalStore = this.props.generalStore
         let interestedUsers = generalStore.getInterestedUsers(this.props.selectedFood)
-        console.log(interestedUsers)
 
         return (
             <div id="interestedUsers">

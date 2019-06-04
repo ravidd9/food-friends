@@ -3,6 +3,7 @@ import axios from '../../node_modules/axios/dist/axios'
 import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
+const CronJob = require('cron').CronJob
 
 const API_URL = 'http://localhost:8000'
 
@@ -26,6 +27,8 @@ export class GeneralStore {
     getFoodByName = name => this.foods.find(f => f.name === name)
 
     @action saveUser = async (user) => {
+        let randomNum = Math.floor(Math.random() * 1000) + 1;
+        user.profilePic= `https://api.adorable.io/avatars/${randomNum}.jpg`
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
     }
@@ -38,18 +41,18 @@ export class GeneralStore {
         await this.updateUser('lastSeen', this.currentUser)
     }
 
-    @action saveFood = async (food) => {
+    @action saveFood = async food => {
         let doesExist = this.foods.some(u => u.name == food)
-        console.log(doesExist)
-
-        let foodToAdd = { name: food.toLowerCase() }
-
+        
         if (doesExist) {
-            return
-        }
-        else {
-            await axios.post(`${API_URL}/food`, foodToAdd)
-            await this.getFoodsFromDB()
+            alert("Food already exists, please select it from bubbles.")
+        } else {
+            let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
+            console.log(foodToAdd)
+            // { name: food.toLowerCase() }
+            
+            // await axios.post(`${API_URL}/food`, foodToAdd)
+            // await this.getFoodsFromDB()
         }
     }
     @action getUsersFromDB = async () => {
@@ -153,22 +156,22 @@ export class GeneralStore {
         await this.currentUser.conversations.push({ id: conversationId })
         await this.updateUser("conversations")
 
-        if (userConversations == "dannybrudner@gmail.comAndyossidagan@gmail.com" ||
-            "yossidagan@gmail.comAnddannybrudner@gmail.com") {
+        if (userConversations == `${currentUser}And${matchedUser.email}` ||
+            `${matchedUser.email}And${currentUser}`) {
             console.log("Ok")
-            await this.updateConversationInDB(message)
+            await this.updateConversationInDB(message, matchedUser)
         }
-        // else {
-        //     await this.addConversation(newConversationContent)
-        //     await this.getConversationsFromDB()
+        else {
+            await this.addConversation(newConversationContent)
+            await this.getConversationsFromDB()
 
-        // }
+        }
     }
-    updateConversationInDB = async (message) => {
+    updateConversationInDB = async (message, matchedUser) => {
         let conversationsFromDB = await this.getConversationsFromDB()
         console.log(conversationsFromDB)
-        let exactConversation = conversationsFromDB.find(c => c.id == "dannybrudner@gmail.comAndyossidagan@gmail.com" ||
-            "yossidagan@gmail.comAnddannybrudner@gmail.com")
+        let exactConversation = conversationsFromDB.find(c => c.id == `${this.currentUser.email}And${matchedUser.email}` ||
+        `${matchedUser.email}And${this.currentUser.email}`)
         console.log(exactConversation)
         console.log(message[0].message)
 
@@ -282,5 +285,45 @@ export class GeneralStore {
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
+    // job = new CronJob('0 */1 * * * *', function() {
+    //     this.getUsersFromDB()
+    // })
+    @action addUserLocation = async position => {
+        let name = await this.getLocationName(position.coords.latitude, position.coords.longitude)
+        let location = {
+            name,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        }
+        this.currentUser.location = location
+        this.updateUser("location")
+    }
 
+    getLocationName = async (latitude, longitude) => {
+        let apiKey = "AIzaSyDyEUWonGwNpeknij5cwdp94mN4ZL7Raxo"
+        let data = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?key=${apiKey}&latlng=${latitude},${longitude}&sensor=false&language=en`)
+        let name = data.data.results[0].address_components[2].short_name
+        console.log(name)
+        return name
+    }
+
+    getDistance = (lat2, lon2) => {
+        if (typeof (Number.prototype.toRad) === "undefined") {
+            Number.prototype.toRad = function () {
+                return this * Math.PI / 180;
+            }
+        }
+
+        let lat1 = this.currentUser.location.latitude
+        let lon1 = this.currentUser.location.longitude
+        let R = 6371; // Radius of the earth in km
+        let dLat = (lat2 - lat1).toRad();  // Javascript functions in radians
+        let dLon = (lon2 - lon1).toRad();
+        let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        let d = R * c; // Distance in km
+        return Math.round(d * 100) / 100;
+    }
 }

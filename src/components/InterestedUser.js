@@ -13,6 +13,7 @@ class InterestedUser extends Component {
         super()
         this.state = {
             haveMatched: false,
+
         }
     }
 
@@ -36,9 +37,28 @@ class InterestedUser extends Component {
                     {user.interests.map((inter, i) =>
                         <span className="inter" key={i}>{inter.toUpperCase()}</span>)}
                 </div>
+
+                {user.location ?
+                    <div className="location">
+                        <div>{user.location.name}</div>
+                        <div>{this.props.generalStore.getDistance(user.location.latitude, user.location.longitude)} km away</div>
+                    </div> :
+                    null
+                }
+
                 {!this.state.haveMatched ?
-                    <span className="match" onClick={this.matchUsers}>Match !</span> :
-                    <Link to="show-match"><span className="show-match" onClick={this.showMatch}>CHAT</span></Link>}
+                    <span className="match" onClick={this.matchUsers}>Match!</span> :
+                    <Link to="show-match"><span className="show-match" onClick={this.showMatch}>CHAT</span></Link>
+                }
+
+                <div className="prefs">
+                    <div>{user.vegan ? "Vegan": null}</div>
+                    <div>{user.vegetarian ? "Vegetarian": null}</div>
+                    <div>{user.kosher ? "Kosher": null}</div>
+                    {/* <img src="../vegan.png" alt=""/>
+                    <img src="" alt=""/>
+                    <img src="" alt=""/> */}
+                </div>
             </div >
 
         );

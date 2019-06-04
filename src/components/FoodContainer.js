@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import '../style/FoodContainer.css';
 import { observer, inject } from 'mobx-react';
-import FoodBubble from './FoodBubble';
-import { async } from 'q';
 import { Link } from 'react-router-dom'
+import FoodBubble from './FoodBubble';
+import Bubble from './Bubble';
+
 
 
 @inject("generalStore")
@@ -21,7 +22,9 @@ class FoodContainer extends Component {
             <div>
                 <Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>SEARCH</div></Link>
                 <div id="foodContainer">
+                    {/* <Bubble /> */}
                     {foods.map((f, i) => <FoodBubble key={i} food={f} />)}
+
                 </div>
             </div>
         );
