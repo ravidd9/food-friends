@@ -254,6 +254,7 @@ export class GeneralStore {
 
     @action matchUsers = async email => {
         console.log(this.currentUser)
+        
         this.currentUser.matchedWith.push(email)
         await this.updateUser('matchedWith')
 

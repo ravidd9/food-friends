@@ -17,9 +17,22 @@ class InterestedUser extends Component {
         }
     }
 
-    matchUsers = () => {
-        this.setState({ haveMatched: true })
-        this.props.generalStore.matchUsers(this.props.user.email)
+    matchUsers = async () => {
+        let currentUser = this.props.generalStore.currentUser.email 
+        let matchedUser = this.props.user.email
+
+        let newConversation = {
+            users: [currentUser, matchedUser],
+            messages: [{
+                author: "",
+                text: "",
+                time: null
+            }]
+        }
+
+        await this.setState({ haveMatched: true })
+        await this.props.generalStore.matchUsers(this.props.user.email)
+        await this.props.generalStore.addConversation(newConversation)
     }
 
 
@@ -52,9 +65,9 @@ class InterestedUser extends Component {
                 }
 
                 <div className="prefs">
-                    <div>{user.vegan ? "Vegan": null}</div>
-                    <div>{user.vegetarian ? "Vegetarian": null}</div>
-                    <div>{user.kosher ? "Kosher": null}</div>
+                    <div>{user.vegan ? "Vegan" : null}</div>
+                    <div>{user.vegetarian ? "Vegetarian" : null}</div>
+                    <div>{user.kosher ? "Kosher" : null}</div>
                     {/* <img src="../vegan.png" alt=""/>
                     <img src="" alt=""/>
                     <img src="" alt=""/> */}
