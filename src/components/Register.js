@@ -93,7 +93,7 @@ class Register extends Component {
             interestedFood: []
 
         }
-        await this.props.generalStore.saveUser(newUser)
+        newUser = await this.props.generalStore.saveUser(newUser)
         this.props.generalStore.changeCurrentUser(newUser)
         window.location = "http://localhost:3000/home" 
     }

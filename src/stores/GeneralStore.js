@@ -37,8 +37,11 @@ export class GeneralStore {
     @action saveUser = async (user) => {
         let randomNum = Math.floor(Math.random() * 1000) + 1;
         user.profilePic = `https://api.adorable.io/avatars/${randomNum}.jpg`
-        await axios.post(`${API_URL}/user`, user)
+        let newUser = await axios.post(`${API_URL}/user`, user)
+    
+        console.log(newUser)
         await this.getUsersFromDB()
+        return newUser.data
     }
 
     @action makeActive = async () => {
@@ -253,14 +256,16 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
-        console.log(this.currentUser)
-        this.currentUser.matchedWith.push(email)
-        await this.updateUser('matchedWith')
+        if(!this.currentUser.matchedWith.find(e => e ===email)){
+            this.currentUser.matchedWith.unshift(email)
+            await this.updateUser('matchedWith')
+            console.log(this.currentUser.matchedWith)
 
-        this.socket.emit('MATCH', {
-            currentUser: this.currentUser.email,
-            matchedUser: email
-        })
+            this.socket.emit('MATCH', {
+                currentUser: this.currentUser.email,
+                matchedUser: email
+            })
+        }
     }
 
     @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {
