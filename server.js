@@ -50,6 +50,7 @@ io.on('connection', (socket) => {
 
     socket.on('SAVE_ID', async function (data) {
         socketCom.saveIdToUser(socket.id, data.currentUser)
+        console.log(socket.id)
     })
 
 
@@ -64,13 +65,14 @@ io.on('connection', (socket) => {
     socket.on('SEND_MESSAGE', async function (data) {
         console.log(`Recipient name is : ${data.recipient}`)
         let author = socketCom.findUserByEmail(data.author)
-        let conversationId = socketCom.findConversationIdByEmails(data.author, data.recipient) //
+        let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient) //
         let conversation = {}
+        console.log(data)
 
         if (conversationId) {
             let conversations = await axios.get(`http://localhost:8000/conversations`)
             conversation = conversations.find(c => c._id === conversationId)
-            console.log(conversation)
+            console.log(conversation + "here")
             conversation.messages.push({
                 author: author.name,
                 text: data.message,
@@ -88,8 +90,11 @@ io.on('connection', (socket) => {
                 }]
             }
 
-            conversation = await axios.post(`http://localhost:8000/conversation`, conversation) // add res.send in post
+            conversation = await axios.post(`http://localhost:8000/conversation`, conversation)
+            conversation = conversation.data // add res.send in post
         }
+
+        console.log(conversation)
 
         let userSocketId = socketCom.findUsersSocketId(data.recipient)
         if (userSocketId) {
