@@ -20,7 +20,7 @@ class Chat extends Component {
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
             await props.generalStore.addMessage(data)
-            this.setState({conversation : props.generalStore.conversations})
+            // this.setState({conversation : props.generalStore.conversations})
         })
 
     }
