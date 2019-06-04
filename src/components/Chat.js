@@ -47,7 +47,7 @@ class Chat extends Component {
 
     render() {
         let generalStore = this.props.generalStore
-        // let conversations = this.props.generalStore.currentUser.conversations
+        let usersConvs = [{ name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
         let conversations = [
             {
                 id: "ravidAnddanny",
@@ -66,10 +66,10 @@ class Chat extends Component {
                 ]
             }
         ]
-        let currentChat = generalStore.getMessageList(conversations[this.state.currentConv].messages)
 
+        // let conversations = this.props.generalStore.currentUser.conversations
+        // let currentChat = generalStore.getMessageList(conversations[this.state.currentConv].messages)
         // let usersConvs= generalStore.getUsersConvs()
-        let usersConvs = [{ name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
 
         return (
             <div id="chat">
@@ -77,13 +77,6 @@ class Chat extends Component {
                     {usersConvs.map((u, i) => <UserBubble key={i} user={u} />)}
                 </div>
                 <div id="chatContainer">
-
-                    {/* <MessageList
-                        className='message-list'
-                        lockable={true}
-                        toBottomHeight={'100%'}
-                        dataSource={currentChat}/> */}
-
                     {conversations[this.state.currentConv].messages.map(m =>
                         <MessageBox
                             position={m.author === generalStore.currentUser.firstName ? "left" : "right"}
