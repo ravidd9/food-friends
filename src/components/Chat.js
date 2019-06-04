@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import io from "socket.io-client";
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
+import 'react-chat-elements/dist/main.css';
+import "../style/Chat.css"
+
+import { MessageBox, MessageList, Input, Button } from 'react-chat-elements';
+import UserBubble from './UserBubble';
+
 
 
 @inject("generalStore")
@@ -26,6 +32,7 @@ class Chat extends Component {
     }
 
     sendMessage = ev => {
+        console.log("sa")
         ev.preventDefault();
         this.socket.emit('SEND_MESSAGE', {
             author: this.props.generalStore.currentUser.email,
@@ -38,16 +45,65 @@ class Chat extends Component {
     }
 
     render() {
+        let generalStore = this.props.generalStore
+        let conversations = generalStore.currentUser.conversations
+        let usersConvs = [{ name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
+        // let conversations = [
+        //     {
+        //         id: "ravidAnddanny",
+        //         users: ["ravidd9@gmail.com", "dannybrudner@gmail.com"],
+        //         messages: [
+        //             {
+        //                 author: "ravid",
+        //                 text: "hi",
+        //                 time: new Date()
+        //             },
+        //             {
+        //                 author: "danny",
+        //                 text: "hello",
+        //                 time: new Date()
+        //             }
+        //         ]
+        //     }
+        // ]
 
         return (
-            <div>
-                <div className="chatView">
+            <div id="chat">
+                <div id="usersContainer">
+                    {usersConvs.map((u, i) => <UserBubble key={i} user={u} />)}
+                </div>
+                <div id="chatContainer">
+                    {conversations.length ? conversations[this.state.currentConv].messages.map(m =>
+                        <MessageBox
+                            position={m.author === generalStore.currentUser.firstName ? "left" : "right"}
+                            type={'text'}
+                            title={m.author}
+                            text={m.text}
+                            titleColor={m.author == generalStore.currentUser.firstName ? "green" : "blue"}
+                            data={{
+                                uri: 'https://facebook.github.io/react/img/logo.svg',
+                                status: {
+                                    click: false,
+                                    loading: 0,
+                                }
+                            }} />
+                    ):
+                    null}
 
                 </div>
-                <div className="card-footer">
-                    <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
-                    <br />
-                    <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
+                <div id="typeContainer">
+                    <Input
+                        onChange={this.handleChange}
+                        placeholder="Type here..."
+                        multiline={true}
+                        rightButtons={
+                            <Button
+                                type={"outlined"}
+                                onClick={this.sendMessage}
+                                color='white'
+                                backgroundColor='blue'
+                                text='Send' />
+                        } />
                 </div>
             </div>
         );

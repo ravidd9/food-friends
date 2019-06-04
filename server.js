@@ -11,12 +11,16 @@ const axios = require('axios')
 
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", {
+    useNewUrlParser: true
+})
 
 
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 app.use(express.static(path.join(__dirname, 'server/socket-com')))
 
 app.use(function (req, res, next) {
@@ -57,12 +61,44 @@ io.on('connection', (socket) => {
         // io.emit('RECEIVE_MATCH', data)
     })
 
-    socket.on('SEND_MESSAGE', function (data) {
+    socket.on('SEND_MESSAGE', async function (data) {
         console.log(`Recipient name is : ${data.recipient}`)
-        let userSocketId = socketCom.findUsersSocketId(data.recipient)
-        console.log(`Recipient socketID is : ${userSocketId}`)
+        let author = socketCom.findUserByEmail(data.author)
+        let conversationId = socketCom.findConversationIdByEmails(data.author, data.recipient) //
+        let conversation = {}
 
-        socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', data);
+        if (conversationId) {
+            let conversations = await axios.get(`http://localhost:8000/conversations`)
+            conversation = conversations.find(c => c._id === conversationId)
+            console.log(conversation)
+            conversation.messages.push({
+                author: author.name,
+                text: data.message,
+                time: new Date()
+            })
+
+            await axios.put(`http://localhost:8000/conversations/update`, conversation)
+        } else {
+            conversation = {
+                users: [data.author, data.recipient],
+                messages: [{
+                    author: author.name,
+                    text: data.message,
+                    time: new Date()
+                }]
+            }
+
+            conversation = await axios.post(`http://localhost:8000/conversation`, conversation) // add res.send in post
+        }
+
+        let userSocketId = socketCom.findUsersSocketId(data.recipient)
+        if (userSocketId) {
+            socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', conversation_id);
+        } else {
+            //push notification
+        }
+
+        console.log(`Recipient socketID is : ${userSocketId}`)
 
         // io.emit('RECEIVE_MESSAGE', data);
     })
@@ -77,12 +113,12 @@ const job = new CronJob('0 */10 * * * *', async function () {
     let users = await axios.get('http://localhost:8000/users')
 
     let activeUsers = users.data.filter(u => u.isActive)
-    activeUsers.forEach(u => 
-        parseInt(((new Date() - new Date(u.lastSeen))/1000)/60) > 60 ? u.isActive = false : null)
-    
+    activeUsers.forEach(u =>
+        parseInt(((new Date() - new Date(u.lastSeen)) / 1000) / 60) > 60 ? u.isActive = false : null)
+
     let nonActiveUsers = activeUsers.filter(u => !u.isActive)
     nonActiveUsers.forEach(u => socketCom.updateUser('isActive', u))
-    
+
     await socketCom.getUsers()
 })
 

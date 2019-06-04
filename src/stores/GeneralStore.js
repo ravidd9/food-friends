@@ -1,6 +1,5 @@
 import { observable, action, computed } from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
-import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
 const CronJob = require('cron').CronJob
@@ -246,6 +245,7 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
+        console.log(this.currentUser)
         this.currentUser.matchedWith.push(email)
         await this.updateUser('matchedWith')
 
