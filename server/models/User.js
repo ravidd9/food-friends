@@ -18,7 +18,7 @@ const userSchema = new Schema({
     vegan: Boolean,
     vegetarian: Boolean,
     lastSeen: Date,
-    conversations : [conversationSchema],
+    conversations : [{type: Schema.Types.ObjectId, ref: 'Conversation'}],
     location: {
         name: String,
         latitude: Number,
