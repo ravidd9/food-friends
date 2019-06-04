@@ -5,7 +5,6 @@ import io from 'socket.io-client'
 import { object } from 'prop-types';
 const CronJob = require('cron').CronJob
 
-
 const API_URL = 'http://localhost:8000'
 
 export class GeneralStore {
@@ -16,17 +15,8 @@ export class GeneralStore {
     @observable socket = io('localhost:8000');
     @observable matchNotification = { open: false, name: "" }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
-    // {
-    //     _id: "5cee3ef7c5a16519f8094d69",
-    //     firstName: "danny",
-    //     lastName: "brudner",
-    //     interests: ["raptors", "kite surfing", "entreprenuership", "programming"],
-    //     interestedFood: [],
-    //     email: "dannybrudner@gmail.com",
-    //     password: "dannyb",
-    //     profilePic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg",
-    //     matchedWith: ""
-    // }
+    @observable conversations = []
+
     @observable socket = io('localhost:8000');
 
     getUserByEmail = email => this.users.find(u => u.email === email)
@@ -73,6 +63,13 @@ export class GeneralStore {
         this.foods = foods.data
     }
 
+    getConversationsFromDB = async () => {
+        let conversationsFromDB = await axios.get(`${API_URL}/conversations`)
+        await this.conversations.push(conversationsFromDB)
+        return conversationsFromDB.data
+
+    }
+
     @action filterFoodByName = async (selectedFood) => {
         if (this.doesExistInFilteredFood(selectedFood)) {
             let indexOfSelected = this.filteredFood.findIndex(f => f === selectedFood)
@@ -94,6 +91,20 @@ export class GeneralStore {
         this.updateUser('interestedFood')
     }
 
+    @action addMessage = data => {
+
+        console.log(data)
+
+        let matchedUser = this.users.find(u => u.email == data.author)
+        console.log(matchedUser)
+
+        let message = []
+        message.push({ author: data.author, message: data.message })
+
+        this.pushToConversations(matchedUser.email, message)
+
+    };
+
     @action updateUser = async valueToUpdate => {
         await this.updateUserInDB(this.currentUser, valueToUpdate)
         this.updateSessionStorage(this.currentUser)
@@ -113,6 +124,70 @@ export class GeneralStore {
         let currentUserIndex = usersWithoutCurrent.findIndex(u => u.email == this.currentUser.email)
         usersWithoutCurrent.splice(currentUserIndex, 1)
         return usersWithoutCurrent
+    }
+
+    pushToConversations = async (matchedUser, message) => {
+
+
+        let currentUser = this.currentUser.email
+        let userConversations = this.currentUser.conversations.map(c => c.id)
+        console.log(userConversations)
+        let conversationId = `${currentUser}And${matchedUser}`
+
+        console.log(conversationId)
+        console.log(message)
+
+        let newConversationContent = {
+            id: conversationId,
+            users: [currentUser, matchedUser],
+            messages: [
+                {
+                    author: message[0].author,
+                    text: message[0].message,
+                    time: new Date()
+                }
+            ]
+        }
+        console.log(newConversationContent)
+
+        console.log(conversationId)
+
+        await this.currentUser.conversations.push({ id: conversationId })
+        await this.updateUser("conversations")
+
+        if (userConversations == `${currentUser}And${matchedUser.email}` ||
+            `${matchedUser.email}And${currentUser}`) {
+            console.log("Ok")
+            await this.updateConversationInDB(message)
+        }
+        else {
+            await this.addConversation(newConversationContent)
+            await this.getConversationsFromDB()
+
+        }
+    }
+    updateConversationInDB = async (message) => {
+        let conversationsFromDB = await this.getConversationsFromDB()
+        console.log(conversationsFromDB)
+        let exactConversation = conversationsFromDB.find(c => c.id == `${currentUser}And${matchedUser.email}` ||
+        `${matchedUser.email}And${currentUser}`)
+        console.log(exactConversation)
+        console.log(message[0].message)
+
+        exactConversation.messages.push({
+            author: message[0].author,
+            text: message[0].message,
+            time: new Date()
+        })
+        console.log(exactConversation)
+
+        await axios.put(`${API_URL}/conversations/update`, exactConversation);
+        await this.getConversationsFromDB()
+    }
+
+
+    @action addConversation = (newConversation) => {
+        return axios.post(`${API_URL}/conversation`, newConversation);
     }
 
     @action findUsersByFoodName = (interestedUsers, foodName) =>
