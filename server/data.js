@@ -188,45 +188,31 @@ let users = [
 let food = [
     {
         name: "hamburger",
-        pic: "https://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/6:4/w_620%2Ch_413/the-ultimate-hamburger.jpg",
-        description: "In the mood for a super juicy burger.",
-        budget: 50
+        pic: "https://assets.epicurious.com/photos/57c5c6d9cf9e9ad43de2d96e/6:4/w_620%2Ch_413/the-ultimate-hamburger.jpg"
     },
     {
         name: "pancakes",
-        pic: "https://cdn.apartmenttherapy.info/image/fetch/f_auto,q_auto:eco,c_fill,g_auto,w_760/https://storage.googleapis.com/gen-atmedia/3/2018/12/8cfbcbb2919742682345681d469b7417a73e4dfe.jpeg",
-        description: "Something sweet, something awesome. Goes great with maple syrup.",
-        budget: 30
+        pic: "https://cdn.apartmenttherapy.info/image/fetch/f_auto,q_auto:eco,c_fill,g_auto,w_760/https://storage.googleapis.com/gen-atmedia/3/2018/12/8cfbcbb2919742682345681d469b7417a73e4dfe.jpeg"
     },
     {
         name: "shawarma",
-        pic: "http://www.touryourway.com/uploadImages/systemFiles/51.jpg",
-        description: "Need some of that middle eastern meat.",
-        budget: 40
+        pic: "http://www.touryourway.com/uploadImages/systemFiles/51.jpg"
     },
     {
         name: "falafel",
-        pic: "https://sogrimshavua.co.il/wp-content/uploads/2018/02/Falafel-Mediterranean.jpg",
-        description: "Medirerranean specialty. Need some of that fried falafel.",
-        budget: 20
+        pic: "https://sogrimshavua.co.il/wp-content/uploads/2018/02/Falafel-Mediterranean.jpg"
     },
     {
         name: "philly cheessteak",
-        pic: "https://files.mishloha.co.il/files/menu_food_pic/FIL_51061_636038327078664756.jpg ",
-        description: "Need t be spoiled with a nice fat chilli pheese steak.",
-        budget: 60
+        pic: "https://files.mishloha.co.il/files/menu_food_pic/FIL_51061_636038327078664756.jpg "
     },
     {
         name: "fried wings",
-        pic: "https://img.mako.co.il/2016/05/18/dixipr_c.jpg",
-        description: "In the mood for something spice, in the mood for some nice wiiings.",
-        budget: 40
+        pic: "https://img.mako.co.il/2016/05/18/dixipr_c.jpg"
     },
     {
         name: "pizza",
-        pic: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/bbq-pizza-318-1547837614.jpg",
-        description: "Nothing beats a great pizza.",
-        budget: 30
+        pic: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/bbq-pizza-318-1547837614.jpg"
     }
 ]
 
