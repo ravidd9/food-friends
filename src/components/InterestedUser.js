@@ -32,7 +32,7 @@ class InterestedUser extends Component {
 
         await this.setState({ haveMatched: true })
         await this.props.generalStore.matchUsers(this.props.user.email)
-        await this.props.generalStore.addConversation(newConversation)
+        await this.props.generalStore.addConversation(newConversation, matchedUser)
     }
 
 
