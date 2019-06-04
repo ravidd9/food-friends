@@ -14,6 +14,10 @@ class HomePage extends Component {
     constructor(props) {
         super(props)
         this.socket = props.generalStore.socket
+        
+        this.state = {
+            foodInput: ""
+        }
 
         this.socket.on('RECEIVE_MATCH', function (email) {
             props.generalStore.addMatch(email)
@@ -26,13 +30,9 @@ class HomePage extends Component {
         }
     }
 
+    addFood = () => this.props.generalStore.saveFood(this.state.foodInput)
+
     componentDidMount = async () => {
-        let generalStore = this.props.generalStore
-        if (generalStore.currentUser.firstName) {
-            this.socket.emit('USER_IN', {
-                currentUser: generalStore.currentUser.email
-            })
-        }
         await this.props.generalStore.makeActive()
         this.handleLocation()
     }
@@ -49,6 +49,7 @@ class HomePage extends Component {
         // }
     }
 
+    updateInput = e => this.setState({foodInput: e.target.value})
 
     render() {
         let generalStore = this.props.generalStore
@@ -57,7 +58,7 @@ class HomePage extends Component {
                 {generalStore.currentUser.firstName ?
                     <div>
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
-                        New Food : <input onKeyDown={this.handleChange} />
+                        <input placeholder="ADD NEW FOOD" onKeyDown={this.handleChange} onChange={this.updateInput} value={this.state.foodInput}/><button onClick={this.addFood}>ADD</button>
                         <Filters />
                         <FoodContainer />
                     </div> :

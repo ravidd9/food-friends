@@ -15,8 +15,7 @@ export class GeneralStore {
     @observable matchNotification = { open: false, name: "" }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     @observable conversations = []
-
-    @observable socket = io('localhost:8000');
+    @observable facebookDetails = []
 
     getUserByEmail = email => this.users.find(u => u.email === email)
 
@@ -26,7 +25,7 @@ export class GeneralStore {
 
     @action saveUser = async (user) => {
         let randomNum = Math.floor(Math.random() * 1000) + 1;
-        user.profilePic= `https://api.adorable.io/avatars/${randomNum}.jpg`
+        user.profilePic = `https://api.adorable.io/avatars/${randomNum}.jpg`
         await axios.post(`${API_URL}/user`, user)
         await this.getUsersFromDB()
     }
@@ -39,18 +38,18 @@ export class GeneralStore {
         await this.updateUser('lastSeen', this.currentUser)
     }
 
-    @action saveFood = async (food) => {
+    @action saveFood = async food => {
         let doesExist = this.foods.some(u => u.name == food)
-        console.log(doesExist)
-
-        let foodToAdd = { name: food.toLowerCase() }
 
         if (doesExist) {
-            return
-        }
-        else {
-            await axios.post(`${API_URL}/food`, foodToAdd)
-            await this.getFoodsFromDB()
+            alert("Food already exists, please select it from bubbles.")
+        } else {
+            let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
+            console.log(foodToAdd)
+            // { name: food.toLowerCase() }
+
+            // await axios.post(`${API_URL}/food`, foodToAdd)
+            // await this.getFoodsFromDB()
         }
     }
     @action getUsersFromDB = async () => {
@@ -169,7 +168,7 @@ export class GeneralStore {
         let conversationsFromDB = await this.getConversationsFromDB()
         console.log(conversationsFromDB)
         let exactConversation = conversationsFromDB.find(c => c.id == `${this.currentUser.email}And${matchedUser.email}` ||
-        `${matchedUser.email}And${this.currentUser.email}`)
+            `${matchedUser.email}And${this.currentUser.email}`)
         console.log(exactConversation)
         console.log(message[0].message)
 
@@ -262,6 +261,20 @@ export class GeneralStore {
         sessionStorage.setItem('login', JSON.stringify(user));
     }
 
+    @action updateFacebookDetails = (details) => {
+
+        let splitName = details.name.split(" ")
+
+        this.facebookDetails.push({
+            firstName : splitName[0],
+            lastName : splitName[1],
+            email : details.email, 
+            pic : details.pic
+        })
+
+        console.log(this.facebookDetails)
+
+    }
 
     @computed get filterFoodByBudget() {
         return this.foods.filter(f => f.budget <= this.budget)
@@ -311,21 +324,32 @@ export class GeneralStore {
         return Math.round(d * 100) / 100;
     }
 
-    getMessageList = messages =>{
-        let messageList = []
-        let position = "left"
-        console.log(messages)
-        messages.map(m =>{
-            if(m.author === this.currentUser.firstName){position = "left"}
-            else{position = "right"}
-            messageList.push({
-                position,
-                type: "text",
-                text: m.text,
-                date: m.time,
-                color: "yellow"
-            })
+//     getMessageList = messages =>{
+//         let messageList = []
+//         let position = "left"
+//         console.log(messages)
+//         messages.map(m =>{
+//             if(m.author === this.currentUser.firstName){position = "left"}
+//             else{position = "right"}
+//             messageList.push({
+//                 position,
+//                 type: "text",
+//                 text: m.text,
+//                 date: m.time,
+//                 color: "yellow"
+//             })
+//         })
+//         return messageList
+//     }
+    
+    socketUsernameListener = () => {
+        this.socket.on('GET_USERNAME', () => {
+            if (this.currentUser.firstName) {
+                this.socket.emit('SAVE_ID', {
+                    currentUser: this.currentUser.email
+                })
+            }
         })
-        return messageList
     }
+
 }

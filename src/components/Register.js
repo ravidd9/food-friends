@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import TagsInput from 'react-tagsinput'
 import validator from 'validator'
 import 'react-tagsinput/react-tagsinput.css'
+import FacebookLogIn from './FacebookLogIn';
 
 
 @inject("generalStore")
@@ -23,7 +24,8 @@ class Register extends Component {
             file: null,
             kosher: false,
             vegan: false,
-            vegetarian: false
+            vegetarian: false,
+            isFacebookLoggidIn: false
         }
 
     }
@@ -44,7 +46,7 @@ class Register extends Component {
                 this.setState({ userExist: true })
             }
             else {
-               this.createNewUser()
+                this.createNewUser()
             }
         } else {
             this.setState({ invalidInput: true })
@@ -61,7 +63,19 @@ class Register extends Component {
 
     handleInterests = interests => this.setState({ interests })
 
-    createNewUser = async () =>{
+    facebookLogin = async () => {
+        // let facebookDetails = this.props.generalStore.facebookDetails[0].name 
+        // let facebookName = facebookDetails.name
+        // console.log(facebookDetails)
+        await this.setState({ isFacebookLoggidIn: true })
+        this.setState({
+            firstName: this.props.generalStore.facebookDetails[0].firstName,
+            lastName: this.props.generalStore.facebookDetails[0].lastName,
+            email: this.props.generalStore.facebookDetails[0].email
+        })
+    }
+
+    createNewUser = async () => {
         let s = this.state
         let newUser = {
             firstName: s.firstName,
@@ -78,7 +92,7 @@ class Register extends Component {
         window.location = "http://localhost:3000/home" 
     }
 
-    handleCheckBox = e => this.setState({[e.target.name]: !this.state[e.target.name]})
+    handleCheckBox = e => this.setState({ [e.target.name]: !this.state[e.target.name] })
 
 
     // onFormSubmit = (e) => {
@@ -103,16 +117,19 @@ class Register extends Component {
 
     render() {
         return (
+
             <div id="register">
 
+                <h3>Sign up using Facebook </h3>
+                <FacebookLogIn facebookLogin={this.facebookLogin} />
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
                     <div>First Name</div>
-                    <input type="text" placeholder="Enter First Name" name="firstName" onChange={this.handleInput} />
+                    <input type="text" value={this.state.firstName} placeholder="Enter First Name" name="firstName" onChange={this.handleInput} />
                     <div>Last Name</div>
-                    <input type="text" placeholder="Enter Last Name" name="lastName" onChange={this.handleInput} />
+                    <input type="text" value={this.state.lastName} placeholder="Enter Last Name" name="lastName" onChange={this.handleInput} />
                     <div>Email</div>
-                    <input type="email" placeholder="Enter Email" name="email" onChange={this.handleInput} />
+                    <input type="email" value={this.state.email} placeholder="Enter Email" name="email" onChange={this.handleInput} />
                     <div>Password</div>
                     <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
                     <div>Interests</div>
