@@ -32,12 +32,12 @@ class Chat extends Component {
     }
 
     sendMessage = ev => {
-        console.log("sa")
         ev.preventDefault();
         this.socket.emit('SEND_MESSAGE', {
             author: this.props.generalStore.currentUser.email,
             message: this.state.message,
             recipient: this.props.generalStore.currentUser.matchedWith[0]
+            // recipient: this.props.generalStore.currentUser.matchedWith[0]
         })
         this.setState({ message: '' });
 
