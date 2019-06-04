@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import FacebookLogin from "react-facebook-login";
+import FacebookLogin from "../../node_modules/react-facebook-login";
 import { Redirect } from 'react-router-dom'
 import "../style/FacebookLogIn.css"
 
