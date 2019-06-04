@@ -47,8 +47,8 @@ class InterestedUser extends Component {
                 }
 
                 {!this.state.haveMatched ?
-                    <span className="match" onClick={this.matchUsers}>Match!</span> :
-                    <Link to="show-match"><span className="show-match" onClick={this.showMatch}>CHAT</span></Link>
+                    <div className="btn1 match" onClick={this.matchUsers}>Match</div> :
+                    <div className="btn1 chat"><Link to="/show-match">Chat</Link></div>
                 }
 
                 <div className="prefs">

@@ -12,7 +12,7 @@ class FoodRoom extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedFood: props.generalStore.filteredFood[0]
+            selectedFood: props.generalStore.currentUser.interestedFood[0]
         }
     }
 
@@ -20,7 +20,7 @@ class FoodRoom extends Component {
 
     render() {
 
-        let selectedFoods = this.props.generalStore.filteredFood
+        let selectedFoods = this.props.generalStore.currentUser.interestedFood
 
         
         
