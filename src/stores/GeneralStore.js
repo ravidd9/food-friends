@@ -1,6 +1,5 @@
 import { observable, action, computed } from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
-import { async } from 'q';
 import io from 'socket.io-client'
 import { object } from 'prop-types';
 const CronJob = require('cron').CronJob
@@ -325,6 +324,24 @@ export class GeneralStore {
         return Math.round(d * 100) / 100;
     }
 
+//     getMessageList = messages =>{
+//         let messageList = []
+//         let position = "left"
+//         console.log(messages)
+//         messages.map(m =>{
+//             if(m.author === this.currentUser.firstName){position = "left"}
+//             else{position = "right"}
+//             messageList.push({
+//                 position,
+//                 type: "text",
+//                 text: m.text,
+//                 date: m.time,
+//                 color: "yellow"
+//             })
+//         })
+//         return messageList
+//     }
+    
     socketUsernameListener = () => {
         this.socket.on('GET_USERNAME', () => {
             if (this.currentUser.firstName) {
