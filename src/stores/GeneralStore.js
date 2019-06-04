@@ -104,8 +104,7 @@ export class GeneralStore {
         let currentUser = this.currentUser
         let matchedUser = this.users.find(u => u.email == data.author)
 
-        let message = []
-        message.push({ author: data.author, message: data.message })
+        let message = { author: data.author, message: data.message }
 
         let conversationsFromDB = await this.getConversationsFromDB()
         let conversationToUpdate = conversationsFromDB.find(c =>
