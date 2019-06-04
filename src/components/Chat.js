@@ -20,7 +20,6 @@ class Chat extends Component {
 
         this.state = {
             message: "",
-            conversations: "",
             currentConv: 0
         }
 
@@ -32,8 +31,10 @@ class Chat extends Component {
 
     }
 
-    getConversation = () => this.setState({ conversation: this.props.generalStore.conversations })
+    handleChange = e => this.setState({message: e.target.value})
+
     sendMessage = ev => {
+        console.log("sa")
         ev.preventDefault();
         this.socket.emit('SEND_MESSAGE', {
             author: this.props.generalStore.currentUser.email,
@@ -47,29 +48,29 @@ class Chat extends Component {
 
     render() {
         let generalStore = this.props.generalStore
+        let conversations = generalStore.currentUser.conversations
         let usersConvs = [{ name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
-        let conversations = [
-            {
-                id: "ravidAnddanny",
-                users: ["ravidd9@gmail.com", "dannybrudner@gmail.com"],
-                messages: [
-                    {
-                        author: "ravid",
-                        text: "hi",
-                        time: new Date()
-                    },
-                    {
-                        author: "danny",
-                        text: "hello",
-                        time: new Date()
-                    }
-                ]
-            }
-        ]
+        // let conversations = [
+        //     {
+        //         id: "ravidAnddanny",
+        //         users: ["ravidd9@gmail.com", "dannybrudner@gmail.com"],
+        //         messages: [
+        //             {
+        //                 author: "ravid",
+        //                 text: "hi",
+        //                 time: new Date()
+        //             },
+        //             {
+        //                 author: "danny",
+        //                 text: "hello",
+        //                 time: new Date()
+        //             }
+        //         ]
+        //     }
+        // ]
 
-        // let conversations = this.props.generalStore.currentUser.conversations
-        // let currentChat = generalStore.getMessageList(conversations[this.state.currentConv].messages)
         // let usersConvs= generalStore.getUsersConvs()
+        // let currentChat = generalStore.getMessageList(conversations[this.state.currentConv].messages)
 
         return (
             <div id="chat">
@@ -77,7 +78,7 @@ class Chat extends Component {
                     {usersConvs.map((u, i) => <UserBubble key={i} user={u} />)}
                 </div>
                 <div id="chatContainer">
-                    {conversations[this.state.currentConv].messages.map(m =>
+                    {conversations.length ? conversations[this.state.currentConv].messages.map(m =>
                         <MessageBox
                             position={m.author === generalStore.currentUser.firstName ? "left" : "right"}
                             type={'text'}
@@ -91,15 +92,19 @@ class Chat extends Component {
                                     loading: 0,
                                 }
                             }} />
-                    )}
+                    ):
+                    null}
 
                 </div>
                 <div id="typeContainer">
                     <Input
+                        onChange={this.handleChange}
                         placeholder="Type here..."
                         multiline={true}
                         rightButtons={
                             <Button
+                                type={"outlined"}
+                                onClick={this.sendMessage}
                                 color='white'
                                 backgroundColor='blue'
                                 text='Send' />

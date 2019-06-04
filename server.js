@@ -57,12 +57,31 @@ io.on('connection', (socket) => {
         // io.emit('RECEIVE_MATCH', data)
     })
 
-    socket.on('SEND_MESSAGE', function (data) {
+    socket.on('SEND_MESSAGE', async function (data) {
         console.log(`Recipient name is : ${data.recipient}`)
-        let userSocketId = socketCom.findUsersSocketId(data.recipient)
-        console.log(`Recipient socketID is : ${userSocketId}`)
+        let author = socketCom.findUserByEmail(data.author)
+        let conversationId = socketCom.findConversationIdByEmails(data.author, data.recipient)//
+        let conversation = {}
 
-        socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', data);
+        if(conversationId) {
+            let conversations = await axios.get(`http://localhost:8000/conversations`)//
+            conversation = conversations.find(c => c._id === conversationId)
+            console.log(conversation)
+            conversation.messages.push(data.message)
+
+            await socketCom.updateConversation(conversation)// put request to db to update conversation
+        } else {
+           conversation =  await axios.post(`http://localhost:8000/conversation`, newConversation) // add res.send in post
+        }
+        
+        let userSocketId = socketCom.findUsersSocketId(data.recipient)
+        if(userSocketId) {
+            socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', data);
+        } else{
+            //push notification
+        }
+        
+        console.log(`Recipient socketID is : ${userSocketId}`)
 
         // io.emit('RECEIVE_MESSAGE', data);
     })
