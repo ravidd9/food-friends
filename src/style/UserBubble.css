@@ -1,0 +1,14 @@
+.userBubble{
+    display: grid;
+    grid-template-rows: 4fr 1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.userPic{
+    background-color: grey;
+    border-radius: 50%;
+}
+.userName{
+    
+}

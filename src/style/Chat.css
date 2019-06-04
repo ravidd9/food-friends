@@ -1,0 +1,19 @@
+#chat{
+    display: grid;
+    grid-template-rows: 2fr 10fr 2fr;
+    height: 95vh;
+}
+
+#usersContainer{
+}
+
+#chatContainer{
+
+}
+
+#typeContainer{
+    border: 1px solid black;
+    width: 90%;
+    justify-self: center;
+    height: 43%;
+}
