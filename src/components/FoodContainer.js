@@ -20,8 +20,9 @@ class FoodContainer extends Component {
     }
 
     render() {
-
-        let foods = this.props.generalStore.filterFoodByBudget
+        let generalStore = this.props.generalStore
+        // let foods = generalStore.filterFoodByBudget
+        let foods = generalStore.searchFoodArray
         
         return (
             <div>

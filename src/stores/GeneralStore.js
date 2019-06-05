@@ -9,7 +9,9 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
-    @observable budget = 150
+    // @observable budget = 150
+    @observable foodSearch = ""
+
     @observable socket = io('localhost:8000');
     @observable matchNotification = {
         open: false,
@@ -24,6 +26,10 @@ export class GeneralStore {
     getUserByEmail = email => this.users.find(u => u.email === email)
 
     getEmailsByUsers = users => users.map(u => u.email)
+
+    @computed get searchFoodArray() {
+        return this.foods.filter(f => f.name.includes(this.foodSearch))
+    }
 
     getFoodByName = name => this.foods.find(f => f.name === name)
 

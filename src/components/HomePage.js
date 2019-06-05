@@ -5,7 +5,6 @@ import Filters from './Filters';
 import io from 'socket.io-client'
 import { observer, inject } from 'mobx-react';
 import { Redirect } from 'react-router-dom'
-import Chat from './Chat';
 
 @inject("generalStore")
 @observer
@@ -30,7 +29,7 @@ class HomePage extends Component {
         }
     }
 
-    addFood = () => this.props.generalStore.saveFood(this.state.foodInput)
+    // addFood = () => this.props.generalStore.saveFood(this.state.foodInput)
 
     componentDidMount = async () => {
         await this.props.generalStore.makeActive()
@@ -47,7 +46,7 @@ class HomePage extends Component {
         }
     }
 
-    updateInput = e => this.setState({ foodInput: e.target.value })
+    updateFoodSearch = e => this.props.generalStore.foodSearch = e.target.value
 
     render() {
         let generalStore = this.props.generalStore
@@ -56,11 +55,15 @@ class HomePage extends Component {
                 {generalStore.currentUser.firstName ?
                     <div id="homePageContainer">
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
-                        <div id="addFood">
+                        {/* <div id="addFood">
                             <input placeholder="ADD NEW FOOD" onKeyDown={this.handleChange} onChange={this.updateInput} value={this.state.foodInput} />
                             <button onClick={this.addFood}>ADD</button>
+                        </div> */}
+                        <div id="searchFood">
+                            <input placeholder="Enter Search query" onChange={this.updateFoodSearch} value={generalStore.foodSearch} />
                         </div>
-                        <Filters />
+
+                        {/* <Filters /> */}
                         <FoodContainer />
                     </div> :
                     <Redirect to="/" />}

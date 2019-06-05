@@ -12,3 +12,7 @@ h2 {
     justify-self: center ;
     text-transform: capitalize;
 }
+
+#searchFood{
+    margin-bottom: 5%;
+}
