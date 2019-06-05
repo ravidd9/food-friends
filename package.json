@@ -65,6 +65,7 @@
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
+    "react-particles-js": "^2.4.0",
     "react-router-dom": "^5.0.0",
     "react-spring": "^8.0.20",
     "react-tagsinput": "^3.19.0",

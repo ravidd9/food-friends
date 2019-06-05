@@ -11,15 +11,13 @@ class ChosenFood extends Component {
 
     render() {
         let generalStore = this.props.generalStore
-        console.log(this.props.selectedFood)
         let food = generalStore.getFoodByName(this.props.selectedFood)
-        console.log(food)
 
         return (
             <div className="chosenFood">
                 {food ?
                     <div onClick={this.changeSelectedFood} className="picAndText">
-                        <img src={food.pic} className={food.name === this.props.currentFood ? "selected-image" : ""}></img>
+                        <img src={food.pic} id={food.name === this.props.currentFood ? "selected-img" : ""}></img>
                         <div className="text">{food.name.toUpperCase()}</div>
                     </div> :
                     null

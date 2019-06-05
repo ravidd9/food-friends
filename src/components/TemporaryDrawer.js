@@ -15,6 +15,9 @@ const useStyles = makeStyles({
   list: {
     width: 250,
   },
+  root: {
+    color: '#2ecc71'
+  },
   fullList: {
     width: 'auto',
   },
