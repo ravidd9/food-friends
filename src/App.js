@@ -14,7 +14,6 @@ import TemporaryDrawer from './components/TemporaryDrawer';
 import Profile from './components/Profile';
 import SimpleSnackbar from './components/SimpleSnackbar';
 
-const swup = new swup()
 
 
 

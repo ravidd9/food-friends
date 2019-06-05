@@ -66,6 +66,7 @@
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-router-dom": "^5.0.0",
+    "react-spring": "^8.0.20",
     "react-tagsinput": "^3.19.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
