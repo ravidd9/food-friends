@@ -6,6 +6,7 @@ import io from 'socket.io-client'
 import { observer, inject } from 'mobx-react';
 import { Redirect } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops';
+import D3 from './D3';
 
 @inject("generalStore")
 @observer
@@ -23,6 +24,7 @@ class HomePage extends Component {
             props.generalStore.addMatch(email)
         })
     }
+
 
     handleChange = e => {
         if (e.key === "Enter") {
@@ -75,6 +77,7 @@ class HomePage extends Component {
 
                         {/* <Filters /> */}
                         <FoodContainer />
+                        {/* <D3 /> */}
                     </div> :
                     <Redirect to="/" />}
                 {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
