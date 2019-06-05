@@ -219,10 +219,6 @@ let food = [
         pic: "https://img.etimg.com/thumb/msid-67055775,width-643,imgsize-709079,resizemode-4/coffeebeans.jpg"
     },
     {
-        name: "indian",
-        pic: "https://www.sheknows.com/wp-content/uploads/2018/08/ti8wzfbbvdspxo8dg1ci.jpeg"
-    },
-    {
         name: "seafood",
         pic: "https://images.ricardocuisine.com/services/recipes/500x675_5114.jpg"
     },

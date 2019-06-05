@@ -27,20 +27,20 @@ export class GeneralStore {
 
     @observable socket = io('localhost:8000');
 
-    getUserFromConvs = () =>{
+    getUserFromConvs = () => {
         let emails = []
-        this.conversations.forEach(c =>{
-            if(c.users){
-                c.users.forEach(u=>{
-                    if(u !== this.currentUser.email){
+        this.conversations.forEach(c => {
+            if (c.users) {
+                c.users.forEach(u => {
+                    if (u !== this.currentUser.email) {
                         emails.push(u)
                     }
                 })
             }
         })
-        let users = emails.map(e=> this.getUserByEmail(e))
+        let users = emails.map(e => this.getUserByEmail(e))
         return users
-    } 
+    }
 
     getUserByEmail = email => this.users.find(u => u.email === email)
 
@@ -133,7 +133,7 @@ export class GeneralStore {
     @action addMessage = async data => {
 
         console.log(data)
-        
+
         let currentUser = this.currentUser
         let matchedUser = this.users.find(u => u.email == data.recipient)
         console.log(currentUser)
@@ -235,6 +235,11 @@ export class GeneralStore {
         return sortedUsers
     }
 
+    @action updateFoodSearch = value => {
+        let word = this.foodSearch + value
+        console.log(word)
+        this.foodSearch.replace(word)
+    }
 
     @action addMatch = async email => {
         let name = this.getUserByEmail(email).firstName
@@ -247,7 +252,9 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
+
         if (!this.currentUser.matchedWith.find(e => e === email)) {
+            console.log("here")
             this.currentUser.matchedWith.unshift(email)
             await this.updateUser('matchedWith')
             console.log(this.currentUser.matchedWith)
@@ -259,9 +266,13 @@ export class GeneralStore {
         }
     }
 
-    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {
-        open: shouldOpen,
-        name
+    @action handleMatchNotification = (shouldOpen, name) => {
+        this.matchNotification = {
+            open: shouldOpen,
+            name
+        }
+
+        console.log(this.matchNotification)
     }
 
 
