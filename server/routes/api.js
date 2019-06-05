@@ -87,6 +87,11 @@ router.get('/conversations', async function (req, res) {
     res.send(conversations)
 })
 
+router.get('/conversation/:id', async function(req, res) {
+    let conversation = await Conversation.find({_id: req.params.id})
+    res.send(conversation)
+})
+
 router.put('/conversations/update', async function (req, res) {
     console.log(req.body)
 
