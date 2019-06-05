@@ -1,12 +1,12 @@
 .foodRoom{
     /* display: grid ;
     grid-template-rows: 1fr 8fr ; */
-    background-color: #d8d8d8;
+    background-color:#f5f0f0;
 }
 
 .chosenFoods {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    margin: 5%;
+    margin: 2%;
 }

@@ -41,20 +41,16 @@ class Login extends Component {
     render() {
         return (
             <div id="login">
-                <div>Already a member?</div>
                 <div id="loginForm">
-                    <div>Email</div>
-                    <input type="email" placeholder="Enter Email" name="email" onChange={this.handleInput} />
-                    <div>Password</div>
-                    <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
+                    <input className="login-form" type="email" placeholder="Enter Email" name="email" onChange={this.handleInput} />
+                    <input className="login-form" type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
                 </div>
-                <button id="loginButton" onClick={this.checkLogin} >Login</button>
+                <div id="loginButton" onClick={this.checkLogin} >LOG IN</div>
                 {this.state.invalidLogin ?
                     <div className="error">Wrong Email or Password</div> :
                     null}
                 <div id="navigateToRegister">
-                    <span> Not a member?, </span>
-                    <span id="registerLink" onClick={this.changeLogin}>Sign Up</span>
+                    <div id="registerLink" onClick={this.changeLogin}>Not a member? Sign Up</div>
                 </div>
             </div>
         );
