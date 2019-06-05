@@ -24,9 +24,14 @@ export class GeneralStore {
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     @observable conversations = []
     @observable facebookDetails = []
-
+    @observable dummy = 0
     @observable socket = io('localhost:8000');
 
+    @action changeDummy = () => {
+        let newDummy = this.dummy + 1
+        this.dummy = newDummy
+        // this.dummy.replace(newDummy)
+    }
     getUserFromConvs = () => {
         let emails = []
         this.conversations.forEach(c => {
@@ -360,5 +365,11 @@ export class GeneralStore {
                 })
             }
         })
+
+        // this.socket.on('RECEIVE_MESSAGE', function (data) {
+        //     console.log(data)
+        //     // this.forceUpdate()
+        //     // props.generalStore.changeDummy()
+        // })
     }
 }
