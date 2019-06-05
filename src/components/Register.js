@@ -64,9 +64,7 @@ class Register extends Component {
     handleInterests = interests => this.setState({ interests })
 
     facebookLogin = async () => {
-        // let facebookDetails = this.props.generalStore.facebookDetails[0].name 
-        // let facebookName = facebookDetails.name
-        // console.log(facebookDetails)
+
         await this.setState({ isFacebookLoggidIn: true })
         this.setState({
             firstName: this.props.generalStore.facebookDetails[0].firstName,
@@ -87,7 +85,7 @@ class Register extends Component {
             vegan: s.vegan,
             vegetarian: s.vegetarian,
             matchedWith: [],
-            conversations:[],
+            conversations: [],
             lastSeen: new Date(),
             isActive: true,
             interestedFood: []
@@ -95,7 +93,7 @@ class Register extends Component {
         }
         newUser = await this.props.generalStore.saveUser(newUser)
         this.props.generalStore.changeCurrentUser(newUser)
-        window.location = "http://localhost:3000/home" 
+        window.location = "http://localhost:3000/home"
     }
 
     handleCheckBox = e => this.setState({ [e.target.name]: !this.state[e.target.name] })
@@ -126,8 +124,8 @@ class Register extends Component {
 
             <div id="register">
 
-                <h3>Sign up using Facebook </h3>
-                {/* <FacebookLogIn facebookLogin={this.facebookLogin} /> */}
+                <h2>Sign up using Facebook </h2>
+                <FacebookLogIn facebookLogin={this.facebookLogin} />
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
                     <div>First Name</div>
