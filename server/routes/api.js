@@ -93,14 +93,11 @@ router.get('/conversation/:id', async function(req, res) {
 })
 
 router.put('/conversations/update', async function (req, res) {
-    console.log(req.body)
-
-    let update = Conversation.findOneAndUpdate({ id: req.body.id}, { messages: req.body.messages })
+    let body = req.body
+    let update = Conversation.findByIdAndUpdate(body._id, { messages: req.body.messages }, {new:true})
     update.then(function (conversation) {
         res.send(conversation)
     })
-
-    // res.send(conversations)
 })
 
 router.post(`/food`, async function (req, res) {

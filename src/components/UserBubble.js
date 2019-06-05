@@ -4,17 +4,20 @@ import "../style/UserBubble.css"
 
 class UserBubble extends Component {
 
-    openUserChat = () => {
-
-    }
+    changeSelectedUser = () => this.props.changeSelectedUser(this.props.user, this.props.index)
 
     render() {
         let user = this.props.user
-        console.log(user)
+
         return (
-            <div className="userBubble" onClick={this.openUserChat}>
-                <img src={user.profilePic} className={user.email === this.props.currentUser ? "selected-image" : ""} />
-                <div className="userName">{user.firstName}</div>
+            <div className="userBubble">
+                {this.props.currentUser ?
+                    <div className="picAndText" onClick={this.changeSelectedUser}>
+                        <img src={user.profilePic} id={user.email === this.props.currentUser.email ? "selected-user" : ""} />
+                        <div className="userName">{user.firstName}</div>
+                    </div> :
+                    null
+                }
             </div>
         );
     }
