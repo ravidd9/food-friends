@@ -76,12 +76,18 @@ io.on('connection', (socket) => {
             text: data.message,
             time: new Date()
         })
+
+        
         
         conversation = await axios.put(`http://localhost:8000/conversations/update`, conversation)
 
+        console.log(data.recipient)
         let userSocketId = socketCom.findUsersSocketId(data.recipient)
+
+        console.log(userSocketId)
         if (userSocketId) {
-            socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', conversation_id);
+            console.log("imhere")
+            socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', "string");
         } else {
             //push notification
         }
