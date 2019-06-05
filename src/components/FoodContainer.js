@@ -26,7 +26,7 @@ class FoodContainer extends Component {
         
         return (
             <div>
-                <div id="searchSelected" onClick={this.addInterestedFood}>SEARCH</div>
+                {/* <div id="searchSelected" onClick={this.addInterestedFood}>SEARCH</div> */}
                 <div id="foodContainer">
                     {foods.map((f, i) => <FoodBubble key={i} food={f} />)}
                 </div>

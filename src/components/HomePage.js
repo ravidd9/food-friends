@@ -7,6 +7,9 @@ import { observer, inject } from 'mobx-react';
 import { Redirect } from 'react-router-dom'
 import { Spring } from 'react-spring/renderprops';
 import D3 from './D3';
+import FabButton from './FabButton'
+
+
 
 @inject("generalStore")
 @observer
@@ -25,7 +28,10 @@ class HomePage extends Component {
         })
     }
 
+    
 
+    
+    
     handleChange = e => {
         if (e.key === "Enter") {
             this.props.generalStore.saveFood(e.target.value)
@@ -53,17 +59,26 @@ class HomePage extends Component {
         this.props.generalStore.foodSearch = e.target.value
     }
 
-    render() {
+    addInterestedFood = () => {
         let generalStore = this.props.generalStore
+        if(generalStore.filteredFood[0]){
+            generalStore.addInterestedFood()
+            window.location = "http://localhost:3000/food-room" 
+        }
+    }
+
+    render() {
+        
+        let generalStore = this.props.generalStore
+
         return (
 
-
-            <Spring
-                from={{ opacity: 0.25 }}
-                to={{ opacity: 1 }}
-            >
-                {props => (
-                    <div style={props}>
+            // <Spring
+            //     from={{ opacity: 0.25 }}
+            //     to={{ opacity: 1 }}
+            // >
+            //     {props => (
+            //         <div style={props}>
 
                         <div id="homePage">
                             {generalStore.currentUser.firstName ?
@@ -83,10 +98,9 @@ class HomePage extends Component {
                                 </div> :
                                 <Redirect to="/" />}
                             {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
+                            <div id="fab-container"onClick={this.addInterestedFood}><FabButton/></div>
                         </div>
-                    </div>
-                )}
-            </Spring>
+                   
 
         );
     }
