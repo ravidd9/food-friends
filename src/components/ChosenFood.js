@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import "../style/ChosenFood.css"
 
 @inject("generalStore")
+@observer
 
 class ChosenFood extends Component {
 
@@ -10,18 +11,20 @@ class ChosenFood extends Component {
 
     render() {
         let generalStore = this.props.generalStore
+        console.log(this.props.selectedFood)
         let food = generalStore.getFoodByName(this.props.selectedFood)
+        console.log(food)
 
         return (
-
-             
-                
-                <span onClick={this.changeSelectedFood} className="picAndText">
-                    {food.name === this.props.currentFood ? <img src={food.pic} className="selected-image"></img> : <img src={food.pic}></img>}
-                    <div className="text">{food.name.toUpperCase()}</div>
-                </span>
-
-            
+            <div className="chosenFood">
+                {food ?
+                    <div onClick={this.changeSelectedFood} className="picAndText">
+                        <img src={food.pic} className={food.name === this.props.currentFood ? "selected-image" : ""}></img>
+                        <div className="text">{food.name.toUpperCase()}</div>
+                    </div> :
+                    null
+                }
+            </div>
         );
     }
 }

@@ -85,10 +85,17 @@ class Register extends Component {
             interests: s.interests,
             kosher: s.kosher,
             vegan: s.vegan,
-            vegetarian: s.vegetarian
+            vegetarian: s.vegetarian,
+            matchedWith: [],
+            conversations:[],
+            lastSeen: new Date(),
+            isActive: true,
+            interestedFood: []
+
         }
-        await this.props.generalStore.saveUser(newUser)
-        this.changeLogin()
+        newUser = await this.props.generalStore.saveUser(newUser)
+        this.props.generalStore.changeCurrentUser(newUser)
+        window.location = "http://localhost:3000/home" 
     }
 
     handleCheckBox = e => this.setState({ [e.target.name]: !this.state[e.target.name] })
@@ -120,7 +127,7 @@ class Register extends Component {
             <div id="register">
 
                 <h3>Sign up using Facebook </h3>
-                <FacebookLogIn facebookLogin={this.facebookLogin} />
+                {/* <FacebookLogIn facebookLogin={this.facebookLogin} /> */}
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
                     <div>First Name</div>

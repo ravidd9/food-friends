@@ -24,7 +24,7 @@ const upload = multer({
     limits: { fileSize: 1000000 },
 }).single("myImage");
 
-const getUsersFromDB = async () => User.find({})
+const getUsersFromDB = async () => User.find({}) //should only query anyone who isActive
 const getFoodsFromDB = async () => Food.find({})
 const getConversationsFromDB = async () => Conversation.find({})
 
@@ -87,12 +87,17 @@ router.get('/conversations', async function (req, res) {
     res.send(conversations)
 })
 
+router.get('/conversation/:id', async function(req, res) {
+    let conversation = await Conversation.find({_id: req.params.id})
+    res.send(conversation)
+})
+
 router.put('/conversations/update', async function (req, res) {
     console.log(req.body)
 
     let update = Conversation.findOneAndUpdate({ id: req.body.id}, { messages: req.body.messages })
     update.then(function (conversation) {
-        res.send("updated")
+        res.send(conversation)
     })
 
     // res.send(conversations)

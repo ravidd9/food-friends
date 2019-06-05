@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Home from '@material-ui/icons/Home';
 import HowToReg from '@material-ui/icons/HowToReg';
+import Chat from '@material-ui/icons/Chat';
 import { Link } from 'react-router-dom';
 import "../style/ButtonAppBar.css"
 
@@ -91,6 +92,14 @@ function ButtonAppBar() {
               <HowToReg />
             </ListItemIcon>
             <ListItemText primary={"Matches"} />
+          </ListItem>
+        </Link>
+        <Link to="/chat">
+          <ListItem button key={"Chats"}>
+            <ListItemIcon>
+              <Chat />
+            </ListItemIcon>
+            <ListItemText primary={"Chats"} />
           </ListItem>
         </Link>
       </List>

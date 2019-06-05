@@ -25,7 +25,10 @@ class SocketCom {
 
     saveIdToUser(id, email) {
         let user = this.findUserByEmail(email)
-        user.socketId = id
+        if(user) {
+            user.socketId = id
+
+        }
     }
 
     findUserByEmail(email) {
@@ -35,6 +38,13 @@ class SocketCom {
     findUsersSocketId(email) {
         let user = this.findUserByEmail(email)
         return user.socketId
+    }
+
+    async findConversationIdByEmails(authorEmail, recipientEmail){
+        let conversations = await axios.get(`http://localhost:8000/conversations`)
+        let conversation = conversations.find(c => c.users.some(u => u === authorEmail) && c.users.some(u => recipientEmail))
+        console.log(conversation)
+        return conversation ? conversation._id : false
     }
 }
 

@@ -22,6 +22,13 @@ import SimpleSnackbar from './components/SimpleSnackbar';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.socket = props.generalStore.socket
+
+  }
+
   componentDidMount = async () => {
     await this.props.generalStore.getFoodsFromDB()
     await this.props.generalStore.getUsersFromDB()
@@ -33,6 +40,9 @@ class App extends Component {
   }
 
   render() {
+
+    this.props.generalStore.socketUsernameListener()
+    
     return (
       <Router>
         <SimpleSnackbar />
@@ -42,7 +52,7 @@ class App extends Component {
         <Route exact path='/home' render={() => <HomePage />} />
         <Route exact path='/food-room' render={() => <FoodRoom />} />
         <Route exact path='/show-match' render={() => <ShowMatch />} />
-        <Route exact path='/chat' render={() => <Chat />} /> 
+        <Route exact path='/chat' render={() => <Chat />} />
         <Route exact path='/profile' render={() => <Profile />} />
 
       </Router>

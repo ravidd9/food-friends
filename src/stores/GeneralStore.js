@@ -1,8 +1,7 @@
-import { observable, action, computed } from 'mobx'
+import {observable,action,computed} from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
-import { async } from 'q';
 import io from 'socket.io-client'
-import { object } from 'prop-types';
+const CronJob = require('cron').CronJob
 
 const API_URL = 'http://localhost:8000'
 
@@ -10,9 +9,14 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
-    @observable budget = 150
+    // @observable budget = 150
+    @observable foodSearch = ""
+
     @observable socket = io('localhost:8000');
-    @observable matchNotification = { open: false, name: "" }
+    @observable matchNotification = {
+        open: false,
+        name: ""
+    }
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     @observable conversations = []
     @observable facebookDetails = []
@@ -23,11 +27,30 @@ export class GeneralStore {
 
     getEmailsByUsers = users => users.map(u => u.email)
 
+    @computed get searchFoodArray() {
+        return this.foods.filter(f => f.name.includes(this.foodSearch))
+    }
+
     getFoodByName = name => this.foods.find(f => f.name === name)
 
+    @action getUsersConversationsFromDB = async () => {
+        // console.log(this.currentUser.conversations)
+        for(let c of this.currentUser.conversations){
+            let conversation = await axios.get(`${API_URL}/conversation/${c}`)
+            console.log(conversation.data[0])
+            this.conversations.push(conversation.data[0])
+        }
+        console.log(this.conversations[0])
+    }
+
     @action saveUser = async (user) => {
-        await axios.post(`${API_URL}/user`, user)
+        let randomNum = Math.floor(Math.random() * 1000) + 1;
+        user.profilePic = `https://api.adorable.io/avatars/${randomNum}.jpg`
+        let newUser = await axios.post(`${API_URL}/user`, user)
+
+        console.log(newUser)
         await this.getUsersFromDB()
+        return newUser.data
     }
 
     @action makeActive = async () => {
@@ -38,18 +61,15 @@ export class GeneralStore {
         await this.updateUser('lastSeen', this.currentUser)
     }
 
-    @action saveFood = async (food) => {
+    @action saveFood = async food => {
         let doesExist = this.foods.some(u => u.name == food)
-        console.log(doesExist)
-
-        let foodToAdd = { name: food.toLowerCase() }
 
         if (doesExist) {
-            return
-        }
-        else {
-            await axios.post(`${API_URL}/food`, foodToAdd)
-            await this.getFoodsFromDB()
+            alert("Food already exists, please select it from bubbles.")
+        } else {
+            let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
+            console.log(foodToAdd)
+
         }
     }
     @action getUsersFromDB = async () => {
@@ -65,7 +85,6 @@ export class GeneralStore {
         let conversationsFromDB = await axios.get(`${API_URL}/conversations`)
         await this.conversations.push(conversationsFromDB)
         return conversationsFromDB.data
-
     }
 
     @action filterFoodByName = async (selectedFood) => {
@@ -86,20 +105,25 @@ export class GeneralStore {
 
     @action addInterestedFood = async () => {
         this.currentUser.interestedFood = this.filteredFood
-        this.updateUser('interestedFood')
+        await this.updateUser('interestedFood')
     }
 
-    @action addMessage = data => {
+    @action addMessage = async data => {
 
         console.log(data)
 
+        let currentUser = this.currentUser
         let matchedUser = this.users.find(u => u.email == data.author)
-        console.log(matchedUser)
 
-        let message = []
-        message.push({ author: data.author, message: data.message })
+        let message = { author: data.author, message: data.message }
 
-        this.pushToConversations(matchedUser.email, message)
+        let conversationsFromDB = await this.getConversationsFromDB()
+        let conversationToUpdate = conversationsFromDB.find(c =>
+            c.users[0] == matchedUser.email && c.users[1] == currentUser.email ||
+            c.users[0] == currentUser.email && c.users[1] == matchedUser.email)
+
+        conversationToUpdate.messages.push(message)
+        this.updateConversationInDB(conversationToUpdate)
 
     };
 
@@ -124,68 +148,24 @@ export class GeneralStore {
         return usersWithoutCurrent
     }
 
-    pushToConversations = async (matchedUser, message) => {
-
-
-        let currentUser = this.currentUser.email
-        let userConversations = this.currentUser.conversations.map(c => c.id)
-        console.log(userConversations)
-        let conversationId = `${currentUser}And${matchedUser}`
-
-        console.log(conversationId)
-        console.log(message)
-
-        let newConversationContent = {
-            id: conversationId,
-            users: [currentUser, matchedUser],
-            messages: [
-                {
-                    author: message[0].author,
-                    text: message[0].message,
-                    time: new Date()
-                }
-            ]
-        }
-        console.log(newConversationContent)
-
-        console.log(conversationId)
-
-        await this.currentUser.conversations.push({ id: conversationId })
-        await this.updateUser("conversations")
-
-        if (userConversations == "dannybrudner@gmail.comAndyossidagan@gmail.com" ||
-            "yossidagan@gmail.comAnddannybrudner@gmail.com") {
-            console.log("Ok")
-            await this.updateConversationInDB(message)
-        }
-        // else {
-        //     await this.addConversation(newConversationContent)
-        //     await this.getConversationsFromDB()
-
-        // }
-    }
-    updateConversationInDB = async (message) => {
-        let conversationsFromDB = await this.getConversationsFromDB()
-        console.log(conversationsFromDB)
-        let exactConversation = conversationsFromDB.find(c => c.id == "dannybrudner@gmail.comAndyossidagan@gmail.com" ||
-            "yossidagan@gmail.comAnddannybrudner@gmail.com")
-        console.log(exactConversation)
-        console.log(message[0].message)
-
-        exactConversation.messages.push({
-            author: message[0].author,
-            text: message[0].message,
-            time: new Date()
-        })
-        console.log(exactConversation)
-
-        await axios.put(`${API_URL}/conversations/update`, exactConversation);
+    updateConversationInDB = async (conversationToUpdate) => {
+        await axios.put(`${API_URL}/conversations/update`, conversationToUpdate);
         await this.getConversationsFromDB()
     }
 
 
-    @action addConversation = (newConversation) => {
-        return axios.post(`${API_URL}/conversation`, newConversation);
+    @action addConversation = async (newConversation, matchedUserEmail) => {
+        let conversation = await axios.post(`${API_URL}/conversation`, newConversation)
+
+        conversation = conversation.data
+        console.log(conversation._id)
+        this.currentUser.conversations.push(conversation._id)
+        this.updateUser('conversations')
+
+        let matchedUser = this.users.find(u => u.email === matchedUserEmail)
+        matchedUser.conversations.push(conversation._id)
+        await this.updateUserInDB(matchedUser, 'conversations')
+        await this.getUsersFromDB()
     }
 
     @action findUsersByFoodName = (interestedUsers, foodName) =>
@@ -238,16 +218,22 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
-        this.currentUser.matchedWith.push(email)
-        await this.updateUser('matchedWith')
+        if (!this.currentUser.matchedWith.find(e => e === email)) {
+            this.currentUser.matchedWith.unshift(email)
+            await this.updateUser('matchedWith')
+            console.log(this.currentUser.matchedWith)
 
-        this.socket.emit('MATCH', {
-            currentUser: this.currentUser.email,
-            matchedUser: email
-        })
+            this.socket.emit('MATCH', {
+                currentUser: this.currentUser.email,
+                matchedUser: email
+            })
+        }
     }
 
-    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = { open: shouldOpen, name }
+    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {
+        open: shouldOpen,
+        name
+    }
 
 
     @action checkLogin = (email, password) => {
@@ -266,10 +252,10 @@ export class GeneralStore {
         let splitName = details.name.split(" ")
 
         this.facebookDetails.push({
-            firstName : splitName[0],
-            lastName : splitName[1],
-            email : details.email, 
-            pic : details.pic
+            firstName: splitName[0],
+            lastName: splitName[1],
+            email: details.email,
+            pic: details.pic
         })
 
         console.log(this.facebookDetails)
@@ -282,5 +268,57 @@ export class GeneralStore {
 
     @action checkExistUser = email => this.users.some(u => u.email.toLowerCase() === email.toLowerCase())
 
+    // job = new CronJob('0 */1 * * * *', function() {
+    //     this.getUsersFromDB()
+    // })
+    @action addUserLocation = async position => {
+        let name = await this.getLocationName(position.coords.latitude, position.coords.longitude)
+        let location = {
+            name,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        }
+        this.currentUser.location = location
+        this.updateUser("location")
+    }
 
+    getConversationById = (convId) => this.conversations.find(c => c._id === convId)
+
+    getLocationName = async (latitude, longitude) => {
+        let apiKey = "AIzaSyDyEUWonGwNpeknij5cwdp94mN4ZL7Raxo"
+        let data = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?key=${apiKey}&latlng=${latitude},${longitude}&sensor=false&language=en`)
+        let name = data.data.results[0].address_components[2].short_name
+        console.log(name)
+        return name
+    }
+
+    getDistance = (lat2, lon2) => {
+        if (typeof (Number.prototype.toRad) === "undefined") {
+            Number.prototype.toRad = function () {
+                return this * Math.PI / 180;
+            }
+        }
+
+        let lat1 = this.currentUser.location.latitude
+        let lon1 = this.currentUser.location.longitude
+        let R = 6371; // Radius of the earth in km
+        let dLat = (lat2 - lat1).toRad(); // Javascript functions in radians
+        let dLon = (lon2 - lon1).toRad();
+        let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        let d = R * c; // Distance in km
+        return Math.round(d * 100) / 100;
+    }
+
+    socketUsernameListener = () => {
+        this.socket.on('GET_USERNAME', () => {
+            if (this.currentUser.firstName) {
+                this.socket.emit('SAVE_ID', {
+                    currentUser: this.currentUser.email
+                })
+            }
+        })
+    }
 }
