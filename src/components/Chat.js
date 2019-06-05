@@ -33,6 +33,8 @@ class Chat extends Component {
     }
 
     changeSelectedUser = (user,index) => {
+        console.log(user)
+        console.log(index)
         this.setState({selectedUser: user, currentConv: index})
     }
 
@@ -45,7 +47,7 @@ class Chat extends Component {
             recipient: this.state.selectedUser.email
             // recipient: this.props.generalStore.currentUser.matchedWith[0]
         }
-        console.log(data)
+        console.log()
         this.socket.emit('SEND_MESSAGE', data)
         await this.props.generalStore.addMessage(data)
         this.setState({ message: '' });
