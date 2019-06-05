@@ -99,32 +99,12 @@ class Register extends Component {
     handleCheckBox = e => this.setState({ [e.target.name]: !this.state[e.target.name] })
 
 
-    // onFormSubmit = (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData();
-    //     formData.append('myImage',this.state.file);
-    //     const config = {
-    //         headers: {
-    //             'content-type': 'multipart/form-data'
-    //         }
-    //     };
-    //     axios.post("http://localhost:8000/upload",formData,config)
-    //         .then((response) => {
-    //             alert("The file is successfully uploaded");
-    //         }).catch((error) => {
-    //     });
-    // }
-    // onChange = (e) => {
-    //     this.setState({file:e.target.files[0]});
-    // }
-
-
     render() {
         return (
 
             <div id="register">
 
-                <h2>Sign up using Facebook </h2>
+                <div className="signupWithFB">Sign up using Facebook </div>
                 <FacebookLogIn facebookLogin={this.facebookLogin} />
                 <div>Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
