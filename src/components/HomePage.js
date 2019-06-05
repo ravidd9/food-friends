@@ -5,6 +5,8 @@ import Filters from './Filters';
 import io from 'socket.io-client'
 import { observer, inject } from 'mobx-react';
 import { Redirect } from 'react-router-dom'
+import { Spring } from 'react-spring/renderprops';
+import D3 from './D3';
 
 @inject("generalStore")
 @observer
@@ -22,6 +24,7 @@ class HomePage extends Component {
             props.generalStore.addMatch(email)
         })
     }
+
 
     handleChange = e => {
         if (e.key === "Enter") {
@@ -55,17 +58,18 @@ class HomePage extends Component {
          <div id="homePage">
                 {generalStore.currentUser.firstName ?
                     <div id="homePageContainer">
-                        <h2>Welcome, {generalStore.currentUser.firstName}</h2>
+                        <h4>Welcome back, {generalStore.currentUser.firstName[0].toUpperCase() + generalStore.currentUser.firstName.slice(1)}</h4>
                         {/* <div id="addFood">
                             <input placeholder="ADD NEW FOOD" onKeyDown={this.handleChange} onChange={this.updateInput} value={this.state.foodInput} />
                             <button onClick={this.addFood}>ADD</button>
                         </div> */}
                         <div id="searchFood">
-                            <input placeholder="Enter Search query" onChange={this.updateFoodSearch} value={generalStore.foodSearch} />
+                            <input id="filter-food" placeholder="Type to filter your food" onChange={this.updateFoodSearch} value={generalStore.foodSearch} />
                         </div>
 
                         {/* <Filters /> */}
                         <FoodContainer />
+                        {/* <D3 /> */}
                     </div> :
                     <Redirect to="/" />}
                 {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}

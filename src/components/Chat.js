@@ -7,6 +7,7 @@ import "../style/Chat.css"
 
 import { MessageBox, MessageList, Input, Button } from 'react-chat-elements';
 import UserBubble from './UserBubble';
+import { func } from 'prop-types';
 
 
 
@@ -21,73 +22,72 @@ class Chat extends Component {
         this.state = {
             message: "",
             currentConv: 0,
-            selectedUser: props.generalStore.currentUser.matchedWith[0]
+            selectedUser: null,
+            conversations : props.generalStore.conversations
         }
         
 
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
-            await props.generalStore.addMessage(data)
             // this.getConversation()
         })
 
     }
 
-    sendMessage = ev => {
+    changeSelectedUser = (user,index) => {
+        this.setState({selectedUser: user, currentConv: index})
+    }
+
+
+    sendMessage = async ev => {
+
+        let generalStore = this.props.generalStore
+
         ev.preventDefault();
-        this.socket.emit('SEND_MESSAGE', {
+        let data = {
             author: this.props.generalStore.currentUser.email,
             message: this.state.message,
-            recipient: this.props.generalStore.currentUser.matchedWith[0]
+            recipient: this.state.selectedUser.email
             // recipient: this.props.generalStore.currentUser.matchedWith[0]
-        })
+        }
+        // console.log(data)
+        this.socket.emit('SEND_MESSAGE', data)
+        await generalStore.addMessage(data)
         this.setState({ message: '' });
+        await generalStore.getUsersConversationsFromDB()
+        console.log('here')
+        // console.log(generalStore.conversations)
+        this.refs.input.clear()
+        // this.updateConv()
+    }   
 
-
-    }
+updateConv = () => {
+    let generalStore = this.props.generalStore
+    console.log('herehere')
+    // this.setState({ conversations : generalStore.conversations})
+}
 
     async componentDidMount() {
-        await this.props.generalStore.getUsersConversationsFromDB()
+       let userConvs = await this.props.generalStore.getUsersConversationsFromDB()
+        this.setState({selectedUser: this.props.generalStore.getUserFromConvs()[0]})
+
     }
 
-    async componentDidUpdate() {
-        // await this.props.generalStore.getUsersConversationsFromDB()
-    }
+   
+
+    handleChange = e => this.setState({message: e.target.value})
 
     render() {
         let generalStore = this.props.generalStore
-        // let conversations = generalStore.currentUser.conversations
-        let usersConvs = [{email: "dannybrudner@gmail.com", name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
-        let conversations = [
-            {
-                id: "ravidAnddanny",
-                users: ["ravidd9@gmail.com", "dannybrudner@gmail.com"],
-                messages: [
-                    {
-                        author: "ravid",
-                        text: "hi",
-                        time: new Date()
-                    },
-                    {
-                        author: "danny",
-                        text: "hello",
-                        time: new Date()
-                    }
-                ]
-            }
-        ]
-
-        
-
-        let conversation = this.props.generalStore.getConversationById(conversations[0])
-        console.log(this.props.generalStore.conversations[0])
-        console.log(conversation)
-
-
+        let conversations = generalStore.conversations
+        // console.log(conversations[0].messages[0].text)
+        let usersConvs = generalStore.getUserFromConvs()
+        // console.log(usersConvs)
+        // console.log(conversations)
         return (
             <div id="chat">
                 <div id="usersContainer">
-                    {usersConvs.map((u, i) => <UserBubble key={i} user={u} currentUser={this.state.selectedUser} />)}
+                    {usersConvs.map((u, i) => <UserBubble key={i} index={i} user={u} currentUser={this.state.selectedUser} changeSelectedUser={this.changeSelectedUser} />)}
                 </div>
                 <div id="chatContainer">
                     {conversations.length ? conversations[this.state.currentConv].messages.map(m =>
@@ -113,6 +113,8 @@ class Chat extends Component {
                         onChange={this.handleChange}
                         placeholder="Type here..."
                         multiline={true}
+                        ref='input'
+                        defaultValue={this.state.message}
                         rightButtons={
                             <Button
                                 type={"outlined"}
