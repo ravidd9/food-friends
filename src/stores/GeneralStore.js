@@ -1,13 +1,6 @@
-import {
-    observable,
-    action,
-    computed
-} from 'mobx'
+import {observable,action,computed} from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
 import io from 'socket.io-client'
-import {
-    object
-} from 'prop-types';
 const CronJob = require('cron').CronJob
 
 const API_URL = 'http://localhost:8000'
@@ -38,7 +31,7 @@ export class GeneralStore {
         let randomNum = Math.floor(Math.random() * 1000) + 1;
         user.profilePic = `https://api.adorable.io/avatars/${randomNum}.jpg`
         let newUser = await axios.post(`${API_URL}/user`, user)
-    
+
         console.log(newUser)
         await this.getUsersFromDB()
         return newUser.data
@@ -60,7 +53,7 @@ export class GeneralStore {
         } else {
             let foodToAdd = await axios.get(`http://www.recipepuppy.com/api/?q=${food}`)
             console.log(foodToAdd)
-           
+
         }
     }
     @action getUsersFromDB = async () => {
@@ -97,7 +90,7 @@ export class GeneralStore {
 
     @action addInterestedFood = async () => {
         this.currentUser.interestedFood = this.filteredFood
-        this.updateUser('interestedFood')
+        await this.updateUser('interestedFood')
     }
 
     @action addMessage = async data => {
@@ -148,7 +141,7 @@ export class GeneralStore {
 
     @action addConversation = async (newConversation, matchedUserEmail) => {
         let conversation = await axios.post(`${API_URL}/conversation`, newConversation)
-        
+
         conversation = conversation.data
         console.log(conversation._id)
         this.currentUser.conversations.push(conversation._id)
@@ -210,7 +203,7 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
-        if(!this.currentUser.matchedWith.find(e => e ===email)){
+        if (!this.currentUser.matchedWith.find(e => e === email)) {
             this.currentUser.matchedWith.unshift(email)
             await this.updateUser('matchedWith')
             console.log(this.currentUser.matchedWith)

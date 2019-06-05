@@ -14,7 +14,7 @@ class HomePage extends Component {
     constructor(props) {
         super(props)
         this.socket = props.generalStore.socket
-        
+
         this.state = {
             foodInput: ""
         }
@@ -23,7 +23,7 @@ class HomePage extends Component {
             props.generalStore.addMatch(email)
         })
     }
-    
+
     handleChange = e => {
         if (e.key === "Enter") {
             this.props.generalStore.saveFood(e.target.value)
@@ -39,26 +39,27 @@ class HomePage extends Component {
 
     handleLocation = () => {
         let generalStore = this.props.generalStore
-        // if(generalStore.currentUser.location){
-
-        window.navigator.geolocation.getCurrentPosition(function (position) {
-            console.log(position)
-            generalStore.addUserLocation(position)
-        })
-
-        // }
+        if (generalStore.currentUser.location) {
+            window.navigator.geolocation.getCurrentPosition(function (position) {
+                console.log(position)
+                generalStore.addUserLocation(position)
+            })
+        }
     }
 
-    updateInput = e => this.setState({foodInput: e.target.value})
+    updateInput = e => this.setState({ foodInput: e.target.value })
 
     render() {
         let generalStore = this.props.generalStore
         return (
             <div id="homePage">
                 {generalStore.currentUser.firstName ?
-                    <div>
+                    <div id="homePageContainer">
                         <h2>Welcome, {generalStore.currentUser.firstName}</h2>
-                        <input placeholder="ADD NEW FOOD" onKeyDown={this.handleChange} onChange={this.updateInput} value={this.state.foodInput}/><button onClick={this.addFood}>ADD</button>
+                        <div id="addFood">
+                            <input placeholder="ADD NEW FOOD" onKeyDown={this.handleChange} onChange={this.updateInput} value={this.state.foodInput} />
+                            <button onClick={this.addFood}>ADD</button>
+                        </div>
                         <Filters />
                         <FoodContainer />
                     </div> :

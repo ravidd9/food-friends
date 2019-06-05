@@ -11,8 +11,13 @@ import Bubble from './Bubble';
 @observer
 class FoodContainer extends Component {
 
-    addInterestedFood = () => this.props.generalStore.addInterestedFood()
-
+    addInterestedFood = () => {
+        let generalStore = this.props.generalStore
+        if(generalStore.filteredFood[0]){
+            generalStore.addInterestedFood()
+            window.location = "http://localhost:3000/food-room" 
+        }
+    }
 
     render() {
 
@@ -20,11 +25,9 @@ class FoodContainer extends Component {
         
         return (
             <div>
-                <Link to="/food-room"><div id="searchSelected" onClick={this.addInterestedFood}>SEARCH</div></Link>
+                <div id="searchSelected" onClick={this.addInterestedFood}>SEARCH</div>
                 <div id="foodContainer">
-                    {/* <Bubble /> */}
                     {foods.map((f, i) => <FoodBubble key={i} food={f} />)}
-
                 </div>
             </div>
         );

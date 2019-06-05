@@ -19,20 +19,12 @@ class FoodRoom extends Component {
     changeSelectedFood = foodName => this.setState({selectedFood: foodName})
 
     render() {
-
         let selectedFoods = this.props.generalStore.currentUser.interestedFood
-
-        
-        
         return (
             <div className="foodRoom">
-
                 <div className="chosenFoods">
                     {selectedFoods.map((s, i) => <ChosenFood key={i} selectedFood={s} currentFood={this.state.selectedFood} changeSelectedFood={this.changeSelectedFood} />)}
                 </div>
-
-
-    
                 <div className="whosInterested">
                     <InterestedUsers selectedFood={this.state.selectedFood} />
                 </div>

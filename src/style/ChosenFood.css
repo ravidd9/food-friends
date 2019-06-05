@@ -15,6 +15,12 @@ img {
   box-shadow: 0px -1px 4px 0px rgba(0,0,0,0.75);
 }
 
+.chosenFood{
+  display: inline-block ;
+  width: 40%;
+  text-align: center;
+}
+
 .picAndText {
   display: inline-block ;
   width: 40%;
