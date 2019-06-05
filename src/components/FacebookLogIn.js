@@ -39,7 +39,6 @@ class FacebookLogIn extends Component {
             email: this.state.email,
             pic: this.state.picture
         }
-        console.log(details)
         this.props.generalStore.updateFacebookDetails(details)
     }
 
