@@ -10,10 +10,11 @@ class UserBubble extends Component {
 
     render() {
         let user = this.props.user
+        console.log(user)
         return (
             <div className="userBubble" onClick={this.openUserChat}>
-                <img src={user.pic} className={user.email === this.props.currentUser ? "selected-image" : ""} />
-                <div className="userName">{user.name}</div>
+                <img src={user.profilePic} className={user.email === this.props.currentUser ? "selected-image" : ""} />
+                <div className="userName">{user.firstName}</div>
             </div>
         );
     }

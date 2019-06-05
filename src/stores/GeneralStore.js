@@ -1,4 +1,8 @@
-import {observable,action,computed} from 'mobx'
+import {
+    observable,
+    action,
+    computed
+} from 'mobx'
 import axios from '../../node_modules/axios/dist/axios'
 import io from 'socket.io-client'
 const CronJob = require('cron').CronJob
@@ -23,6 +27,20 @@ export class GeneralStore {
 
     @observable socket = io('localhost:8000');
 
+    getUserFromConvs = () =>{
+        let emails = []
+        this.conversations.forEach(c =>{
+            c.users.forEach(u=>{
+                if(u !== this.currentUser.email){
+                    emails.push(u)
+                }
+            })
+        })
+        let users = emails.map(e=> this.getUserByEmail(e))
+        console.log(users)
+        return users
+    } 
+
     getUserByEmail = email => this.users.find(u => u.email === email)
 
     getEmailsByUsers = users => users.map(u => u.email)
@@ -35,7 +53,7 @@ export class GeneralStore {
 
     @action getUsersConversationsFromDB = async () => {
         // console.log(this.currentUser.conversations)
-        for(let c of this.currentUser.conversations){
+        for (let c of this.currentUser.conversations) {
             let conversation = await axios.get(`${API_URL}/conversation/${c}`)
             console.log(conversation.data[0])
             this.conversations.push(conversation.data[0])
@@ -111,19 +129,26 @@ export class GeneralStore {
     @action addMessage = async data => {
 
         console.log(data)
-
+        
         let currentUser = this.currentUser
-        let matchedUser = this.users.find(u => u.email == data.author)
+        let matchedUser = this.users.find(u => u.email == data.recipient)
+        console.log(currentUser)
+        console.log(matchedUser)
 
-        let message = { author: data.author, message: data.message }
+        let message = {
+            author: data.author,
+            message: data.message
+        }
 
         let conversationsFromDB = await this.getConversationsFromDB()
+        console.log(conversationsFromDB)
         let conversationToUpdate = conversationsFromDB.find(c =>
             c.users[0] == matchedUser.email && c.users[1] == currentUser.email ||
             c.users[0] == currentUser.email && c.users[1] == matchedUser.email)
 
-        conversationToUpdate.messages.push(message)
-        this.updateConversationInDB(conversationToUpdate)
+        console.log(conversationToUpdate)
+        // conversationToUpdate.messages.push(message)
+        // this.updateConversationInDB(conversationToUpdate)
 
     };
 
