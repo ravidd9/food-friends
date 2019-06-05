@@ -33,6 +33,16 @@ export class GeneralStore {
 
     getFoodByName = name => this.foods.find(f => f.name === name)
 
+    @action getUsersConversationsFromDB = async () => {
+        // console.log(this.currentUser.conversations)
+        for(let c of this.currentUser.conversations){
+            let conversation = await axios.get(`${API_URL}/conversation/${c}`)
+            console.log(conversation.data[0])
+            this.conversations.push(conversation.data[0])
+        }
+        console.log(this.conversations[0])
+    }
+
     @action saveUser = async (user) => {
         let randomNum = Math.floor(Math.random() * 1000) + 1;
         user.profilePic = `https://api.adorable.io/avatars/${randomNum}.jpg`
@@ -75,7 +85,6 @@ export class GeneralStore {
         let conversationsFromDB = await axios.get(`${API_URL}/conversations`)
         await this.conversations.push(conversationsFromDB)
         return conversationsFromDB.data
-
     }
 
     @action filterFoodByName = async (selectedFood) => {
@@ -272,6 +281,8 @@ export class GeneralStore {
         this.currentUser.location = location
         this.updateUser("location")
     }
+
+    getConversationById = (convId) => this.conversations.find(c => c._id === convId)
 
     getLocationName = async (latitude, longitude) => {
         let apiKey = "AIzaSyDyEUWonGwNpeknij5cwdp94mN4ZL7Raxo"

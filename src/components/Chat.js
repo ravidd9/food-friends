@@ -23,6 +23,7 @@ class Chat extends Component {
             currentConv: 0,
             selectedUser: props.generalStore.currentUser.matchedWith[0]
         }
+        
 
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
@@ -43,6 +44,14 @@ class Chat extends Component {
         this.setState({ message: '' });
 
 
+    }
+
+    async componentDidMount() {
+        await this.props.generalStore.getUsersConversationsFromDB()
+    }
+
+    async componentDidUpdate() {
+        // await this.props.generalStore.getUsersConversationsFromDB()
     }
 
     render() {
@@ -67,6 +76,13 @@ class Chat extends Component {
                 ]
             }
         ]
+
+        
+
+        let conversation = this.props.generalStore.getConversationById(conversations[0])
+        console.log(this.props.generalStore.conversations[0])
+        console.log(conversation)
+
 
         return (
             <div id="chat">
