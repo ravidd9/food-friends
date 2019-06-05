@@ -27,22 +27,23 @@ class Chat extends Component {
 
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
-            await props.generalStore.addMessage(data)
             // this.getConversation()
         })
 
     }
 
-    sendMessage = ev => {
+    sendMessage = async ev => {
         ev.preventDefault();
-        this.socket.emit('SEND_MESSAGE', {
+        let data = {
             author: this.props.generalStore.currentUser.email,
             message: this.state.message,
             recipient: this.props.generalStore.currentUser.matchedWith[0]
             // recipient: this.props.generalStore.currentUser.matchedWith[0]
-        })
+        }
+        this.socket.emit('SEND_MESSAGE', data)
+        await this.props.generalStore.addMessage(data)
         this.setState({ message: '' });
-
+        this.refs.input.clear()
 
     }
 
@@ -54,36 +55,14 @@ class Chat extends Component {
         // await this.props.generalStore.getUsersConversationsFromDB()
     }
 
+    handleChange = e => this.setState({message: e.target.value})
+
     render() {
         let generalStore = this.props.generalStore
-        // let conversations = generalStore.currentUser.conversations
-        let usersConvs = [{email: "dannybrudner@gmail.com", name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
-        let conversations = [
-            {
-                id: "ravidAnddanny",
-                users: ["ravidd9@gmail.com", "dannybrudner@gmail.com"],
-                messages: [
-                    {
-                        author: "ravid",
-                        text: "hi",
-                        time: new Date()
-                    },
-                    {
-                        author: "danny",
-                        text: "hello",
-                        time: new Date()
-                    }
-                ]
-            }
-        ]
-
-        
-
-        let conversation = this.props.generalStore.getConversationById(conversations[0])
-        console.log(this.props.generalStore.conversations[0])
-        console.log(conversation)
-
-
+        let conversations = generalStore.conversations
+        let usersConvs = generalStore.getUserFromConvs()
+        console.log(usersConvs)
+        console.log(conversations)
         return (
             <div id="chat">
                 <div id="usersContainer">
@@ -113,6 +92,8 @@ class Chat extends Component {
                         onChange={this.handleChange}
                         placeholder="Type here..."
                         multiline={true}
+                        ref='input'
+                        defaultValue={this.state.message}
                         rightButtons={
                             <Button
                                 type={"outlined"}
