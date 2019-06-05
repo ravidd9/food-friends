@@ -7,6 +7,7 @@ import FoodRoom from './components/FoodRoom';
 import Landing from './components/Landing';
 import ShowMatch from './components/ShowMatch';
 import ButtonAppBar from './components/ButtonAppBar';
+import { Spring } from 'react-spring/renderprops';
 
 import Chat from './components/Chat';
 
@@ -44,7 +45,15 @@ class App extends Component {
     this.props.generalStore.socketUsernameListener()
     
     return (
-      <Router>
+      
+      
+<Spring
+      from={{ opacity: 0.25 }}
+      to={{ opacity: 1}}
+    >
+      {props => (
+        <div style={props}>
+<Router>
         <SimpleSnackbar />
         <ButtonAppBar />
 
@@ -56,10 +65,14 @@ class App extends Component {
         <Route exact path='/profile' render={() => <Profile />} />
 
       </Router>
+        </div>
+      )}
+    </Spring>
 
     )
   }
 }
+
 
 export default App;
 
