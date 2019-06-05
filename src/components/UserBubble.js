@@ -8,8 +8,6 @@ class UserBubble extends Component {
 
     render() {
         let user = this.props.user
-        console.log(user)
-        console.log(this.props.currentUser)
 
         return (
             <div className="userBubble">
