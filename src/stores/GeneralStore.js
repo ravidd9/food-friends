@@ -54,12 +54,15 @@ export class GeneralStore {
 
     @action getUsersConversationsFromDB = async () => {
         // console.log(this.currentUser.conversations)
+        let tempArr = []
         for (let c of this.currentUser.conversations) {
             let conversation = await axios.get(`${API_URL}/conversation/${c}`)
             console.log(conversation.data[0])
-            this.conversations.push(conversation.data[0])
+            tempArr.push(conversation.data[0])
+            // console.log(this.conversations)
         }
-        console.log(this.conversations[0])
+        this.conversations.replace(tempArr)
+        // console.log(this.conversations[0])
     }
 
     @action saveUser = async (user) => {
