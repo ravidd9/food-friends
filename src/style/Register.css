@@ -1,24 +1,42 @@
 #register{
-    border-radius: 15px;
-    width: 90vw;
+    /* border-radius: 15px; */
+    /* width: 90vw; */
     display: grid;
     grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
     padding-top: 5%;
     padding-bottom: 12%;
-    background-color: white;
-    grid-gap: 4%
+    /* background-color: white; */
+    /* grid-gap: 4% */
+    margin-top: 15%;
 }
 
 
 #registerForm{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    margin-top: 10%;
     width: 80%;
 
 }
 
+#registerForm > input {
+    border: none;
+    border-bottom: 0.5px solid black;
+    padding-left: 5px;
+    margin-bottom: 10px;
+}
+
+.preferences {
+    margin: 3px;
+    font-size: 18px;
+}
+
+#preferences {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
 #registerButton{
     background-color: #2ecc71;
@@ -32,14 +50,17 @@
 }
 
 #loginLink{
-    background-color: #2ecc71;
-    border-radius: 3px;
+    /* background-color: #2ecc71; */
+    /* border-radius: 3px; */
     cursor: pointer;
-    margin: 2%;
-    width: 78%;
+    /* position: absolute; */
+    bottom: 20px;
+    /* width: 100%; */
     text-align: center;
-    color: white;
-    padding: 10px;
+    color: black;
+    /* padding: 10px; */
+    margin-top: 30px;
+    /* font-size: 10px; */
 }
 
 #navigateToLogin{
@@ -54,7 +75,14 @@
 }
 
 .signupWithFB {
-    font-size : 150% ;
+    /* font-size : 150% ; */
     font-weight: bold ;
 
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+span > .kep-login-facebook.metro {
+    border-radius: 5px;
+    width: 275px;
 }
