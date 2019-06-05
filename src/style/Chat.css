@@ -1,10 +1,14 @@
 #chat{
     display: grid;
-    grid-template-rows: 2fr 10fr 2fr;
-    height: 95vh;
+    grid-template-rows: 2fr 7fr 1fr;
+    height: 93vh;
 }
 
 #usersContainer{
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin: 3%;
 }
 
 #chatContainer{
@@ -15,5 +19,5 @@
     border: 1px solid black;
     width: 90%;
     justify-self: center;
-    height: 43%;
+    height: 6vh;
 }
