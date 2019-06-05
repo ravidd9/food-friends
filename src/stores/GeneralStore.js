@@ -232,6 +232,11 @@ export class GeneralStore {
         return sortedUsers
     }
 
+    @action updateFoodSearch = value => {
+        let word = this.foodSearch + value
+        console.log(word)
+        this.foodSearch.replace(word)
+    }
 
     @action addMatch = async email => {
         let name = this.getUserByEmail(email).firstName

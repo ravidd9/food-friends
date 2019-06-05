@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js';
-import data from '../particlesjs-config.json'
+// import data from '../particlesjs-config.json'
 
 
 const particleOpt = {
-    data
+    // data
 }
 
 class D3 extends Component {
@@ -13,7 +13,7 @@ class D3 extends Component {
             <div>
 
                 <Particles
-                    params={data} 
+                    // params={data} 
                     height={600}
                     />
             </div>
