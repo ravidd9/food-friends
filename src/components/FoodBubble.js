@@ -19,7 +19,6 @@ class FoodBubble extends Component {
                     onClick={this.filterFoodByName}>
                     <div className="foodName">{food.name}</div>
                     <div className="foodPic"><img src={food.pic} alt="" /></div>
-                    <div>{food.budget}₪</div>
                 </div>
             </div>
         );
