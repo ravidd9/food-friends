@@ -48,8 +48,8 @@ class App extends Component {
       
       
 <Spring
-      from={{ opacity: 0.25 }}
-      to={{ opacity: 1}}
+     from={{ opacity: 0.6, marginTop: -50 }}
+     to={{ opacity: 1, marginTop: 0 }}
     >
       {props => (
         <div style={props}>
