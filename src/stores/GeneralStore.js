@@ -146,8 +146,18 @@ export class GeneralStore {
     }
 
 
-    @action addConversation = (newConversation) => {
-        return axios.post(`${API_URL}/conversation`, newConversation);
+    @action addConversation = async (newConversation, matchedUserEmail) => {
+        let conversation = await axios.post(`${API_URL}/conversation`, newConversation)
+        
+        conversation = conversation.data
+        console.log(conversation._id)
+        this.currentUser.conversations.push(conversation._id)
+        this.updateUser('conversations')
+
+        let matchedUser = this.users.find(u => u.email === matchedUserEmail)
+        matchedUser.conversations.push(conversation._id)
+        await this.updateUserInDB(matchedUser, 'conversations')
+        await this.getUsersFromDB()
     }
 
     @action findUsersByFoodName = (interestedUsers, foodName) =>
