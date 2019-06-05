@@ -5,7 +5,6 @@ import Filters from './Filters';
 import io from 'socket.io-client'
 import { observer, inject } from 'mobx-react';
 import { Redirect } from 'react-router-dom'
-import { Spring } from 'react-spring/renderprops';
 
 @inject("generalStore")
 @observer
@@ -52,14 +51,6 @@ class HomePage extends Component {
     render() {
         let generalStore = this.props.generalStore
         return (
-
-        
-<Spring
-      from={{ opacity: 0.25 }}
-      to={{ opacity: 1}}
-    >
-      {props => (
-        <div style={props}>
          
          <div id="homePage">
                 {generalStore.currentUser.firstName ?
@@ -79,9 +70,7 @@ class HomePage extends Component {
                     <Redirect to="/" />}
                 {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
             </div>
-        </div>
-      )}
-    </Spring>
+    
             
         );
     }
