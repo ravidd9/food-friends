@@ -40,7 +40,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div id="login">
+            <div id="login" className="transition-fade">
                 <div>Already a member?</div>
                 <div id="loginForm">
                     <div>Email</div>
