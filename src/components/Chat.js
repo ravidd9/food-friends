@@ -21,7 +21,7 @@ class Chat extends Component {
         this.state = {
             message: "",
             currentConv: 0,
-            selectedUser: props.generalStore.currentUser.matchedWith[0]
+            selectedUser: null
         }
         
 
@@ -31,6 +31,13 @@ class Chat extends Component {
         })
 
     }
+
+    changeSelectedUser = (user,index) => {
+        console.log(user)
+        console.log(index)
+        this.setState({selectedUser: user, currentConv: index})
+    }
+
 
     sendMessage = async ev => {
         ev.preventDefault();
@@ -44,11 +51,14 @@ class Chat extends Component {
         await this.props.generalStore.addMessage(data)
         this.setState({ message: '' });
         this.refs.input.clear()
-
     }
+
+
 
     async componentDidMount() {
         await this.props.generalStore.getUsersConversationsFromDB()
+        this.setState({selectedUser: this.props.generalStore.getUserFromConvs()[0]})
+
     }
 
     async componentDidUpdate() {
@@ -66,7 +76,7 @@ class Chat extends Component {
         return (
             <div id="chat">
                 <div id="usersContainer">
-                    {usersConvs.map((u, i) => <UserBubble key={i} user={u} currentUser={this.state.selectedUser} />)}
+                    {usersConvs.map((u, i) => <UserBubble key={i} index={i} user={u} currentUser={this.state.selectedUser} changeSelectedUser={this.changeSelectedUser} />)}
                 </div>
                 <div id="chatContainer">
                     {conversations.length ? conversations[this.state.currentConv].messages.map(m =>
