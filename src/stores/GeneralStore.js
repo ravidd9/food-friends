@@ -30,14 +30,15 @@ export class GeneralStore {
     getUserFromConvs = () =>{
         let emails = []
         this.conversations.forEach(c =>{
-            c.users.forEach(u=>{
-                if(u !== this.currentUser.email){
-                    emails.push(u)
-                }
-            })
+            if(c.users){
+                c.users.forEach(u=>{
+                    if(u !== this.currentUser.email){
+                        emails.push(u)
+                    }
+                })
+            }
         })
         let users = emails.map(e=> this.getUserByEmail(e))
-        console.log(users)
         return users
     } 
 

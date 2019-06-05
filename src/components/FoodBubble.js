@@ -15,10 +15,9 @@ class FoodBubble extends Component {
         let food = this.props.food
         return (
             <div>
-                <div className={`foodBubble ${this.props.generalStore.doesExistInFilteredFood(food.name) ? "checked" : null}`}
+                <div className={`foodBubble ${this.props.generalStore.doesExistInFilteredFood(food.name) ? "checked" : "unchecked"}`}
                     onClick={this.filterFoodByName}>
-                    <div className="foodName">{food.name}</div>
-                    <div className="foodPic"><img src={food.pic} alt="" /></div>
+                    <img src={food.pic} alt="" />
                 </div>
             </div>
         );

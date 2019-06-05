@@ -63,20 +63,20 @@ io.on('connection', (socket) => {
     })
 
     socket.on('SEND_MESSAGE', async function (data) {
-
+        console.log(data)
         let author = socketCom.findUserByEmail(data.author)
         let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient)
         let conversation = {}
         let conversations = await axios.get(`http://localhost:8000/conversations`)
-
+        conversations = conversations.data
         conversation = conversations.find(c => c._id === conversationId)
 
         conversation.messages.push({
-            author: author.name,
+            author: author.firstName,
             text: data.message,
             time: new Date()
         })
-
+        
         conversation = await axios.put(`http://localhost:8000/conversations/update`, conversation)
 
         let userSocketId = socketCom.findUsersSocketId(data.recipient)

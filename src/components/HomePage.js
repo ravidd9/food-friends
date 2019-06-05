@@ -5,6 +5,8 @@ import Filters from './Filters';
 import io from 'socket.io-client'
 import { observer, inject } from 'mobx-react';
 import { Redirect } from 'react-router-dom'
+import { Spring } from 'react-spring/renderprops';
+import D3 from './D3';
 
 @inject("generalStore")
 @observer
@@ -22,6 +24,7 @@ class HomePage extends Component {
             props.generalStore.addMatch(email)
         })
     }
+
 
     handleChange = e => {
         if (e.key === "Enter") {
@@ -51,7 +54,16 @@ class HomePage extends Component {
     render() {
         let generalStore = this.props.generalStore
         return (
-            <div id="homePage">
+
+        
+<Spring
+      from={{ opacity: 0.25 }}
+      to={{ opacity: 1}}
+    >
+      {props => (
+        <div style={props}>
+         
+         <div id="homePage">
                 {generalStore.currentUser.firstName ?
                     <div id="homePageContainer">
                         <h4>Welcome back, {generalStore.currentUser.firstName[0].toUpperCase() + generalStore.currentUser.firstName.slice(1)}</h4>
@@ -65,10 +77,15 @@ class HomePage extends Component {
 
                         {/* <Filters /> */}
                         <FoodContainer />
+                        {/* <D3 /> */}
                     </div> :
                     <Redirect to="/" />}
                 {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
             </div>
+        </div>
+      )}
+    </Spring>
+            
         );
     }
 }
