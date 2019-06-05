@@ -20,8 +20,8 @@ class Chat extends Component {
 
         this.state = {
             message: "",
-            conversations: "",
-            currentConv: 0
+            currentConv: 0,
+            selectedUser: props.generalStore.currentUser.matchedWith[0]
         }
         
 
@@ -56,26 +56,26 @@ class Chat extends Component {
 
     render() {
         let generalStore = this.props.generalStore
-        let conversations = generalStore.currentUser.conversations
-        let usersConvs = [{ name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
-        // let conversations = [
-        //     {
-        //         id: "ravidAnddanny",
-        //         users: ["ravidd9@gmail.com", "dannybrudner@gmail.com"],
-        //         messages: [
-        //             {
-        //                 author: "ravid",
-        //                 text: "hi",
-        //                 time: new Date()
-        //             },
-        //             {
-        //                 author: "danny",
-        //                 text: "hello",
-        //                 time: new Date()
-        //             }
-        //         ]
-        //     }
-        // ]
+        // let conversations = generalStore.currentUser.conversations
+        let usersConvs = [{email: "dannybrudner@gmail.com", name: "danny", pic: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg" }]
+        let conversations = [
+            {
+                id: "ravidAnddanny",
+                users: ["ravidd9@gmail.com", "dannybrudner@gmail.com"],
+                messages: [
+                    {
+                        author: "ravid",
+                        text: "hi",
+                        time: new Date()
+                    },
+                    {
+                        author: "danny",
+                        text: "hello",
+                        time: new Date()
+                    }
+                ]
+            }
+        ]
 
         
 
@@ -87,7 +87,7 @@ class Chat extends Component {
         return (
             <div id="chat">
                 <div id="usersContainer">
-                    {usersConvs.map((u, i) => <UserBubble key={i} user={u} />)}
+                    {usersConvs.map((u, i) => <UserBubble key={i} user={u} currentUser={this.state.selectedUser} />)}
                 </div>
                 <div id="chatContainer">
                     {conversations.length ? conversations[this.state.currentConv].messages.map(m =>

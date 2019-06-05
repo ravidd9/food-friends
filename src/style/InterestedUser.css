@@ -15,6 +15,7 @@
     "l m p";
     justify-items: center;
     align-items: center;
+    padding: 4%;
 }
 
 .prefs{
@@ -34,7 +35,7 @@
     border: 3px solid rgb(151, 143, 143);
     border-radius: 50%;
     height: 10vh;
-    width: 20vw;
+    width: 22vw;
 }
 
 
@@ -85,8 +86,8 @@
 
 .location{
     grid-area: l;
-    font-size: 80%;
-    align-self: baseline;
+    font-size: 70%;
+    align-self: center;
     justify-self: right;
 }
 
