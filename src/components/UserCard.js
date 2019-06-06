@@ -64,16 +64,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-inject("generalStore")
 
 function UserCard(props) {
     const classes = useStyles();
     const theme = useTheme();
     let user = props.user
-    const haveMatched = useState(false);
+    let haveMatched = false
 
 
-    const matchUsers = async (props) => {
+    const matchUsers = async () => {
         let currentUser = props.generalStore.currentUser.email 
         let matchedUser = props.user.email
 
@@ -86,7 +85,7 @@ function UserCard(props) {
             }]
         }
 
-        await haveMatched(true)
+        haveMatched = true 
         await props.generalStore.matchUsers(props.user.email)
         await props.generalStore.addConversation(newConversation, matchedUser)
     }
@@ -106,7 +105,7 @@ function UserCard(props) {
                     </Typography>
                 </CardContent>
                 <div className={classes.controls}>
-                {haveMatched ?
+                {!haveMatched ?
                     <Button variant="outlined" size="small" color="primary" onClick={matchUsers} className={classes.match}>Match</Button>:
                     <Button variant="outlined" size="small" color="primary" className={classes.chat}><Link to="/show-match">Chat</Link></Button>
                 }
@@ -126,7 +125,6 @@ function UserCard(props) {
             <CardMedia
                 className={classes.cover}
                 image={user.profilePic}
-                title="Live from space album cover"
             />
         </Card>
     );

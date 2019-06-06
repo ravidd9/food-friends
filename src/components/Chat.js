@@ -7,7 +7,6 @@ import "../style/Chat.css"
 
 import { MessageBox, MessageList, Input, Button } from 'react-chat-elements';
 import UserBubble from './UserBubble';
-import { func } from 'prop-types';
 
 
 
@@ -127,7 +126,7 @@ class Chat extends Component {
                                 type={"outlined"}
                                 onClick={this.sendMessage}
                                 color='white'
-                                backgroundColor='blue'
+                                backgroundColor='#2ecc71'
                                 text='Send' />
                         } />
                 </div>

@@ -30,7 +30,7 @@ class InterestedUsers extends Component {
                 {interestedUsers.filter(u => u.interestedFood.some(f => f === this.props.selectedFood))
                     .map((u, i) =>
                         // <InterestedUser key={i} user={u} />
-                        <UserCard key={i} user={u}/>
+                        <UserCard key={i} user={u} generalStore={generalStore}/>
                     )}
             </div>
         );
