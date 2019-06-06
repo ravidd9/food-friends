@@ -6,9 +6,8 @@
     grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
-    padding-top: 5%;
+    /* padding-top: 5%; */
     padding-bottom: 5%;
-    margin-top: 25%;
 }
 
 #loginForm{
@@ -34,6 +33,7 @@
     cursor: pointer;
     padding: 2%;
     border-radius: 5px;
+    /* color: #2ecc71; */
 }
 
 #navigateToRegister{
@@ -54,4 +54,5 @@
     border-bottom: 0.5px solid black;
     margin: 5px;
     height: 40px;
+    padding: 10px;
 }

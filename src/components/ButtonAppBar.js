@@ -87,14 +87,14 @@ function ButtonAppBar() {
             <ListItemText primary={"Profile"} />
           </ListItem>
         </Link>
-        <Link to="/show-match">
+        {/* <Link to="/show-match">
           <ListItem button key={"Matches"}>
             <ListItemIcon>
               <HowToReg />
             </ListItemIcon>
             <ListItemText primary={"Matches"} />
           </ListItem>
-        </Link>
+        </Link> */}
         <Link to="/chat">
           <ListItem button key={"Chats"}>
             <ListItemIcon>

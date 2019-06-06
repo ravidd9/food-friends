@@ -56,7 +56,7 @@ class FacebookLogIn extends Component {
             fbContent = (
                 <div id="fbContent">
                     <img src={this.state.picture} alt={this.state.name} />
-                    <h2>Welcome {this.state.name}</h2>
+                    <div className="welcome">Welcome {this.state.name}</div>
                 </div>
             );
         } else {

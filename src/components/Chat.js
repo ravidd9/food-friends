@@ -23,19 +23,21 @@ class Chat extends Component {
             message: "",
             currentConv: 0,
             selectedUser: null,
-            conversations : props.generalStore.conversations
+            conversations: props.generalStore.conversations
         }
-        
+
 
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
-            // this.getConversation()
+            // this.forceUpdate()
+            await props.generalStore.getUsersConversationsFromDB()
+            props.generalStore.changeDummy()
         })
 
     }
 
-    changeSelectedUser = (user,index) => {
-        this.setState({selectedUser: user, currentConv: index})
+    changeSelectedUser = (user, index) => {
+        this.setState({ selectedUser: user, currentConv: index })
     }
 
 
@@ -59,31 +61,34 @@ class Chat extends Component {
         // console.log(generalStore.conversations)
         this.refs.input.clear()
         // this.updateConv()
-    }   
+    }
 
-updateConv = () => {
-    let generalStore = this.props.generalStore
-    console.log('herehere')
-    // this.setState({ conversations : generalStore.conversations})
-}
+    updateConv = () => {
+        let generalStore = this.props.generalStore
+        console.log('herehere')
+        // this.setState({ conversations : generalStore.conversations})
+    }
 
     async componentDidMount() {
-       let userConvs = await this.props.generalStore.getUsersConversationsFromDB()
-        this.setState({selectedUser: this.props.generalStore.getUserFromConvs()[0]})
+        let userConvs = await this.props.generalStore.getUsersConversationsFromDB()
+        this.setState({ selectedUser: this.props.generalStore.getUserFromConvs()[0] })
 
     }
 
-   
 
-    handleChange = e => this.setState({message: e.target.value})
+
+    handleChange = e => this.setState({ message: e.target.value })
 
     render() {
+        console.log("render")
         let generalStore = this.props.generalStore
         let conversations = generalStore.conversations
         // console.log(conversations[0].messages[0].text)
         let usersConvs = generalStore.getUserFromConvs()
         // console.log(usersConvs)
-        // console.log(conversations)
+        console.log(conversations[this.state.currentConv])
+
+        console.log(this.props.generalStore.dummy)
         return (
             <div id="chat">
                 <div id="usersContainer">
@@ -104,8 +109,8 @@ updateConv = () => {
                                     loading: 0,
                                 }
                             }} />
-                    ):
-                    null}
+                    ) :
+                        null}
 
                 </div>
                 <div id="typeContainer">

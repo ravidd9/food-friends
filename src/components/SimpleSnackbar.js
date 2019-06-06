@@ -13,6 +13,7 @@ const styles = theme => ({
   close: {
     padding: theme.spacing.unit / 2,
   },
+
 })
 
 @inject("generalStore")
@@ -47,7 +48,7 @@ class SimpleSnackbar extends Component {
           }}
           message={<span id="message-id">{`You matched with ${this.props.generalStore.matchNotification.name}`}</span>}
           action={[
-            <Link to="/show-match"> <Button key="undo" color="primary" size="small" onClick={this.handleClose}>
+            <Link to="/show-match"> <Button key="undo" size="small" onClick={this.handleClose}>
             CHAT
           </Button></Link>,
             <IconButton
