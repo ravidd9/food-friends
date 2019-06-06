@@ -7,7 +7,6 @@ import "../style/Chat.css"
 
 import { MessageBox, MessageList, Input, Button } from 'react-chat-elements';
 import UserBubble from './UserBubble';
-import { func } from 'prop-types';
 
 
 
@@ -36,8 +35,10 @@ class Chat extends Component {
 
     }
 
-    changeSelectedUser = (user, index) => {
-        this.setState({ selectedUser: user, currentConv: index })
+    changeSelectedUser = (user,index) => {
+        console.log(user)
+        console.log(index)
+        this.setState({selectedUser: user, currentConv: index})
     }
 
 
@@ -52,7 +53,7 @@ class Chat extends Component {
             recipient: this.state.selectedUser.email
             // recipient: this.props.generalStore.currentUser.matchedWith[0]
         }
-        // console.log(data)
+        console.log()
         this.socket.emit('SEND_MESSAGE', data)
         await generalStore.addMessage(data)
         this.setState({ message: '' });
@@ -125,7 +126,7 @@ class Chat extends Component {
                                 type={"outlined"}
                                 onClick={this.sendMessage}
                                 color='white'
-                                backgroundColor='blue'
+                                backgroundColor='#2ecc71'
                                 text='Send' />
                         } />
                 </div>
