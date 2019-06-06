@@ -24,23 +24,28 @@ export class GeneralStore {
     @observable currentUser = JSON.parse(sessionStorage.getItem('login')) || {}
     @observable conversations = []
     @observable facebookDetails = []
-
+    @observable dummy = 0
     @observable socket = io('localhost:8000');
 
-    getUserFromConvs = () =>{
+    @action changeDummy = () => {
+        let newDummy = this.dummy + 1
+        this.dummy = newDummy
+        // this.dummy.replace(newDummy)
+    }
+    getUserFromConvs = () => {
         let emails = []
-        this.conversations.forEach(c =>{
-            if(c.users){
-                c.users.forEach(u=>{
-                    if(u !== this.currentUser.email){
+        this.conversations.forEach(c => {
+            if (c.users) {
+                c.users.forEach(u => {
+                    if (u !== this.currentUser.email) {
                         emails.push(u)
                     }
                 })
             }
         })
-        let users = emails.map(e=> this.getUserByEmail(e))
+        let users = emails.map(e => this.getUserByEmail(e))
         return users
-    } 
+    }
 
     getUserByEmail = email => this.users.find(u => u.email === email)
 
@@ -54,12 +59,15 @@ export class GeneralStore {
 
     @action getUsersConversationsFromDB = async () => {
         // console.log(this.currentUser.conversations)
+        let tempArr = []
         for (let c of this.currentUser.conversations) {
             let conversation = await axios.get(`${API_URL}/conversation/${c}`)
             console.log(conversation.data[0])
-            this.conversations.push(conversation.data[0])
+            tempArr.push(conversation.data[0])
+            // console.log(this.conversations)
         }
-        console.log(this.conversations[0])
+        this.conversations.replace(tempArr)
+        // console.log(this.conversations[0])
     }
 
     @action saveUser = async (user) => {
@@ -130,7 +138,7 @@ export class GeneralStore {
     @action addMessage = async data => {
 
         console.log(data)
-        
+
         let currentUser = this.currentUser
         let matchedUser = this.users.find(u => u.email == data.recipient)
         console.log(currentUser)
@@ -232,6 +240,11 @@ export class GeneralStore {
         return sortedUsers
     }
 
+    @action updateFoodSearch = value => {
+        let word = this.foodSearch + value
+        console.log(word)
+        this.foodSearch.replace(word)
+    }
 
     @action addMatch = async email => {
         let name = this.getUserByEmail(email).firstName
@@ -244,7 +257,9 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
+
         if (!this.currentUser.matchedWith.find(e => e === email)) {
+            console.log("here")
             this.currentUser.matchedWith.unshift(email)
             await this.updateUser('matchedWith')
             console.log(this.currentUser.matchedWith)
@@ -256,9 +271,13 @@ export class GeneralStore {
         }
     }
 
-    @action handleMatchNotification = (shouldOpen, name) => this.matchNotification = {
-        open: shouldOpen,
-        name
+    @action handleMatchNotification = (shouldOpen, name) => {
+        this.matchNotification = {
+            open: shouldOpen,
+            name
+        }
+
+        console.log(this.matchNotification)
     }
 
 
@@ -346,5 +365,11 @@ export class GeneralStore {
                 })
             }
         })
+
+        // this.socket.on('RECEIVE_MESSAGE', function (data) {
+        //     console.log(data)
+        //     // this.forceUpdate()
+        //     // props.generalStore.changeDummy()
+        // })
     }
 }

@@ -37,6 +37,7 @@ class SocketCom {
 
     findUsersSocketId(email) {
         let user = this.findUserByEmail(email)
+        console.log
         return user.socketId
     }
 

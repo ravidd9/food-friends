@@ -1,6 +1,18 @@
 #landing{
+    margin-top: 50%;
     display: grid;
     grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
+}
+
+p {
+    font-size: 105%;
+    margin-bottom : 7%;
+    margin-top : 2%;
+}
+
+.welcome-text {
+    /* color: #2ecc71; */
+    text-align: center;
 }

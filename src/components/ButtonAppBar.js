@@ -26,8 +26,9 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     flexGrow: 1,
-    background: '#7bed9f',
-    color: 'black'
+    background: '#2ecc71',
+    color: '#f5f0f0',
+    boxShadow: "none"
   },
   menuButton: {
     marginRight: theme.spacing(1),
@@ -86,14 +87,14 @@ function ButtonAppBar() {
             <ListItemText primary={"Profile"} />
           </ListItem>
         </Link>
-        <Link to="/show-match">
+        {/* <Link to="/show-match">
           <ListItem button key={"Matches"}>
             <ListItemIcon>
               <HowToReg />
             </ListItemIcon>
             <ListItemText primary={"Matches"} />
           </ListItem>
-        </Link>
+        </Link> */}
         <Link to="/chat">
           <ListItem button key={"Chats"}>
             <ListItemIcon>

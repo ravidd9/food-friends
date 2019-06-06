@@ -99,55 +99,38 @@ class Register extends Component {
     handleCheckBox = e => this.setState({ [e.target.name]: !this.state[e.target.name] })
 
 
-    // onFormSubmit = (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData();
-    //     formData.append('myImage',this.state.file);
-    //     const config = {
-    //         headers: {
-    //             'content-type': 'multipart/form-data'
-    //         }
-    //     };
-    //     axios.post("http://localhost:8000/upload",formData,config)
-    //         .then((response) => {
-    //             alert("The file is successfully uploaded");
-    //         }).catch((error) => {
-    //     });
-    // }
-    // onChange = (e) => {
-    //     this.setState({file:e.target.files[0]});
-    // }
-
-
     render() {
+
+        let placeholder = "Add some interests"
         return (
 
             <div id="register">
-
-                <h2>Sign up using Facebook </h2>
-                <FacebookLogIn facebookLogin={this.facebookLogin} />
-                <div>Sign Up and find your Food-Friend today</div>
+                <h5 className="welcome-text">WELCOME TO FOOD-FRIENDS</h5    >
+                <div className="welcome-text">Sign Up and find your Food-Friend today</div>
                 <div id="registerForm">
-                    <div>First Name</div>
+                    {/* <div>First Name</div> */}
                     <input type="text" value={this.state.firstName} placeholder="Enter First Name" name="firstName" onChange={this.handleInput} />
-                    <div>Last Name</div>
+                    {/* <div>Last Name</div> */}
                     <input type="text" value={this.state.lastName} placeholder="Enter Last Name" name="lastName" onChange={this.handleInput} />
-                    <div>Email</div>
+                    {/* <div>Email</div> */}
                     <input type="email" value={this.state.email} placeholder="Enter Email" name="email" onChange={this.handleInput} />
-                    <div>Password</div>
+                    {/* <div>Password</div> */}
                     <input type="password" placeholder="Enter Password" name="password" onChange={this.handleInput} />
                     <div>Interests</div>
-                    <TagsInput value={this.state.interests} onChange={this.handleInterests} />
-                    <input type="checkbox" name="kosher" onChange={this.handleCheckBox} /> Kosher
-                    <input type="checkbox" name="vegan" onChange={this.handleCheckBox} /> Vegan
-                    <input type="checkbox" name="vegetarian" onChange={this.handleCheckBox} /> Vegetarian
+                    <TagsInput placeholder value={this.state.interests} onChange={this.handleInterests} />
+
+                    <div id="preferences">
+                        <input className="preferences" type="checkbox" name="kosher" onChange={this.handleCheckBox} /><span className="preferences">Kosher</span>
+                        <input className="preferences" type="checkbox" name="vegan" onChange={this.handleCheckBox} /><span className="preferences">Vegan</span>
+                        <input className="preferences" type="checkbox" name="vegetarian" onChange={this.handleCheckBox} /><span className="preferences">Vegetarian</span>
+                    </div>
                 </div>
                 {/* <form onSubmit={this.onFormSubmit}>
                     <div>Upload profile picture</div>
                     <input type="file" name="myImage" onChange={this.onChange} />
                     <button type="submit">Upload</button>
                 </form> */}
-                <button id="registerButton" onClick={this.checkRegister}>Sign Up</button>
+                <div id="registerButton" onClick={this.checkRegister}>SIGN UP</div>
                 {this.state.invalidInput ?
                     <div className="error">Empty Fields</div> :
                     null}
@@ -155,9 +138,10 @@ class Register extends Component {
                     <div className="error">Email already in use</div> :
                     null}
                 <div className="error">{this.state.error}</div>
+                <div className="signupWithFB">OR SIGN UP USING FACEBOOK</div>
+                <FacebookLogIn facebookLogin={this.facebookLogin} />
                 <div id="navigateToLogin">
-                    <span> Already a member?, </span>
-                    <span id="loginLink" onClick={this.changeLogin}>Login</span>
+                    <div id="loginLink" onClick={this.changeLogin}>Already a member? Login</div>
                 </div>
             </div>
         );

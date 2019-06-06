@@ -7,6 +7,7 @@ import "../style/Chat.css"
 
 import { MessageBox, MessageList, Input, Button } from 'react-chat-elements';
 import UserBubble from './UserBubble';
+import { func } from 'prop-types';
 
 
 
@@ -21,13 +22,16 @@ class Chat extends Component {
         this.state = {
             message: "",
             currentConv: 0,
-            selectedUser: null
+            selectedUser: null,
+            conversations: props.generalStore.conversations
         }
-        
+
 
         this.socket.on('RECEIVE_MESSAGE', async function (data) {
             console.log(data)
-            // this.getConversation()
+            // this.forceUpdate()
+            await props.generalStore.getUsersConversationsFromDB()
+            props.generalStore.changeDummy()
         })
 
     }
@@ -40,6 +44,9 @@ class Chat extends Component {
 
 
     sendMessage = async ev => {
+
+        let generalStore = this.props.generalStore
+
         ev.preventDefault();
         let data = {
             author: this.props.generalStore.currentUser.email,
@@ -49,31 +56,41 @@ class Chat extends Component {
         }
         console.log()
         this.socket.emit('SEND_MESSAGE', data)
-        await this.props.generalStore.addMessage(data)
+        await generalStore.addMessage(data)
         this.setState({ message: '' });
+        await generalStore.getUsersConversationsFromDB()
+        console.log('here')
+        // console.log(generalStore.conversations)
         this.refs.input.clear()
+        // this.updateConv()
     }
 
-
+    updateConv = () => {
+        let generalStore = this.props.generalStore
+        console.log('herehere')
+        // this.setState({ conversations : generalStore.conversations})
+    }
 
     async componentDidMount() {
-        await this.props.generalStore.getUsersConversationsFromDB()
-        this.setState({selectedUser: this.props.generalStore.getUserFromConvs()[0]})
+        let userConvs = await this.props.generalStore.getUsersConversationsFromDB()
+        this.setState({ selectedUser: this.props.generalStore.getUserFromConvs()[0] })
 
     }
 
-    async componentDidUpdate() {
-        // await this.props.generalStore.getUsersConversationsFromDB()
-    }
 
-    handleChange = e => this.setState({message: e.target.value})
+
+    handleChange = e => this.setState({ message: e.target.value })
 
     render() {
+        console.log("render")
         let generalStore = this.props.generalStore
         let conversations = generalStore.conversations
+        // console.log(conversations[0].messages[0].text)
         let usersConvs = generalStore.getUserFromConvs()
-        console.log(usersConvs)
-        console.log(conversations)
+        // console.log(usersConvs)
+        console.log(conversations[this.state.currentConv])
+
+        console.log(this.props.generalStore.dummy)
         return (
             <div id="chat">
                 <div id="usersContainer">
@@ -94,8 +111,8 @@ class Chat extends Component {
                                     loading: 0,
                                 }
                             }} />
-                    ):
-                    null}
+                    ) :
+                        null}
 
                 </div>
                 <div id="typeContainer">

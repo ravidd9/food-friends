@@ -24,9 +24,7 @@ class Landing extends Component {
     render() {
 
         return (
-            <div id="landing">
-                <h2>Welcome to Food-Friends</h2>
-                <h4>the best way to find your dining mate!</h4>
+            <div>
                 {this.state.login ?
                     <Login changeLogin={this.changeLogin}/> :
                     <Register changeLogin={this.changeLogin} />}

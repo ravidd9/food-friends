@@ -16,3 +16,19 @@ h2 {
 #searchFood{
     margin-bottom: 5%;
 }
+
+#filter-food {
+    background-color: #f5f0f0;
+    border: none;
+    border-bottom: 0.5px solid black;
+    height: 50px;
+    padding: 5px;
+}
+
+#fab-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+}
