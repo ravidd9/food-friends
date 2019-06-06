@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../style/InterestedUsers.css';
 import InterestedUser from './InterestedUser';
 import { inject, observer } from 'mobx-react';
+import UserCard from './UserCard';
 
 @inject("generalStore")
 @observer
@@ -26,8 +27,11 @@ class InterestedUsers extends Component {
         return (
             <div id="interestedUsers">
                 <span className="who">Who's interested?</span>
-                 {interestedUsers.filter(u => u.interestedFood.some(f => f === this.props.selectedFood))
-                    .map((u, i) => <InterestedUser key={i} user={u} />)}
+                {interestedUsers.filter(u => u.interestedFood.some(f => f === this.props.selectedFood))
+                    .map((u, i) =>
+                        <InterestedUser key={i} user={u} />
+                        // <UserCard key={i} user={u}/>
+                    )}
             </div>
         );
     }
