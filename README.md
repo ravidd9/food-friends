@@ -12,6 +12,7 @@ Login : https://imgur.com/g5QbkGJ
 Home Page : https://imgur.com/wd1AGph
 Who's interested in the meal I chose? : https://imgur.com/rBnP4Px
 Chat room : https://imgur.com/QtnHZyO
+Registration using facebook : https://imgur.com/PRzUnBT
 
 Main features : 
 1. Mobile oriented design using Material-UI 
@@ -21,3 +22,5 @@ Main features :
 5. Live chat reying on Socket.io with a possibility to create multiple chats with different users. 
 All chat conversations are consisted to the DB to enable real-life experience (when you leave the app and come back, all messages are saved in the chat room)
 6. Social login/registration using Facebook 
+
+Thank you 
