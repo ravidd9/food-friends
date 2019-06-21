@@ -58,7 +58,7 @@ class App extends Component {
           <div style={props}>
             <Router>
               <SimpleSnackbar />
-              <ButtonAppBar />
+              <ButtonAppBar generalStore={this.props.generalStore}/>
 
               <Route exact path='/' render={() => <Landing />} />
               <Route exact path='/home' render={() => <HomePage />} />

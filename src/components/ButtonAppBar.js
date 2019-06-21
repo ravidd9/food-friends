@@ -21,8 +21,8 @@ import { observer, inject } from 'mobx-react';
 
 import "../style/ButtonAppBar.css"
 
-@inject("generalStore")
-@observer
+// @inject("generalStore")
+// @observer
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ButtonAppBar() {
+function ButtonAppBar(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false
@@ -59,7 +59,7 @@ function ButtonAppBar() {
   const login = () => {
     if (sessionStorage.getItem('login')) {
       sessionStorage.removeItem('login')
-      window.location = `${this.props.generalStore.WINDOW_LOCATION}/home`
+      window.location = `${props.generalStore.WINDOW_LOCATION}/home`
     }
   }
 

@@ -7,8 +7,8 @@ class SocketCom {
     }
 
     async getUsers() {
-        let users = await rp.get('/users')
-        this.users = JSON.parse(users)
+        let users = await axios.get('/users')
+        this.users = users.data
     }
 
     async toggleIsActive (email, flag) {

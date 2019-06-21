@@ -93,7 +93,7 @@ class Register extends Component {
         }
         newUser = await this.props.generalStore.saveUser(newUser)
         this.props.generalStore.changeCurrentUser(newUser)
-        window.location = `${generalStore.WINDOW_LOCATION}/home`
+        window.location = `${this.props.generalStore.WINDOW_LOCATION}/home`
 
     }
 
