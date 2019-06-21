@@ -17,15 +17,15 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props)
-        this.socket = props.generalStore.socket
 
         this.state = {
             foodInput: ""
         }
 
-        this.socket.on('RECEIVE_MATCH', function (email) {
-            props.generalStore.addMatch(email)
-        })
+        // this.socket = props.generalStore.socket
+        // this.socket.on('RECEIVE_MATCH', function (email) {
+        //     props.generalStore.addMatch(email)
+        // })
     }
 
 
@@ -41,8 +41,10 @@ class HomePage extends Component {
     // addFood = () => this.props.generalStore.saveFood(this.state.foodInput)
 
     componentDidMount = async () => {
-        await this.props.generalStore.makeActive()
-        this.handleLocation()
+        if (sessionStorage.getItem('login')) {
+            await this.props.generalStore.makeActive()
+            this.handleLocation()
+        }
     }
 
     handleLocation = () => {

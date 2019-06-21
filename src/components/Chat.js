@@ -71,7 +71,7 @@ class Chat extends Component {
     }
 
     async componentDidMount() {
-        let userConvs = await this.props.generalStore.getUsersConversationsFromDB()
+        await this.props.generalStore.getUsersConversationsFromDB()
         this.setState({ selectedUser: this.props.generalStore.getUserFromConvs()[0] })
 
     }
@@ -84,7 +84,7 @@ class Chat extends Component {
         console.log("render")
         let generalStore = this.props.generalStore
         let conversations = generalStore.conversations
-        // console.log(conversations[0].messages[0].text)
+        console.log(conversations)
         let usersConvs = generalStore.getUserFromConvs()
         // console.log(usersConvs)
         console.log(conversations[this.state.currentConv])
