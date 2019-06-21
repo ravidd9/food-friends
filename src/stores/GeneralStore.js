@@ -15,7 +15,7 @@ export class GeneralStore {
     @observable filteredFood = []
     // @observable budget = 150
     @observable foodSearch = ""
-    @observable WINDOW_LOCATION = `http://${window.location.hostname}`
+    @observable WINDOW_LOCATION = `http://window.location.hostname`
     
     @observable socket = io('/');
     @observable matchNotification = {
@@ -59,7 +59,7 @@ export class GeneralStore {
     getFoodByName = name => this.foods.find(f => f.name === name)
 
     @action getUsersConversationsFromDB = async () => {
-        // console.log(this.currentUser.conversations)
+        console.log(this.currentUser.conversations)
         let tempArr = []
         for (let c of this.currentUser.conversations) {
             let conversation = await axios.get(`${API_URL}/conversation/${c}`)
@@ -190,16 +190,28 @@ export class GeneralStore {
 
 
     @action addConversation = async (newConversation, matchedUserEmail) => {
-        let conversation = await axios.post(`${API_URL}/conversation`, newConversation)
+        let users = newConversation.users
 
-        conversation = conversation.data
-        console.log(conversation._id)
-        this.currentUser.conversations.push(conversation._id)
-        this.updateUser('conversations')
+        console.log(newConversation)
+        console.log(matchedUserEmail)
+        console.log(users)
+        console.log(this.conversations)
 
-        let matchedUser = this.users.find(u => u.email === matchedUserEmail)
-        matchedUser.conversations.push(conversation._id)
-        await this.updateUserInDB(matchedUser, 'conversations')
+        if (!this.conversations.find(c => (c.users[0] === users[0] && c.users[1] === users[1])
+            || (c.users[0] === users[1] && c.users[1] === users[0]))) {
+                console.log(this.conversations)
+
+            let conversation = await axios.post(`${API_URL}/conversation`, newConversation)
+
+            conversation = conversation.data
+            console.log(conversation._id)
+            this.currentUser.conversations.push(conversation._id)
+            this.updateUser('conversations')
+
+            let matchedUser = this.users.find(u => u.email === matchedUserEmail)
+            matchedUser.conversations.push(conversation._id)
+            await this.updateUserInDB(matchedUser, 'conversations')
+        }
         await this.getUsersFromDB()
     }
 
@@ -252,9 +264,12 @@ export class GeneralStore {
         let properCaseName = name[0].toUpperCase() + name.slice(1)
 
         this.handleMatchNotification(true, properCaseName)
-        this.currentUser.matchedWith.push(email)
-
-        await this.updateUser('matchedWith')
+        console.log(this.currentUser)
+        if (!this.currentUser.matchedWith.find(e => e === email)) {
+            console.log("in the if" + this.currentUser.matchedWith)
+            this.currentUser.matchedWith.push(email)
+            await this.updateUser('matchedWith')
+        }
     }
 
     @action matchUsers = async email => {

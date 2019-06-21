@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react';
 import '../style/UserCard.css';
+import { render } from 'timeago.js';
 
 
 const useStyles = makeStyles(theme => ({
@@ -69,25 +70,23 @@ function UserCard(props) {
     const classes = useStyles();
     const theme = useTheme();
     let user = props.user
-    let haveMatched = false
+    const [haveMatched, setHaveMatch] = useState(false)
 
 
     const matchUsers = async () => {
         let currentUser = props.generalStore.currentUser.email 
         let matchedUser = props.user.email
+        
 
         let newConversation = {
             users: [currentUser, matchedUser],
-            messages: [{
-                author: "",
-                text: "",
-                time: null
-            }]
+            messages: []
         }
 
-        haveMatched = true 
-        await props.generalStore.matchUsers(props.user.email)
+        setHaveMatch(true) 
+        await props.generalStore.matchUsers(matchedUser)
         await props.generalStore.addConversation(newConversation, matchedUser)
+        
     }
 
 

@@ -28,6 +28,9 @@ class App extends Component {
 
     this.socket = props.generalStore.socket
 
+    this.socket.on('RECEIVE_MATCH', function (email) {
+      props.generalStore.addMatch(email)
+    })
   }
 
   componentDidMount = async () => {
@@ -43,31 +46,31 @@ class App extends Component {
   render() {
 
     this.props.generalStore.socketUsernameListener()
-    
+
     return (
-      
-      
-<Spring
-     from={{ opacity: 0.6, marginTop: -50 }}
-     to={{ opacity: 1, marginTop: 0 }}
-    >
-      {props => (
-        <div style={props}>
-<Router>
-        <SimpleSnackbar />
-        <ButtonAppBar />
 
-        <Route exact path='/' render={() => <Landing />} />
-        <Route exact path='/home' render={() => <HomePage />} />
-        <Route exact path='/food-room' render={() => <FoodRoom />} />
-        <Route exact path='/show-match' render={() => <ShowMatch />} />
-        <Route exact path='/chat' render={() => <Chat />} />
-        <Route exact path='/profile' render={() => <Profile />} />
 
-      </Router>
-        </div>
-      )}
-    </Spring>
+      <Spring
+        from={{ opacity: 0.6, marginTop: -50 }}
+        to={{ opacity: 1, marginTop: 0 }}
+      >
+        {props => (
+          <div style={props}>
+            <Router>
+              <SimpleSnackbar />
+              <ButtonAppBar />
+
+              <Route exact path='/' render={() => <Landing />} />
+              <Route exact path='/home' render={() => <HomePage />} />
+              <Route exact path='/food-room' render={() => <FoodRoom />} />
+              <Route exact path='/show-match' render={() => <ShowMatch />} />
+              <Route exact path='/chat' render={() => <Chat />} />
+              <Route exact path='/profile' render={() => <Profile />} />
+
+            </Router>
+          </div>
+        )}
+      </Spring>
 
     )
   }
