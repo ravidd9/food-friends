@@ -17,21 +17,21 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props)
-        this.socket = props.generalStore.socket
 
         this.state = {
             foodInput: ""
         }
 
-        this.socket.on('RECEIVE_MATCH', function (email) {
-            props.generalStore.addMatch(email)
-        })
+        // this.socket = props.generalStore.socket
+        // this.socket.on('RECEIVE_MATCH', function (email) {
+        //     props.generalStore.addMatch(email)
+        // })
     }
 
-    
 
-    
-    
+
+
+
     handleChange = e => {
         if (e.key === "Enter") {
             this.props.generalStore.saveFood(e.target.value)
@@ -41,8 +41,10 @@ class HomePage extends Component {
     // addFood = () => this.props.generalStore.saveFood(this.state.foodInput)
 
     componentDidMount = async () => {
-        await this.props.generalStore.makeActive()
-        this.handleLocation()
+        if (sessionStorage.getItem('login')) {
+            await this.props.generalStore.makeActive()
+            this.handleLocation()
+        }
     }
 
     handleLocation = () => {
@@ -61,14 +63,14 @@ class HomePage extends Component {
 
     addInterestedFood = () => {
         let generalStore = this.props.generalStore
-        if(generalStore.filteredFood[0]){
+        if (generalStore.filteredFood[0]) {
             generalStore.addInterestedFood()
-            window.location = "http://localhost:3000/food-room" 
+            window.location = "http://localhost:3000/food-room"
         }
     }
 
     render() {
-        
+
         let generalStore = this.props.generalStore
 
         return (
@@ -80,27 +82,27 @@ class HomePage extends Component {
             //     {props => (
             //         <div style={props}>
 
-                        <div id="homePage">
-                            {generalStore.currentUser.firstName ?
-                                <div id="homePageContainer">
-                                    <h4>Welcome back, {generalStore.currentUser.firstName[0].toUpperCase() + generalStore.currentUser.firstName.slice(1)}</h4>
-                                    {/* <div id="addFood">
+            <div id="homePage">
+                {generalStore.currentUser.firstName ?
+                    <div id="homePageContainer">
+                        <h4>Welcome back, {generalStore.currentUser.firstName[0].toUpperCase() + generalStore.currentUser.firstName.slice(1)}</h4>
+                        {/* <div id="addFood">
                             <input placeholder="ADD NEW FOOD" onKeyDown={this.handleChange} onChange={this.updateInput} value={this.state.foodInput} />
                             <button onClick={this.addFood}>ADD</button>
                         </div> */}
-                                    <div id="searchFood">
-                                        <input id="filter-food" placeholder="Type to filter your food" onChange={this.updateFoodSearch} />
-                                    </div>
-
-                                    {/* <Filters /> */}
-                                    <FoodContainer />
-                                    {/* <D3 /> */}
-                                </div> :
-                                <Redirect to="/" />}
-                            {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
-                            <div id="fab-container"onClick={this.addInterestedFood}><FabButton/></div>
+                        <div id="searchFood">
+                            <input id="filter-food" placeholder="Type to filter your food" onChange={this.updateFoodSearch} />
                         </div>
-                   
+
+                        {/* <Filters /> */}
+                        <FoodContainer />
+                        {/* <D3 /> */}
+                    </div> :
+                    <Redirect to="/" />}
+                {/* {this.state.chat? <Redirect to="/chat"/>  : null} */}
+                <div id="fab-container" onClick={this.addInterestedFood}><FabButton /></div>
+            </div>
+
 
         );
     }
