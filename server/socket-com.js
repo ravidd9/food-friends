@@ -7,7 +7,7 @@ class SocketCom {
     }
 
     async getUsers() {
-        let users = await rp.get('http://localhost:8000/users')
+        let users = await rp.get('/users')
         this.users = JSON.parse(users)
     }
 
@@ -20,7 +20,7 @@ class SocketCom {
     }
 
     async updateUser (valueToUpdate, user) {
-        await axios.put(`http://localhost:8000/user/${valueToUpdate}`, user)
+        await axios.put(`/user/${valueToUpdate}`, user)
     }
 
     saveIdToUser(id, email) {
@@ -42,7 +42,7 @@ class SocketCom {
     }
 
     async findConversationIdByEmails(authorEmail, recipientEmail){
-        let conversations = await axios.get(`http://localhost:8000/conversations`)
+        let conversations = await axios.get(`/conversations`)
         conversations = conversations.data
         let conversation = conversations.find(c => c.users.some(u => u === authorEmail) && c.users.some(u => u === recipientEmail))
         return conversation ? conversation._id : false

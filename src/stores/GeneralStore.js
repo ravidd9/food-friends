@@ -7,7 +7,7 @@ import axios from '../../node_modules/axios/dist/axios'
 import io from 'socket.io-client'
 const CronJob = require('cron').CronJob
 
-const API_URL = 'http://localhost:8000'
+const API_URL = ''
 
 export class GeneralStore {
     @observable users = []
@@ -15,8 +15,9 @@ export class GeneralStore {
     @observable filteredFood = []
     // @observable budget = 150
     @observable foodSearch = ""
-
-    @observable socket = io('localhost:8000');
+    @observable WINDOW_LOCATION = `http://${window.location.hostname}`
+    
+    @observable socket = io('/');
     @observable matchNotification = {
         open: false,
         name: ""
@@ -25,7 +26,7 @@ export class GeneralStore {
     @observable conversations = []
     @observable facebookDetails = []
     @observable dummy = 0
-    @observable socket = io('localhost:8000');
+    @observable socket = io('/');
 
     @action changeDummy = () => {
         let newDummy = this.dummy + 1

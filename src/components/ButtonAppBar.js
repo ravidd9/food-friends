@@ -17,8 +17,12 @@ import Home from '@material-ui/icons/Home';
 import HowToReg from '@material-ui/icons/HowToReg';
 import Chat from '@material-ui/icons/Chat';
 import { Link } from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
+
 import "../style/ButtonAppBar.css"
 
+@inject("generalStore")
+@observer
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -55,7 +59,7 @@ function ButtonAppBar() {
   const login = () => {
     if (sessionStorage.getItem('login')) {
       sessionStorage.removeItem('login')
-      window.location = "http://localhost:3000/home"
+      window.location = `${this.props.generalStore.WINDOW_LOCATION}/home`
     }
   }
 

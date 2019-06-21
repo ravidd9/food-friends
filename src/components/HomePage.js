@@ -65,7 +65,7 @@ class HomePage extends Component {
         let generalStore = this.props.generalStore
         if (generalStore.filteredFood[0]) {
             generalStore.addInterestedFood()
-            window.location = "http://localhost:3000/food-room"
+            window.location = `${generalStore.WINDOW_LOCATION}/food-room`
         }
     }
 

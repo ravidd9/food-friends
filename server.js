@@ -16,6 +16,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/FoodFriends", {
 })
 
 
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -34,6 +35,11 @@ app.use('/', api)
 
 
 const socketCom = new SocketCom()
+
+app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 
 const port = 8000
 let server = app.listen(process.env.PORT || port, function () {
@@ -67,7 +73,7 @@ io.on('connection', (socket) => {
         let author = socketCom.findUserByEmail(data.author)
         let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient)
         let conversation = {}
-        let conversations = await axios.get(`http://localhost:8000/conversations`)
+        let conversations = await axios.get(`/conversations`)
         conversations = conversations.data
         conversation = conversations.find(c => c._id === conversationId)
 
@@ -79,7 +85,7 @@ io.on('connection', (socket) => {
 
         
         
-        conversation = await axios.put(`http://localhost:8000/conversations/update`, conversation)
+        conversation = await axios.put(`/conversations/update`, conversation)
 
         console.log(data.recipient)
         let userSocketId = socketCom.findUsersSocketId(data.recipient)
@@ -100,7 +106,7 @@ io.on('disconnect', () => {
 })
 
 const job = new CronJob('0 */10 * * * *', async function () {
-    let users = await axios.get('http://localhost:8000/users')
+    let users = await axios.get('/users')
 
     let activeUsers = users.data.filter(u => u.isActive)
     activeUsers.forEach(u =>
