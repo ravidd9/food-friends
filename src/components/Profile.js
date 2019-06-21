@@ -36,7 +36,7 @@ class Profile extends Component {
                 if (generalStore.currentUser.password === this.state.oldPass1) {
                     generalStore.currentUser.password = this.state.newPass1
                     generalStore.updateUser("password")
-                    window.location = "http://localhost:3000/home"
+                    window.location = `${generalStore.WINDOW_LOCATION}/home`
 
                 } else {
                     this.setState({ error: "Wrong old password" })
@@ -53,7 +53,8 @@ class Profile extends Component {
         let generalStore = this.props.generalStore
         generalStore.currentUser.interests = this.state.interests
         generalStore.updateUser("interests")
-        window.location = "http://localhost:3000/home"
+        window.location = `${generalStore.WINDOW_LOCATION}/home`
+
     }
 
     componentDidMount = () => this.setState({ interests: this.props.generalStore.currentUser.interests })

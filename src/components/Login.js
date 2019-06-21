@@ -32,7 +32,7 @@ class Login extends Component {
 
         if (user) {
             generalStore.changeCurrentUser(user)
-            window.location = `http://${window.location.hostname}/home`
+            window.location = `${generalStore.WINDOW_LOCATION}/home`
         } else {
             this.setState({ invalidLogin: true })   
         }

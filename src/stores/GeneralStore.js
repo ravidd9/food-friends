@@ -15,7 +15,8 @@ export class GeneralStore {
     @observable filteredFood = []
     // @observable budget = 150
     @observable foodSearch = ""
-
+    @observable WINDOW_LOCATION = `http://${window.location.hostname}`
+    
     @observable socket = io('/');
     @observable matchNotification = {
         open: false,
