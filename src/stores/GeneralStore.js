@@ -13,7 +13,6 @@ export class GeneralStore {
     @observable users = []
     @observable foods = []
     @observable filteredFood = []
-    // @observable budget = 150
     @observable foodSearch = ""
     @observable WINDOW_LOCATION = `http://window.location.hostname`
     
