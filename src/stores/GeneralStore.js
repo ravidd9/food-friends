@@ -7,7 +7,7 @@ import axios from '../../node_modules/axios/dist/axios'
 import io from 'socket.io-client'
 const CronJob = require('cron').CronJob
 
-const API_URL = 'http://localhost:8000'
+const API_URL = ''
 
 export class GeneralStore {
     @observable users = []
