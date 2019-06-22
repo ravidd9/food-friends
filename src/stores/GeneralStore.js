@@ -16,7 +16,7 @@ export class GeneralStore {
     // @observable budget = 150
     @observable foodSearch = ""
 
-    @observable socket = io('localhost:8000');
+    @observable socket = io('http://localhost:8000');
     @observable matchNotification = {
         open: false,
         name: ""
@@ -25,7 +25,7 @@ export class GeneralStore {
     @observable conversations = []
     @observable facebookDetails = []
     @observable dummy = 0
-    @observable socket = io('localhost:8000');
+    @observable socket = io('http://localhost:8000');
 
     @action changeDummy = () => {
         let newDummy = this.dummy + 1
