@@ -10,7 +10,8 @@ let users = [
         interestedFood : ["hamburger", "shawarma"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(1993, 10, 24)
+        lastSeen: new Date(1993, 10, 24),
+        socketId: ""
     },
     {
         firstName: "yossi",
@@ -23,7 +24,8 @@ let users = [
         interestedFood : ["hamburger", "pancakes"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(1993, 10, 24)
+        lastSeen: new Date(1993, 10, 24),
+        socketId: ""
     },
     {
         firstName: "ravid",
@@ -36,7 +38,8 @@ let users = [
         interestedFood :  ["pancakes", "falafel"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(1993, 10, 24)
+        lastSeen: new Date(1993, 10, 24),
+        socketId: ""
     },
     {
         firstName: "srul",
@@ -49,7 +52,8 @@ let users = [
         interestedFood :  ["philly cheessteak", "falafel"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(1993, 10, 24)
+        lastSeen: new Date(1993, 10, 24),
+        socketId: ""
     },
     {
         firstName: "paul",
@@ -62,7 +66,8 @@ let users = [
         interestedFood :  ["philly cheessteak", "shawarma"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(1993, 10, 24)
+        lastSeen: new Date(1993, 10, 24),
+        socketId: ""
     },
     {
         firstName: "avishai",
@@ -75,7 +80,8 @@ let users = [
         interestedFood :  ["fried wings", "pizza"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(1993, 10, 24)
+        lastSeen: new Date(1993, 10, 24),
+        socketId: ""
     },
     {
         firstName: "nadav",
@@ -88,7 +94,8 @@ let users = [
         interestedFood :  ["pancakes", "pizza"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date()
+        lastSeen: new Date(),
+        socketId: ""
     },
     {
         firstName: "jona",
@@ -101,7 +108,8 @@ let users = [
         interestedFood :  ["fried wings", "falafel"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date()
+        lastSeen: new Date(),
+        socketId: ""
     },
     {
         firstName: "hunter",
@@ -114,7 +122,8 @@ let users = [
         interestedFood :  ["shawarma", "falafel"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date()
+        lastSeen: new Date(),
+        socketId: ""
     },
     {
         firstName: "corinne",
@@ -127,7 +136,8 @@ let users = [
         interestedFood :  ["hamburger", "pizza"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(2019, 5, 3)
+        lastSeen: new Date(2019, 5, 3),
+        socketId: ""
     },
     {
         firstName: "chen",
@@ -140,7 +150,8 @@ let users = [
         interestedFood :  ["hamburger", "falafel"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(2019, 5, 3)
+        lastSeen: new Date(2019, 5, 3),
+        socketId: ""
     },
     {
 
@@ -154,7 +165,8 @@ let users = [
         interestedFood :  ["philly cheessteak", "fried wings"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date()
+        lastSeen: new Date(),
+        socketId: ""
     },
     {
         firstName: "mor",
@@ -167,7 +179,8 @@ let users = [
         interestedFood :  ["pizza", "shawarma"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date()
+        lastSeen: new Date(),
+        socketId: ""
     },
     {
         firstName: "reuben",
@@ -180,7 +193,8 @@ let users = [
         interestedFood :  ["falafel", "shawarma"],
         matchedWith: [],
         isActive: false,
-        lastSeen: new Date(2011, 10, 24)
+        lastSeen: new Date(2011, 10, 24),
+        socketId: ""
     }
 ]
 
@@ -236,5 +250,5 @@ let food = [
     }
 ]
 
-// module.exports = users
-module.exports = food
+module.exports = users
+// module.exports = food

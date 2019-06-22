@@ -38,7 +38,7 @@ const socketCom = new SocketCom()
 const port = 8000
 let server = app.listen(process.env.PORT || port, function () {
     console.log(`Server running on ${port}`)
-    socketCom.getUsers()
+    // socketCom.getUsers()
 })
 
 
@@ -49,15 +49,17 @@ io.on('connection', (socket) => {
     socket.emit('GET_USERNAME')
 
     socket.on('SAVE_ID', async function (data) {
+        // socketCom.getUsers()
         socketCom.saveIdToUser(socket.id, data.currentUser)
-        console.log(socket.id)
+        console.log(socketCom.users)
     })
 
 
     socket.on('MATCH', function (data) {
+        console.log(data.matchedUser)
         let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
         let matchEmail = data.currentUser
-        console.log("here")
+        // console.log("here")
         socket.broadcast.to(userSocketId).emit('RECEIVE_MATCH', matchEmail)
         // io.emit('RECEIVE_MATCH', data)
     })

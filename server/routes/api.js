@@ -6,8 +6,8 @@ const Food = require('../models/Food')
 const Conversation = require("../models/Conversation").Conversation
 const path = require("path");
 
-const foods = require('../data')
-// const users = require('../data')
+// const foods = require('../data')
+const users = require('../data')
 
 const multer = require("multer");
 
@@ -39,6 +39,13 @@ router.get('/sanity', function (req, res) {
 router.get('/users', async function (req, res) {
     let users = await getUsersFromDB()
     res.send(users)
+})
+
+router.get('/user/:email', function(req, res) {
+    User.findOne({email: req.params.email}, function(user) {
+        console.log(user)
+        res.send(user)
+    })
 })
 
 router.post(`/user`, async function (req, res) {

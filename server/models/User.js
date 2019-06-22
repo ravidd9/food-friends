@@ -23,7 +23,8 @@ const userSchema = new Schema({
         name: String,
         latitude: Number,
         longitude: Number
-    }
+    },
+    socketId: String
 
 })
 

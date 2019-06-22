@@ -69,6 +69,7 @@ class HomePage extends Component {
 
     render() {
         
+        
         let generalStore = this.props.generalStore
 
         return (
