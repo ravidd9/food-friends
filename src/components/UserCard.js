@@ -78,19 +78,14 @@ function UserCard(props) {
 
         let newConversation = {
             users: [currentUser, matchedUser],
-            messages: [{
-                author: "",
-                text: "",
-                time: null
-            }]
+            messages: []
         }
 
         haveMatched = true 
         await props.generalStore.matchUsers(props.user.email)
+        await props.generalStore.getUsersConversationsFromDB()
         await props.generalStore.addConversation(newConversation, matchedUser)
     }
-
-
 
     return (
         <Card className={classes.card}>
