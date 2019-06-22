@@ -16,18 +16,17 @@ class SocketCom {
         user.isActive = flag
 
         await this.updateUser('isActive', user)
-        await this.getUsers()
+        // await this.getUsers()
     }
 
     async updateUser (valueToUpdate, user) {
         await axios.put(`http://localhost:8000/user/${valueToUpdate}`, user)
     }
 
-    saveIdToUser(id, email) {
-        let user = this.findUserByEmail(email)
-        if(user) {
-            user.socketId = id
-
+    async saveIdToUser(id, email) {
+        let user = await axios.get(`http://localhost:8000/user/${email}`)
+        if(user.data) {
+            await this.updateUser("socketId", id)
         }
     }
 
@@ -35,10 +34,10 @@ class SocketCom {
         return this.users.find(u => u.email === email)
     }
 
-    findUsersSocketId(email) {
-        let user = this.findUserByEmail(email)
-        console.log
-        return user.socketId
+    async findUsersSocketId(email) {
+        let user = await axios.get(`http://localhost:8000/user/${email}`)
+        console.log(user.data)
+        return user.data.socketId
     }
 
     async findConversationIdByEmails(authorEmail, recipientEmail){
