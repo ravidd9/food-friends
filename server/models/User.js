@@ -25,7 +25,6 @@ const userSchema = new Schema({
         longitude: Number
     },
     socketId: String
-
 })
 
 const User = mongoose.model('User', userSchema, "Users")
