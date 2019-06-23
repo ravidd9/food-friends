@@ -35,10 +35,10 @@ class Chat extends Component {
 
     }
 
-    changeSelectedUser = (user,index) => {
+    changeSelectedUser = (user, index) => {
         console.log(user)
         console.log(index)
-        this.setState({selectedUser: user, currentConv: index})
+        this.setState({ selectedUser: user, currentConv: index })
     }
 
 
@@ -93,42 +93,44 @@ class Chat extends Component {
                 <div id="usersContainer">
                     {usersConvs.map((u, i) => <UserBubble key={i} index={i} user={u} currentUser={this.state.selectedUser} changeSelectedUser={this.changeSelectedUser} />)}
                 </div>
-                <div id="chatContainer">
-                    {conversations.length ? conversations[this.state.currentConv].messages.map(m =>
-                        <MessageBox
-                            position={m.author === generalStore.currentUser.firstName ? "left" : "right"}
-                            type={'text'}
-                            title={m.author}
-                            text={m.text}
-                            titleColor={m.author == generalStore.currentUser.firstName ? "green" : "blue"}
-                            data={{
-                                uri: 'https://facebook.github.io/react/img/logo.svg',
-                                status: {
-                                    click: false,
-                                    loading: 0,
-                                }
-                            }} />
-                    ) :
-                        null}
+                <div id="chat">
+                    <div id="chatContainer">
+                        {conversations.length ? conversations[this.state.currentConv].messages.map(m =>
+                            <MessageBox
+                                position={m.author === generalStore.currentUser.firstName ? "left" : "right"}
+                                type={'text'}
+                                title={m.author}
+                                text={m.text}
+                                titleColor={m.author == generalStore.currentUser.firstName ? "green" : "blue"}
+                                data={{
+                                    uri: 'https://facebook.github.io/react/img/logo.svg',
+                                    status: {
+                                        click: false,
+                                        loading: 0,
+                                    }
+                                }} />
+                        ) :
+                            null}
 
+                    </div>
+                    <div id="typeContainer">
+                        <Input
+                            onChange={this.handleChange}
+                            placeholder="Type here..."
+                            multiline={true}
+                            ref='input'
+                            defaultValue={this.state.message}
+                            rightButtons={
+                                <Button
+                                    type={"outlined"}
+                                    onClick={this.sendMessage}
+                                    color='white'
+                                    backgroundColor='#2ecc71'
+                                    text='Send' />
+                            } />
+                    </div>
                 </div>
-                <div id="typeContainer">
-                    <Input
-                        onChange={this.handleChange}
-                        placeholder="Type here..."
-                        multiline={true}
-                        ref='input'
-                        defaultValue={this.state.message}
-                        rightButtons={
-                            <Button
-                                type={"outlined"}
-                                onClick={this.sendMessage}
-                                color='white'
-                                backgroundColor='#2ecc71'
-                                text='Send' />
-                        } />
-                </div>
-            </div>
+            </div >
         );
     }
 }
