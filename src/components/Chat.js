@@ -81,7 +81,6 @@ class Chat extends Component {
     handleChange = e => this.setState({ message: e.target.value })
 
     render() {
-        console.log("render")
         let generalStore = this.props.generalStore
         let conversations = generalStore.conversations
         // console.log(conversations[0].messages[0].text)
@@ -89,7 +88,6 @@ class Chat extends Component {
         // console.log(usersConvs)
         console.log(conversations[this.state.currentConv])
 
-        console.log(this.props.generalStore.dummy)
         return (
             <div id="chat">
                 <div id="usersContainer">

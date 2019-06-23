@@ -58,7 +58,12 @@ export class GeneralStore {
     getFoodByName = name => this.foods.find(f => f.name === name)
 
     @action getUsersConversationsFromDB = async () => {
-        // console.log(this.currentUser.conversations)
+        await this.getUsersFromDB()
+        let user = await this.getUserByEmail(this.currentUser.email)
+        this.changeCurrentUser(user)
+
+        console.log(this.currentUser.conversations)
+
         let tempArr = []
         for (let c of this.currentUser.conversations) {
             let conversation = await axios.get(`${API_URL}/conversation/${c}`)
@@ -85,7 +90,7 @@ export class GeneralStore {
         this.currentUser.lastSeen = new Date()
 
         await this.updateUserInDB(this.currentUser, 'isActive')
-        await this.updateUser('lastSeen', this.currentUser)
+        await this.updateUser('lastSeen')
     }
 
     @action saveFood = async food => {
@@ -110,7 +115,6 @@ export class GeneralStore {
 
     getConversationsFromDB = async () => {
         let conversationsFromDB = await axios.get(`${API_URL}/conversations`)
-        await this.conversations.push(conversationsFromDB)
         return conversationsFromDB.data
     }
 
@@ -168,12 +172,6 @@ export class GeneralStore {
         await this.getUsersFromDB()
     }
 
-    @action updateOtherUser = async (otherUser, valueToUpdate) => {
-        await this.updateUserInDB(otherUser, valueToUpdate)
-
-        await this.getUsersFromDB()
-    }
-
     getInterestedUsers = foodName => {
         let interestedUsers = this.removeCurrentUser()
         interestedUsers = this.findUsersByFoodName(interestedUsers, foodName)
@@ -188,24 +186,26 @@ export class GeneralStore {
         return usersWithoutCurrent
     }
 
-    updateConversationInDB = async (conversationToUpdate) => {
-        await axios.put(`${API_URL}/conversations/update`, conversationToUpdate);
-        await this.getConversationsFromDB()
-    }
-
+    updateConversationInDB = async (conversationToUpdate) => await axios.put(`${API_URL}/conversations/update`, conversationToUpdate)
 
     @action addConversation = async (newConversation, matchedUserEmail) => {
-        let conversation = await axios.post(`${API_URL}/conversation`, newConversation)
+        let allConversations = await this.getConversationsFromDB()
+        let n = newConversation
 
-        conversation = conversation.data
-        console.log(conversation._id)
-        this.currentUser.conversations.push(conversation._id)
-        this.updateUser('conversations')
+        if (!allConversations.find(c => (c.users[0] === n.users[0] && c.users[1] === n.users[1]) ||
+            (c.users[0] === n.users[1] && c.users[1] === n.users[0]))){
 
-        let matchedUser = this.users.find(u => u.email === matchedUserEmail)
-        matchedUser.conversations.push(conversation._id)
-        await this.updateUserInDB(matchedUser, 'conversations')
-        await this.getUsersFromDB()
+            let conversation = await axios.post(`${API_URL}/conversation`, newConversation)
+            conversation = conversation.data
+            console.log(conversation._id)
+            this.currentUser.conversations.push(conversation._id)
+            this.updateUser('conversations')
+
+            let matchedUser = this.users.find(u => u.email === matchedUserEmail)
+            matchedUser.conversations.push(conversation._id)
+            await this.updateUserInDB(matchedUser, 'conversations')
+            await this.getUsersFromDB()
+        }
     }
 
     @action findUsersByFoodName = (interestedUsers, foodName) =>
@@ -268,16 +268,16 @@ export class GeneralStore {
         if (!matchedUser.matchedWith.find(e => e === this.currentUser.email)) {
             console.log("in matched user if")
             matchedUser.matchedWith.unshift(this.currentUser.email)
-            await this.updateOtherUser(matchedUser, 'matchedWith')
+            await this.updateUserInDB(matchedUser, 'matchedWith')
             matchedUser = await this.getUserByEmail(email)
-            console.log("matched user matched with array" + matchedUser.matchedWith)
+            console.log("matched user matched with array: " + matchedUser.matchedWith)
         }
 
         if (!this.currentUser.matchedWith.find(e => e === email)) {
             console.log("in current user if")
             this.currentUser.matchedWith.unshift(email)
             await this.updateUser('matchedWith')
-            console.log("current user matched with array" + this.currentUser.matchedWith)
+            console.log("current user matched with array: " + this.currentUser.matchedWith)
 
             this.socket.emit('MATCH', {
                 currentUser: this.currentUser.email,

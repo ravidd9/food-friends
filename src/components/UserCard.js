@@ -69,7 +69,7 @@ function UserCard(props) {
     const classes = useStyles();
     const theme = useTheme();
     let user = props.user
-    let haveMatched = false
+    const [haveMatched, setHaveMatched] = useState(false)
 
 
     const matchUsers = async () => {
@@ -81,7 +81,7 @@ function UserCard(props) {
             messages: []
         }
 
-        haveMatched = true 
+        setHaveMatched(true)
         await props.generalStore.matchUsers(props.user.email)
         await props.generalStore.getUsersConversationsFromDB()
         await props.generalStore.addConversation(newConversation, matchedUser)
