@@ -257,7 +257,6 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
-
         if (!this.currentUser.matchedWith.find(e => e === email)) {
             console.log("here")
             this.currentUser.matchedWith.unshift(email)

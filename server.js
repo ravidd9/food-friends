@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
     socket.on('SAVE_ID', async function (data) {
         // socketCom.getUsers()
         socketCom.saveIdToUser(socket.id, data.currentUser)
-        console.log(socketCom.users)
+        // console.log(socketCom.users)
     })
 
 
