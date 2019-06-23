@@ -55,11 +55,11 @@ io.on('connection', (socket) => {
     })
 
 
-    socket.on('MATCH', function (data) {
-        console.log(data.matchedUser)
-        let userSocketId = socketCom.findUsersSocketId(data.matchedUser)
+    socket.on('MATCH', async function (data) {
+        console.log("matched user: " + data.matchedUser)
+        let userSocketId = await socketCom.findUsersSocketId(data.matchedUser)
+        console.log("socked id: " + userSocketId)
         let matchEmail = data.currentUser
-        // console.log("here")
         socket.broadcast.to(userSocketId).emit('RECEIVE_MATCH', matchEmail)
         // io.emit('RECEIVE_MATCH', data)
     })

@@ -36,7 +36,7 @@ class SocketCom {
 
     async findUsersSocketId(email) {
         let user = await axios.get(`http://localhost:8000/user/${email}`)
-        console.log(user.data)
+        console.log("found user socked id: " + user.data.socketId)
         return user.data.socketId
     }
 
