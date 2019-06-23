@@ -22,10 +22,6 @@ class HomePage extends Component {
         this.state = {
             foodInput: ""
         }
-
-        this.socket.on('RECEIVE_MATCH', function (email) {
-            props.generalStore.addMatch(email)
-        })
     }
 
     

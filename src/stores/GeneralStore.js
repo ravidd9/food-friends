@@ -168,6 +168,12 @@ export class GeneralStore {
         await this.getUsersFromDB()
     }
 
+    @action updateOtherUser = async (otherUser, valueToUpdate) => {
+        await this.updateUserInDB(otherUser, valueToUpdate)
+
+        await this.getUsersFromDB()
+    }
+
     getInterestedUsers = foodName => {
         let interestedUsers = this.removeCurrentUser()
         interestedUsers = this.findUsersByFoodName(interestedUsers, foodName)
@@ -247,6 +253,7 @@ export class GeneralStore {
     }
 
     @action addMatch = async email => {
+        console.log("in add match function")
         let name = this.getUserByEmail(email).firstName
         let properCaseName = name[0].toUpperCase() + name.slice(1)
 
@@ -257,11 +264,20 @@ export class GeneralStore {
     }
 
     @action matchUsers = async email => {
+        let matchedUser = await this.getUserByEmail(email)
+        if (!matchedUser.matchedWith.find(e => e === this.currentUser.email)) {
+            console.log("in matched user if")
+            matchedUser.matchedWith.unshift(this.currentUser.email)
+            await this.updateOtherUser(matchedUser, 'matchedWith')
+            matchedUser = await this.getUserByEmail(email)
+            console.log("matched user matched with array" + matchedUser.matchedWith)
+        }
+
         if (!this.currentUser.matchedWith.find(e => e === email)) {
-            console.log("here")
+            console.log("in current user if")
             this.currentUser.matchedWith.unshift(email)
             await this.updateUser('matchedWith')
-            console.log(this.currentUser.matchedWith)
+            console.log("current user matched with array" + this.currentUser.matchedWith)
 
             this.socket.emit('MATCH', {
                 currentUser: this.currentUser.email,

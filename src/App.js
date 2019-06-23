@@ -27,6 +27,9 @@ class App extends Component {
     super(props)
 
     this.socket = props.generalStore.socket
+    this.socket.on('RECEIVE_MATCH', function (email) {
+      props.generalStore.addMatch(email)
+  })
 
   }
 
