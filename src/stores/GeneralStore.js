@@ -303,9 +303,10 @@ export class GeneralStore {
         return user ? user : null
     }
 
-    @action changeCurrentUser = user => {
+    @action changeCurrentUser = async user => {
         console.log(user)
         this.currentUser = user
+        await this.makeActive()
         sessionStorage.setItem('login', JSON.stringify(user));
     }
 

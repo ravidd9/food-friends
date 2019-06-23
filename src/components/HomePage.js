@@ -37,7 +37,6 @@ class HomePage extends Component {
     // addFood = () => this.props.generalStore.saveFood(this.state.foodInput)
 
     componentDidMount = async () => {
-        await this.props.generalStore.makeActive()
         this.handleLocation()
     }
 

@@ -2,3 +2,10 @@ a{
     text-decoration: none;
     color: rgb(128, 127, 127);
 }
+
+div.MuiToolbar-root {
+   position: fixed;
+   z-index: 501;
+   background-color: #2ecc71;
+   width: 100%;
+}
