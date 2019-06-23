@@ -50,6 +50,7 @@ io.on('connection', (socket) => {
 
     socket.on('SAVE_ID', async function (data) {
         // socketCom.getUsers()
+        // console.log(socket.id + "" + data.currentUser)
         socketCom.saveIdToUser(socket.id, data.currentUser)
         // console.log(socketCom.users)
     })
@@ -66,29 +67,30 @@ io.on('connection', (socket) => {
 
     socket.on('SEND_MESSAGE', async function (data) {
         console.log(data)
-        let author = socketCom.findUserByEmail(data.author)
-        let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient)
-        let conversation = {}
-        let conversations = await axios.get(`http://localhost:8000/conversations`)
-        conversations = conversations.data
-        conversation = conversations.find(c => c._id === conversationId)
+        // let author = await socketCom.findUserByEmail(data.author)
+        // let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient)
+        // let conversation = {}
+        // let conversations = await axios.get(`http://localhost:8000/conversations`)
+        // conversations = conversations.data
+        // conversation = conversations.find(c => c._id === conversationId)
 
-        conversation.messages.push({
-            author: author.firstName,
-            text: data.message,
-            time: new Date()
-        })
+        // conversation.messages.push({
+        //     author: author.firstName,
+        //     text: data.message,
+        //     time: new Date()
+        // })
 
         
         
-        conversation = await axios.put(`http://localhost:8000/conversations/update`, conversation)
+        // conversation = await axios.put(`http://localhost:8000/conversations/update`, conversation)
 
-        console.log(data.recipient)
-        let userSocketId = socketCom.findUsersSocketId(data.recipient)
+        // console.log(data.recipient)
+        let userSocketId = await socketCom.findUsersSocketId(data.recipient)
 
-        console.log(userSocketId)
+        // console.log(userSocketId)
         if (userSocketId) {
             console.log("imhere")
+            console.log(userSocketId)
             socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', "string");
         } else {
             //push notification

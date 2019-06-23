@@ -25,18 +25,23 @@ class SocketCom {
 
     async saveIdToUser(id, email) {
         let user = await axios.get(`http://localhost:8000/user/${email}`)
-        if(user.data) {
-            await this.updateUser("socketId", id)
+        
+        user = user.data
+        user.socketId = id
+        
+        if(user) {
+            await this.updateUser("socketId", user)
         }
     }
 
-    findUserByEmail(email) {
-        return this.users.find(u => u.email === email)
+    async findUserByEmail(email) {
+        let user = await axios.get(`http://localhost:8000/user/${email}`)
+        return user.data
     }
 
     async findUsersSocketId(email) {
         let user = await axios.get(`http://localhost:8000/user/${email}`)
-        console.log("found user socked id: " + user.data.socketId)
+        // console.log("found user socked id: " + user.data.socketId)
         return user.data.socketId
     }
 

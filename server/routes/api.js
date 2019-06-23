@@ -42,8 +42,8 @@ router.get('/users', async function (req, res) {
 })
 
 router.get('/user/:email', function(req, res) {
-    User.findOne({email: req.params.email}, function(user) {
-        console.log(user)
+    User.findOne({email: req.params.email}, function(err, user) {
+        // console.log(user)
         res.send(user)
     })
 })
