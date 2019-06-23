@@ -1,9 +1,12 @@
 #chat{
     display: grid;
-    grid-template-rows: 2fr 7fr 1fr;
+    grid-template-rows: 3fr 7fr 1fr;
     height: 93vh;
 }
 
+span.MuiButton-label {
+    color: white;
+}
 
 #usersContainer{
     overflow-x: scroll;

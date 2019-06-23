@@ -50,6 +50,7 @@ io.on('connection', (socket) => {
 
     socket.on('SAVE_ID', async function (data) {
         // socketCom.getUsers()
+        // console.log(socket.id + "" + data.currentUser)
         socketCom.saveIdToUser(socket.id, data.currentUser)
         // console.log(socketCom.users)
     })
@@ -66,7 +67,7 @@ io.on('connection', (socket) => {
 
     socket.on('SEND_MESSAGE', async function (data) {
         console.log(data)
-        let author = socketCom.findUserByEmail(data.author)
+        let author = await socketCom.findUserByEmail(data.author)
         let conversationId = await socketCom.findConversationIdByEmails(data.author, data.recipient)
         let conversation = {}
         let conversations = await axios.get(`http://localhost:8000/conversations`)
@@ -84,11 +85,12 @@ io.on('connection', (socket) => {
         conversation = await axios.put(`http://localhost:8000/conversations/update`, conversation)
 
         console.log(data.recipient)
-        let userSocketId = socketCom.findUsersSocketId(data.recipient)
+        let userSocketId = await socketCom.findUsersSocketId(data.recipient)
 
-        console.log(userSocketId)
+        // console.log(userSocketId)
         if (userSocketId) {
             console.log("imhere")
+            console.log(userSocketId)
             socket.broadcast.to(userSocketId).emit('RECEIVE_MESSAGE', "string");
         } else {
             //push notification

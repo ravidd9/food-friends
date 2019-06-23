@@ -265,25 +265,27 @@ export class GeneralStore {
 
     @action matchUsers = async email => {
         let matchedUser = await this.getUserByEmail(email)
+        
         if (!matchedUser.matchedWith.find(e => e === this.currentUser.email)) {
             console.log("in matched user if")
             matchedUser.matchedWith.unshift(this.currentUser.email)
             await this.updateUserInDB(matchedUser, 'matchedWith')
             matchedUser = await this.getUserByEmail(email)
             console.log("matched user matched with array: " + matchedUser.matchedWith)
-        }
-
-        if (!this.currentUser.matchedWith.find(e => e === email)) {
-            console.log("in current user if")
-            this.currentUser.matchedWith.unshift(email)
-            await this.updateUser('matchedWith')
-            console.log("current user matched with array: " + this.currentUser.matchedWith)
-
+            
             this.socket.emit('MATCH', {
                 currentUser: this.currentUser.email,
                 matchedUser: email
             })
         }
+
+        // if (!this.currentUser.matchedWith.find(e => e === email)) {
+        //     console.log("in current user if")
+        //     this.currentUser.matchedWith.unshift(email)
+        //     await this.updateUser('matchedWith')
+        //     console.log("current user matched with array: " + this.currentUser.matchedWith)
+
+        // }
     }
 
     @action handleMatchNotification = (shouldOpen, name) => {
